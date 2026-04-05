@@ -1,0 +1,227 @@
+/* Admin Dashboard Scrolling Fix */
+
+/* Ensure body and html allow scrolling */
+html, body {
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    overflow-y: auto !important; /* Always allow vertical scroll */
+    height: auto !important; /* Remove fixed height constraints */
+    min-height: 100vh; /* Minimum height but allow expansion */
+}
+
+/* Fix admin layout to allow proper scrolling */
+.admin-layout {
+    display: flex;
+    min-height: 100vh; /* Minimum height, not fixed */
+    height: auto; /* Allow natural height expansion */
+    overflow: visible; /* Don't clip content */
+}
+
+/* Ensure sidebar doesn't interfere with main content scrolling */
+.admin-sidebar {
+    flex-shrink: 0; /* Don't shrink sidebar */
+    overflow-y: auto; /* Allow sidebar to scroll if needed */
+    height: 100vh; /* Fixed height for sidebar only */
+    position: fixed; /* Keep sidebar fixed on desktop */
+}
+
+/* Main content area - the key fix */
+.admin-content {
+    flex: 1;
+    min-height: 100vh; /* Minimum height */
+    height: auto !important; /* Allow content to expand */
+    overflow-y: visible !important; /* Never hide overflow */
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    padding-bottom: 2rem; /* Extra padding at bottom */
+}
+
+/* Mobile-specific scrolling fixes */
+@media (max-width: 768px) {
+    /* Ensure body scrolling is never disabled on mobile */
+    body {
+        overflow-y: auto !important;
+        position: relative !important;
+        height: auto !important;
+    }
+    
+    /* Mobile sidebar positioning fix */
+    .admin-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 280px;
+        transform: translateX(-100%);
+        z-index: 1000;
+        overflow-y: auto;
+    }
+    
+    /* Mobile main content */
+    .admin-content {
+        margin-left: 0 !important;
+        width: 100% !important;
+        padding: 4rem 1rem 2rem !important;
+        min-height: calc(100vh - 4rem) !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+    
+    /* Ensure content containers don't restrict height */
+    .content-header,
+    .dashboard-cards,
+    .section-container,
+    .recent-section {
+        height: auto !important;
+        overflow: visible !important;
+    }
+    
+    /* Fix for dashboard cards container */
+    .dashboard-cards {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        height: auto !important;
+        min-height: auto !important;
+    }
+    
+    /* Ensure tables and their containers allow scrolling */
+    .table-container {
+        overflow-x: auto;
+        overflow-y: visible;
+        height: auto !important;
+        max-height: none !important;
+    }
+    
+    .mobile-card-layout {
+        height: auto !important;
+        overflow: visible !important;
+    }
+    
+    /* Form containers */
+    .edit-panel {
+        max-height: 90vh;
+        overflow-y: auto;
+        position: fixed;
+        top: 5vh;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 95%;
+        z-index: 1001;
+    }
+}
+
+/* Small mobile adjustments */
+@media (max-width: 480px) {
+    .admin-content {
+        padding: 3.5rem 0.5rem 2rem !important;
+    }
+    
+    .admin-sidebar {
+        width: 260px;
+    }
+}
+
+/* Force scrolling for specific problem areas */
+.admin-page {
+    overflow-y: auto !important;
+    height: auto !important;
+}
+
+/* Ensure no container blocks scrolling */
+.admin-layout,
+.admin-content,
+.content-header,
+.dashboard-cards,
+.section-container,
+.table-container,
+.recent-section {
+    overflow-y: visible !important;
+    height: auto !important;
+}
+
+/* Mobile overlay adjustments */
+@media (max-width: 768px) {
+    .mobile-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        display: none;
+    }
+    
+    /* When mobile menu is active, only prevent scrolling temporarily */
+    body.mobile-menu-open {
+        overflow: hidden;
+        position: fixed;
+        width: 100%;
+    }
+    
+    /* Restore scrolling when menu is closed */
+    body:not(.mobile-menu-open) {
+        overflow-y: auto !important;
+        position: relative !important;
+    }
+}
+
+/* Scrollbar styling for better UX */
+.admin-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.admin-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.admin-content::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+.admin-content::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Ensure content has proper spacing at bottom */
+.admin-content::after {
+    content: "";
+    display: block;
+    height: 2rem;
+    width: 100%;
+}
+
+/* Debug helper - remove in production */
+.debug-scroll {
+    border: 2px solid red !important;
+    background: rgba(255, 0, 0, 0.1) !important;
+}
+
+/* Force minimum content height to ensure scrolling works */
+@media (max-width: 768px) {
+    .admin-content {
+        min-height: 120vh !important; /* Force content to be taller than viewport */
+    }
+}
+
+/* Additional safety measures */
+* {
+    box-sizing: border-box;
+}
+
+/* Prevent any element from blocking scroll */
+.admin-page * {
+    max-height: none !important;
+}
+
+/* Specific fixes for common problem elements */
+.dashboard-cards,
+.section-container,
+.table-container,
+.recent-section,
+.mobile-card-layout {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+}

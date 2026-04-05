@@ -1,0 +1,216 @@
+/* ========================================
+   MOBILE BOTTOM NAVIGATION BAR
+   Fixed navigation with 5 options
+   ======================================== */
+
+/* Bottom Navigation Container */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: white;
+    border-top: 1px solid #e0e0e0;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Lower than checkout button (1001) */
+    display: none; /* Hidden by default, shown only on mobile */
+}
+
+/* Navigation Items Container */
+.bottom-nav-items {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0.5rem 0;
+    max-width: 100%;
+}
+
+/* Individual Navigation Item */
+.bottom-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #666;
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 0.3rem 0.2rem;
+    min-width: 0;
+    flex: 1;
+    transition: all 0.2s ease;
+    border-radius: 8px;
+    margin: 0 0.1rem;
+}
+
+/* Navigation Item Icon */
+.bottom-nav-item .nav-icon {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 0.2rem;
+    opacity: 0.7;
+    transition: all 0.2s ease;
+}
+
+/* Navigation Item Text */
+.bottom-nav-item .nav-text {
+    font-size: 0.65rem;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+/* Active State */
+.bottom-nav-item.active {
+    color: #4a7c59;
+    background: rgba(74, 124, 89, 0.1);
+}
+
+.bottom-nav-item.active .nav-icon {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* Hover State (for devices that support hover) */
+@media (hover: hover) {
+    .bottom-nav-item:hover {
+        color: #4a7c59;
+        background: rgba(74, 124, 89, 0.05);
+    }
+    
+    .bottom-nav-item:hover .nav-icon {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+}
+
+/* Touch Feedback */
+.bottom-nav-item:active {
+    background: rgba(74, 124, 89, 0.15);
+    transform: scale(0.98);
+}
+
+/* Cart Badge (for cart count) */
+.bottom-nav-item .nav-badge {
+    position: absolute;
+    top: -2px;
+    right: 8px;
+    background: #dc3545;
+    color: white;
+    font-size: 0.6rem;
+    font-weight: 600;
+    padding: 0.1rem 0.3rem;
+    border-radius: 10px;
+    min-width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+/* Hide badge when count is 0 */
+.bottom-nav-item .nav-badge.hidden {
+    display: none;
+}
+
+/* Mobile Only - Show bottom navigation */
+@media (max-width: 768px) {
+    .bottom-nav {
+        display: block;
+    }
+    
+    /* Add bottom padding to body to prevent content overlap */
+    body {
+        padding-bottom: 70px;
+    }
+    
+    /* Adjust main content to account for bottom nav */
+    .main-content,
+    .container,
+    .page-content {
+        margin-bottom: 70px;
+    }
+}
+
+/* Extra Small Mobile - Adjust sizing */
+@media (max-width: 480px) {
+    .bottom-nav-items {
+        padding: 0.4rem 0;
+    }
+    
+    .bottom-nav-item {
+        padding: 0.25rem 0.1rem;
+    }
+    
+    .bottom-nav-item .nav-icon {
+        width: 22px;
+        height: 22px;
+    }
+    
+    .bottom-nav-item .nav-text {
+        font-size: 0.6rem;
+    }
+}
+
+/* Very Small Mobile - Ultra compact */
+@media (max-width: 360px) {
+    .bottom-nav-item .nav-text {
+        font-size: 0.55rem;
+    }
+    
+    .bottom-nav-item .nav-icon {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    .bottom-nav {
+        background: #1a1a1a;
+        border-top-color: #333;
+    }
+    
+    .bottom-nav-item {
+        color: #ccc;
+    }
+    
+    .bottom-nav-item.active {
+        color: #4a7c59;
+        background: rgba(74, 124, 89, 0.2);
+    }
+}
+
+/* Accessibility */
+.bottom-nav-item:focus {
+    outline: 2px solid #4a7c59;
+    outline-offset: 2px;
+}
+
+/* Animation for smooth appearance */
+.bottom-nav {
+    animation: slideUpNav 0.3s ease-out;
+}
+
+@keyframes slideUpNav {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Safe area support for devices with notches */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+    .bottom-nav {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+}

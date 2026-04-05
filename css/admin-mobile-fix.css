@@ -1,0 +1,78 @@
+/* Admin Mobile Fix - Simplified and Safe */
+
+/* Only apply mobile fixes when needed, avoid conflicts */
+@media (max-width: 768px) {
+    
+    /* === CRITICAL TABLE VISIBILITY FIX === */
+    
+    /* Ensure tables are never hidden on mobile */
+    .table-container {
+        display: block !important;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .admin-table {
+        min-width: 500px;
+        font-size: 0.9rem;
+    }
+    
+    /* === MOBILE MENU === */
+    
+    .mobile-menu-toggle {
+        display: block;
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
+        z-index: 1001;
+        background: #2e7d32;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+    
+    .admin-sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+    
+    .admin-sidebar.mobile-active {
+        transform: translateX(0);
+    }
+    
+    .admin-content {
+        margin-left: 0;
+        padding: 4rem 1rem 1rem;
+    }
+    
+    /* === SIMPLE RESPONSIVE ADJUSTMENTS === */
+    
+    .dashboard-cards {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .content-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .btn-primary {
+        width: 100%;
+    }
+    
+    /* === FORM FIXES === */
+    
+    .edit-panel {
+        width: 95%;
+        right: 50%;
+        transform: translateX(50%);
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}

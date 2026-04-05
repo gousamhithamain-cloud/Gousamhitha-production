@@ -1,0 +1,478 @@
+/* Professional Production-Ready Styles for Gousamhitha */
+/* Clean, minimal, modern ecommerce design */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* ========================================
+   RESET & BASE STYLES
+======================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: #F7F9FA;
+    color: #1A1A1A;
+    line-height: 1.6;
+    font-weight: 400;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ========================================
+   PROFESSIONAL COLOR SYSTEM
+======================================== */
+:root {
+    --primary: #1F7A63;
+    --secondary: #2E2E2E;
+    --background: #F7F9FA;
+    --card-bg: #FFFFFF;
+    --border: #E5E7EB;
+    --text-primary: #1A1A1A;
+    --text-secondary: #6B7280;
+    --success: #10B981;
+    --warning: #F59E0B;
+    --error: #DC2626;
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* ========================================
+   IMAGE PLACEHOLDERS
+======================================== */
+.image-placeholder {
+    width: 100%;
+    height: 180px;
+    background: #F1F3F5;
+    border: 1px dashed #D1D5DB;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #9CA3AF;
+    font-size: 14px;
+    border-radius: 8px;
+}
+
+/* ========================================
+   TOP STRIP
+======================================== */
+.top-strip {
+    background: var(--primary);
+    color: white;
+    padding: 0.6rem 0;
+    text-align: center;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.top-strip p {
+    margin: 0;
+}
+
+/* ========================================
+   NAVBAR - PROFESSIONAL
+======================================== */
+.navbar {
+    background: var(--card-bg);
+    box-shadow: var(--shadow-sm);
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.nav-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+}
+
+.logo-section {
+    display: flex;
+    flex-direction: column;
+    min-width: 150px;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    line-height: 1;
+    letter-spacing: -0.02em;
+}
+
+.logo-subtitle {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: 0.2rem;
+    font-weight: 500;
+}
+
+/* ========================================
+   SEARCH SECTION
+======================================== */
+.search-section {
+    flex: 1;
+    max-width: 600px;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.main-search-bar {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    outline: none;
+    font-size: 0.875rem;
+    font-family: inherit;
+    transition: border-color 0.2s;
+}
+
+.main-search-bar:focus {
+    border-color: var(--primary);
+}
+
+.search-btn {
+    padding: 0.75rem 1.5rem;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: background 0.2s;
+}
+
+.search-btn:hover {
+    background: #196B56;
+}
+
+/* ========================================
+   NAV ITEMS
+======================================== */
+.nav-items {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.nav-item {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.875rem;
+    transition: color 0.2s;
+}
+
+.nav-item:hover {
+    color: var(--primary);
+}
+
+.profile-icon-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--background);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.profile-icon-btn:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+.profile-icon-btn:hover svg {
+    color: white;
+}
+
+/* ========================================
+   SECONDARY NAV
+======================================== */
+.secondary-nav {
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--border);
+    padding: 0.75rem 0;
+}
+
+.secondary-nav-links {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+}
+
+.secondary-nav-links a {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.875rem;
+    transition: color 0.2s;
+}
+
+.secondary-nav-links a:hover {
+    color: var(--primary);
+}
+
+/* ========================================
+   BUTTONS - PROFESSIONAL
+======================================== */
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.875rem;
+    font-family: inherit;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #196B56;
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+    background: var(--background);
+}
+
+.btn-danger {
+    background: var(--error);
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #B91C1C;
+}
+
+/* ========================================
+   CARDS - CLEAN & MINIMAL
+======================================== */
+.card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
+}
+
+.product-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+}
+
+.product-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.product-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    background: var(--background);
+}
+
+.product-info {
+    padding: 1rem;
+}
+
+.product-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.product-price {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+/* ========================================
+   FORMS - PROFESSIONAL
+======================================== */
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-family: inherit;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+/* ========================================
+   TABLES - CLEAN
+======================================== */
+.admin-table {
+    width: 100%;
+    background: var(--card-bg);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+
+.admin-table thead {
+    background: var(--background);
+}
+
+.admin-table th {
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border);
+}
+
+.admin-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.875rem;
+}
+
+.admin-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* ========================================
+   BADGES & STATUS
+======================================== */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.badge-success {
+    background: #D1FAE5;
+    color: #065F46;
+}
+
+.badge-warning {
+    background: #FEF3C7;
+    color: #92400E;
+}
+
+.badge-error {
+    background: #FEE2E2;
+    color: #991B1B;
+}
+
+.badge-info {
+    background: #DBEAFE;
+    color: #1E40AF;
+}
+
+/* ========================================
+   FOOTER - MINIMAL
+======================================== */
+.footer {
+    background: var(--secondary);
+    color: white;
+    padding: 3rem 0 1.5rem;
+    margin-top: 4rem;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.footer-section h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.footer-section p,
+.footer-section a {
+    font-size: 0.875rem;
+    color: #D1D5DB;
+    line-height: 1.8;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    color: #9CA3AF;
+    font-size: 0.875rem;
+}
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+@media (max-width: 768px) {
+    .nav-wrapper {
+        flex-wrap: wrap;
+    }
+    
+    .search-section {
+        order: 3;
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    .secondary-nav-links {
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+}

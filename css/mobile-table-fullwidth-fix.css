@@ -1,0 +1,217 @@
+/* Mobile Table Full-Width Fix - Remove container boxes and make tables full-width */
+
+@media (max-width: 768px) {
+    
+    /* CRITICAL: Make admin content full-width without padding */
+    .admin-content {
+        padding: 70px 0 2rem 0 !important; /* Remove left/right padding */
+        margin: 0 !important;
+        width: 100vw !important; /* Full viewport width */
+        max-width: 100vw !important;
+        overflow-x: hidden !important;
+    }
+    
+    /* Make content header full-width */
+    .content-header {
+        padding: 1rem !important;
+        margin: 0 0 1rem 0 !important;
+        background: white !important;
+        border-radius: 0 !important; /* Remove rounded corners */
+        box-shadow: none !important;
+        border-bottom: 1px solid #e0e0e0 !important;
+    }
+    
+    .content-header h1 {
+        font-size: 1.3rem !important;
+        color: #2e7d32 !important;
+        margin: 0 !important;
+    }
+    
+    /* CRITICAL: Make table container full-width without box styling */
+    .table-container {
+        background: white !important;
+        border-radius: 0 !important; /* Remove rounded corners */
+        padding: 0 !important; /* Remove padding */
+        margin: 0 !important; /* Remove margin */
+        box-shadow: none !important; /* Remove box shadow */
+        border: none !important;
+        width: 100vw !important; /* Full viewport width */
+        max-width: 100vw !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+    
+    /* Make admin table full-width */
+    .admin-table {
+        width: 100% !important;
+        min-width: 100vw !important; /* Ensure it's at least full viewport width */
+        border-collapse: collapse !important;
+        font-size: 0.85rem !important;
+        margin: 0 !important;
+        background: white !important;
+    }
+    
+    /* Table header styling */
+    .admin-table thead {
+        background: #f8f9fa !important;
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 10 !important;
+    }
+    
+    .admin-table th {
+        padding: 1rem 0.75rem !important;
+        font-weight: 600 !important;
+        color: #333 !important;
+        border-bottom: 2px solid #e0e0e0 !important;
+        text-align: left !important;
+        white-space: nowrap !important;
+        min-width: 100px !important;
+    }
+    
+    /* Table body styling */
+    .admin-table td {
+        padding: 1rem 0.75rem !important;
+        border-bottom: 1px solid #f0f0f0 !important;
+        vertical-align: middle !important;
+        white-space: nowrap !important;
+        min-width: 100px !important;
+    }
+    
+    /* Product image in table */
+    .admin-table td img {
+        width: 50px !important;
+        height: 50px !important;
+        object-fit: cover !important;
+        border-radius: 6px !important;
+    }
+    
+    /* Action buttons in table */
+    .btn-edit,
+    .btn-delete {
+        padding: 0.4rem 0.8rem !important;
+        font-size: 0.8rem !important;
+        border-radius: 4px !important;
+        border: none !important;
+        cursor: pointer !important;
+        margin-right: 0.5rem !important;
+        white-space: nowrap !important;
+    }
+    
+    .btn-edit {
+        background: #2196F3 !important;
+        color: white !important;
+    }
+    
+    .btn-delete {
+        background: #f44336 !important;
+        color: white !important;
+    }
+    
+    /* Status badges */
+    .status-badge {
+        padding: 0.3rem 0.6rem !important;
+        border-radius: 12px !important;
+        font-size: 0.75rem !important;
+        font-weight: 600 !important;
+        white-space: nowrap !important;
+    }
+    
+    .status-badge.in-stock {
+        background: #e8f5e9 !important;
+        color: #2e7d32 !important;
+    }
+    
+    .status-badge.out-of-stock {
+        background: #ffebee !important;
+        color: #c62828 !important;
+    }
+    
+    /* Remove any section containers that create boxes */
+    .section-container {
+        background: transparent !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        border: none !important;
+    }
+    
+    /* Dashboard cards - make them full-width too */
+    .dashboard-cards {
+        padding: 0 1rem !important;
+        margin-bottom: 1rem !important;
+    }
+    
+    .dashboard-card {
+        background: white !important;
+        padding: 1rem !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        border-left: 4px solid #2e7d32 !important;
+        border-bottom: 1px solid #e0e0e0 !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    /* Form containers - make them full-width */
+    .form-container {
+        background: white !important;
+        border-radius: 0 !important;
+        padding: 1rem !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        border-bottom: 1px solid #e0e0e0 !important;
+    }
+    
+    /* Recent sections - make them full-width */
+    .recent-section {
+        background: white !important;
+        border-radius: 0 !important;
+        padding: 1rem !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        border-bottom: 1px solid #e0e0e0 !important;
+    }
+    
+    /* Orders container - make it full-width */
+    #orders-container {
+        background: white !important;
+        border-radius: 0 !important;
+        padding: 1rem !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        border-bottom: 1px solid #e0e0e0 !important;
+    }
+    
+    /* Ensure no horizontal scrolling on the main content */
+    body {
+        overflow-x: hidden !important;
+    }
+    
+    /* Make sure hamburger menu is still visible */
+    .mobile-menu-toggle {
+        position: fixed !important;
+        top: 1rem !important;
+        left: 1rem !important;
+        z-index: 1002 !important;
+    }
+}
+
+/* Very small screens - extra adjustments */
+@media (max-width: 480px) {
+    .admin-table {
+        font-size: 0.8rem !important;
+    }
+    
+    .admin-table th,
+    .admin-table td {
+        padding: 0.75rem 0.5rem !important;
+        min-width: 80px !important;
+    }
+    
+    .btn-edit,
+    .btn-delete {
+        padding: 0.3rem 0.6rem !important;
+        font-size: 0.75rem !important;
+    }
+}

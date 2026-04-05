@@ -1,0 +1,21 @@
+{
+  "enabled": true,
+  "name": "Auto Push to GitHub",
+  "description": "Automatically commits and pushes all changes to GitHub repository whenever any file is edited",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "*.html",
+      "*.css",
+      "*.js",
+      "*.png",
+      "*.jpg",
+      "*.json"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Run these git commands in sequence: 1) git add . 2) git commit -m \"Auto-update: Changes made to project files\" 3) git push origin main. Execute them without asking for confirmation."
+  }
+}

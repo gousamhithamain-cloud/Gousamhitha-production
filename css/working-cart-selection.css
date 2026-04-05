@@ -1,0 +1,243 @@
+/* Working Cart Selection System Styles */
+
+/* Select All Container */
+.working-select-all {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
+}
+
+.working-select-all:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Working Item Selection */
+.working-item-selection {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 10;
+}
+
+.working-item-checkbox {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #4a7c59;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.working-item-checkbox:hover {
+    transform: scale(1.1);
+}
+
+/* Working Selected State */
+.cart-item.working-selected {
+    border: 2px solid #4a7c59 !important;
+    box-shadow: 0 2px 8px rgba(74, 124, 89, 0.15) !important;
+    background-color: #ffffff !important;
+    opacity: 1 !important;
+}
+
+.cart-item:not(.working-selected) {
+    opacity: 0.6 !important;
+    background-color: #f8f9fa !important;
+    border: 2px solid #e0e0e0 !important;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .working-select-all {
+        padding: 12px 16px;
+        margin-bottom: 16px;
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-start;
+    }
+    
+    .working-select-all > div:first-child {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+    }
+    
+    .working-select-all label {
+        font-size: 15px;
+    }
+    
+    #working-selection-count {
+        font-size: 13px;
+        align-self: flex-end;
+    }
+    
+    .working-item-selection {
+        top: 10px;
+        left: 10px;
+    }
+    
+    .working-item-checkbox {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .cart-item {
+        padding-left: 45px !important;
+        position: relative !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .working-select-all {
+        padding: 10px 12px;
+    }
+    
+    .working-item-selection {
+        top: 8px;
+        left: 8px;
+    }
+    
+    .working-item-checkbox {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .cart-item {
+        padding-left: 40px !important;
+    }
+}
+
+/* Animation for selection changes */
+.cart-item {
+    transition: all 0.3s ease !important;
+}
+
+/* Ensure proper z-index */
+.working-item-selection {
+    z-index: 15 !important;
+}
+
+/* Custom checkbox styling */
+.working-item-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: white;
+    border: 2px solid #4a7c59;
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.working-item-checkbox:checked {
+    background-color: #4a7c59;
+    border-color: #4a7c59;
+}
+
+.working-item-checkbox:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.working-item-checkbox:hover {
+    border-color: #3d6b4a;
+    box-shadow: 0 0 0 2px rgba(74, 124, 89, 0.2);
+}
+
+/* Select All checkbox styling */
+#working-select-all {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: white;
+    border: 2px solid #4a7c59;
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+#working-select-all:checked {
+    background-color: #4a7c59;
+    border-color: #4a7c59;
+}
+
+#working-select-all:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+#working-select-all:indeterminate {
+    background-color: #4a7c59;
+    border-color: #4a7c59;
+}
+
+#working-select-all:indeterminate::after {
+    content: '−';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#working-select-all:hover {
+    border-color: #3d6b4a;
+    box-shadow: 0 0 0 2px rgba(74, 124, 89, 0.2);
+}
+/* Hide Select All containers - removed per user request */
+.select-all-container,
+.working-select-all,
+#select-all-toggle,
+#working-select-all,
+#selection-count,
+#working-selection-count,
+.cart-item-checkbox,
+.working-item-checkbox,
+.cart-item-selection,
+.working-item-selection {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* Hide any select all related elements */
+[class*="select-all"] {
+    display: none !important;
+}
+
+/* Reset cart item padding */
+.cart-item {
+    padding-left: 0px !important;
+}
+
+/* Ensure cart items don't have extra top margin without select all */
+.cart-items {
+    margin-top: 0 !important;
+}
+
+#cart-items {
+    margin-top: 0 !important;
+}

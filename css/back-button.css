@@ -1,0 +1,164 @@
+/* Universal Back Button Styles */
+
+.back-button {
+    position: fixed;
+    top: 70px;
+    left: 20px;
+    width: 44px;
+    height: 44px;
+    background: rgba(74, 124, 89, 0.9);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.back-button:hover {
+    background: rgba(74, 124, 89, 1);
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.back-button:active {
+    transform: scale(0.95);
+}
+
+/* Hide on homepage */
+.back-button.hide-on-home {
+    display: none;
+}
+
+/* Mobile positioning */
+@media (max-width: 768px) {
+    .back-button {
+        top: 80px;
+        left: 15px;
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .back-button {
+        top: 75px;
+        left: 10px;
+        width: 36px;
+        height: 36px;
+        font-size: 14px;
+    }
+}
+
+/* Animation for showing back button */
+.back-button.show {
+    animation: slideInLeft 0.3s ease-out;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Ensure back button is above other elements */
+.back-button {
+    z-index: 10001;
+}
+
+/* Adjust for mobile menu overlay */
+body.menu-open .back-button {
+    z-index: 999;
+}
+
+/* Back button icon */
+.back-button::before {
+    content: "←";
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+/* Alternative arrow styles */
+.back-button.arrow-style::before {
+    content: "◀";
+}
+
+.back-button.home-style::before {
+    content: "🏠";
+    font-size: 0.9em;
+}
+
+/* Tooltip on hover */
+.back-button::after {
+    content: "Back to Home";
+    position: absolute;
+    left: 50px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 10002;
+}
+
+.back-button:hover::after {
+    opacity: 1;
+}
+
+/* Hide tooltip on mobile */
+@media (max-width: 768px) {
+    .back-button::after {
+        display: none;
+    }
+}
+
+/* Accessibility */
+.back-button:focus {
+    outline: 2px solid rgba(74, 124, 89, 0.5);
+    outline-offset: 2px;
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+    .back-button {
+        background: #000;
+        border: 2px solid #fff;
+    }
+    
+    .back-button:hover {
+        background: #333;
+    }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .back-button {
+        transition: none;
+    }
+    
+    .back-button:hover {
+        transform: none;
+    }
+    
+    .back-button.show {
+        animation: none;
+    }
+}

@@ -1,0 +1,17 @@
+# Dependencies
+node_modules
+
+# Environment files
+.env
+backend/.env
+*.log
+
+# Dev/test files
+test-*.html
+START-HERE.html
+admin-debug.html
+generate-config.js
+config.example.js
+
+# Git
+.git

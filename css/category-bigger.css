@@ -1,0 +1,116 @@
+/* Make category cards bigger to fill remaining space in one line */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 1.5rem !important;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.category-card {
+    padding: 1.5rem !important;
+    text-align: center;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.category-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+}
+
+.category-image {
+    width: 100% !important;
+    height: 180px !important;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+}
+
+.category-card h3 {
+    font-size: 1.3rem !important;
+    margin: 1rem 0 0.5rem 0 !important;
+    color: #4a7c59;
+    font-weight: 700;
+}
+
+.category-card p {
+    font-size: 0.9rem !important;
+    color: #666;
+    line-height: 1.4;
+    margin: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .category-grid {
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 1rem !important;
+    }
+    
+    .category-card {
+        padding: 1.2rem !important;
+    }
+    
+    .category-image {
+        height: 150px !important;
+    }
+    
+    .category-card h3 {
+        font-size: 1.1rem !important;
+    }
+    
+    .category-card p {
+        font-size: 0.8rem !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .category-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1rem !important;
+    }
+    
+    .category-card {
+        padding: 1rem !important;
+    }
+    
+    .category-image {
+        height: 140px !important;
+    }
+    
+    .category-card h3 {
+        font-size: 1.2rem !important;
+    }
+    
+    .category-card p {
+        font-size: 0.85rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .category-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.8rem !important;
+    }
+    
+    .category-card {
+        padding: 0.8rem !important;
+    }
+    
+    .category-image {
+        height: 120px !important;
+    }
+    
+    .category-card h3 {
+        font-size: 1rem !important;
+        margin: 0.5rem 0 0.3rem 0 !important;
+    }
+    
+    .category-card p {
+        font-size: 0.75rem !important;
+    }
+}

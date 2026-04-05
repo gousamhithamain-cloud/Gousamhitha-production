@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Orders Table via Metadata API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        button {
+            background: #4a7c59;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        pre {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+        .error { color: #d32f2f; }
+        .success { color: #2e7d32; }
+    </style>
+</head>
+<body>
+    <h1>Track Orders Table via Hasura Metadata API</h1>
+    
+    <p>This will use Hasura's metadata API to track the orders table.</p>
+    
+    <button onclick="trackOrdersTable()">Track Orders Table</button>
+    <button onclick="checkTrackedTables()">Check Tracked Tables</button>
+    
+    <div id="result"></div>
+
+    <script src="js/nhost-client-cdn.js"></script>
+    <script>
+        async function trackOrdersTable() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<p>Tracking orders table...</p>';
+            
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            try {
+                const session = window.nhost.auth.getSession();
+                const accessToken = session?.accessToken;
+                
+                if (!accessToken) {
+                    resultDiv.innerHTML = '<pre class="error">❌ Not logged in. Please login first.</pre>';
+                    return;
+                }
+                
+                // Use Hasura metadata API to track the table
+                const response = await fetch('https://mplmzjcwaxqmtyngivxf.hasura.ap-south-1.nhost.run/v1/metadata', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`
+                    },
+                    body: JSON.stringify({
+                        type: 'pg_track_table',
+                        args: {
+                            source: 'default',
+                            table: {
+                                schema: 'public',
+                                name: 'orders'
+                            }
+                        }
+                    })
+                });
+                
+                const result = await response.json();
+                console.log('Track table result:', result);
+                
+                if (response.ok) {
+                    resultDiv.innerHTML = `
+                        <h2 class="success">✅ Success!</h2>
+                        <p>Orders table has been tracked in Hasura.</p>
+                        <pre class="success">${JSON.stringify(result, null, 2)}</pre>
+                        <p>Now try refreshing the orders page.</p>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <h2 class="error">❌ Error</h2>
+                        <pre class="error">${JSON.stringify(result, null, 2)}</pre>
+                        <p>If error says "already tracked", that's actually good - it means the table is tracked.</p>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <h2 class="error">❌ Error</h2>
+                    <pre class="error">${error.message}</pre>
+                `;
+            }
+        }
+        
+        async function checkTrackedTables() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<p>Checking tracked tables...</p>';
+            
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            try {
+                // Try to query orders table
+                const response = await window.nhost.graphql.request(`
+                    query {
+                        __type(name: "orders") {
+                            name
+                            fields {
+                                name
+                                type {
+                                    name
+                                }
+                            }
+                        }
+                    }
+                `);
+                
+                console.log('Schema check:', response);
+                
+                if (response.data && response.data.__type) {
+                    const fields = response.data.__type.fields.map(f => f.name).join(', ');
+                    resultDiv.innerHTML = `
+                        <h2 class="success">✅ Orders table is tracked!</h2>
+                        <p>Available fields: ${fields}</p>
+                        <pre class="success">${JSON.stringify(response.data.__type, null, 2)}</pre>
+                    `;
+                } else if (response.data && response.data.__type === null) {
+                    resultDiv.innerHTML = `
+                        <h2 class="error">❌ Orders table is NOT tracked</h2>
+                        <p>The orders table exists in PostgreSQL but is not available in GraphQL.</p>
+                        <p>Click "Track Orders Table" button above to track it.</p>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <h2 class="error">❌ Error checking schema</h2>
+                        <pre>${JSON.stringify(response, null, 2)}</pre>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <h2 class="error">❌ Error</h2>
+                    <pre class="error">${error.message}</pre>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,494 @@
+/* ========================================
+   MOBILE-FIRST FULL-SCREEN HAMBURGER MENU
+   For screens 320px - 480px (Mobile Only)
+   ======================================== */
+
+/* CRITICAL: HAMBURGER MENU COMPLETELY DISABLED, PROFILE ALLOWED */
+.hamburger-menu,
+button.hamburger-menu,
+#hamburger-btn,
+[id="hamburger-btn"],
+[class*="hamburger-menu"],
+.hamburger-dropdown,
+#hamburger-dropdown,
+[id="hamburger-dropdown"],
+[class*="hamburger-dropdown"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    position: absolute !important;
+    left: -9999px !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    z-index: -1 !important;
+}
+
+/* Hide hamburger menu on ALL pages */
+.hamburger-menu {
+    display: none !important;
+}
+
+/* Hide hamburger dropdown as well */
+.hamburger-dropdown {
+    display: none !important;
+}
+
+/* Hamburger Menu Button - Hidden by default */
+.hamburger-menu {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 44px;
+    height: 44px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    position: relative;
+    z-index: 1001;
+    order: -1; /* Place it first on the left */
+    margin-right: 10px;
+}
+
+.hamburger-menu span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background: #333;
+    margin: 3px 0;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+/* Hamburger Animation when Active */
+.hamburger-menu.active span:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+    background: #333;
+    width: 22px;
+}
+
+.hamburger-menu.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-menu.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(8px, -8px);
+    background: #333;
+    width: 22px;
+}
+
+/* Full-Screen Overlay Menu */
+.hamburger-dropdown {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+    backdrop-filter: blur(5px);
+}
+
+.hamburger-dropdown.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Hide other nav elements when menu is open */
+body.menu-open .mobile-top-bar .profile-icon-btn,
+body.menu-open .mobile-top-bar .mobile-search-icon,
+body.menu-open .mobile-top-bar .logo-section-mobile,
+body.menu-open .hamburger-menu {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+/* Menu Items Container */
+.hamburger-dropdown-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    gap: 0;
+    width: 90%;
+    max-width: 350px;
+    margin: auto;
+    padding: 3rem 1rem 2rem 1rem;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    position: relative;
+    transform: scale(0.8);
+    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.hamburger-dropdown.active .hamburger-dropdown-inner {
+    transform: scale(1);
+}
+
+/* Close Button (X) inside menu box */
+.hamburger-close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #333;
+    cursor: pointer;
+    background: #f0f0f0;
+    border: none;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.hamburger-close-btn:hover,
+.hamburger-close-btn:active {
+    background: #e0e0e0;
+    transform: rotate(90deg);
+}
+
+/* Menu Items */
+.hamburger-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+    padding: 1.2rem 1.5rem;
+    color: #333;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-align: left;
+    width: 100%;
+    border-bottom: 1px solid #e0e0e0;
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: slideInMenu 0.5s ease forwards;
+}
+
+/* Remove border from last item */
+.hamburger-item:last-child {
+    border-bottom: none;
+}
+
+/* Staggered animation for menu items */
+.hamburger-dropdown.active .hamburger-item:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.hamburger-dropdown.active .hamburger-item:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.hamburger-dropdown.active .hamburger-item:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.hamburger-dropdown.active .hamburger-item:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.hamburger-dropdown.active .hamburger-item:nth-child(5) {
+    animation-delay: 0.5s;
+}
+
+@keyframes slideInMenu {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Menu Item Hover/Active State */
+.hamburger-item:active,
+.hamburger-item:focus {
+    background: rgba(74, 124, 89, 0.1);
+    border-bottom-color: #4a7c59;
+}
+
+/* Menu Item Icon */
+.hamburger-icon-img {
+    width: 28px;
+    height: 28px;
+    filter: none;
+    flex-shrink: 0;
+}
+
+/* Hide ALL quantity badges and counts in hamburger menu */
+.hamburger-item .cart-count,
+.hamburger-item .count,
+.hamburger-item .badge,
+.hamburger-item .quantity,
+.hamburger-dropdown .cart-count,
+.hamburger-dropdown .count,
+.hamburger-dropdown .badge,
+.hamburger-dropdown .quantity {
+    display: none !important;
+}
+
+/* Close Button (X) in top-right */
+.hamburger-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1001;
+}
+
+/* Logo in Menu (Optional) */
+.hamburger-menu-logo {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Mobile-Only Display - Hamburger Hidden */
+@media (max-width: 480px) {
+    /* Mobile Top Bar Container */
+    .mobile-top-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding: 0.5rem 0;
+        gap: 0.5rem;
+    }
+    
+    /* Hamburger Menu - COMPLETELY HIDDEN */
+    .hamburger-menu {
+        display: none !important;
+    }
+    
+    .hamburger-menu span {
+        display: none !important;
+    }
+    
+    /* Mobile Logo - Full Width Centered */
+    .logo-section-mobile {
+        flex: 1;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+    
+    .logo-section-mobile .logo {
+        font-size: 1.4rem;
+        font-weight: bold;
+        color: #4a7c59;
+        line-height: 1;
+    }
+    
+    .logo-section-mobile .logo-subtitle {
+        font-size: 0.7rem;
+        color: #666;
+        margin-top: 0.1rem;
+    }
+    
+    /* Profile Icon - Smaller */
+    .profile-icon-btn {
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+    
+    .profile-icon-btn svg {
+        width: 20px;
+        height: 20px;
+    }
+    
+    /* Mobile Search Icon */
+    .mobile-search-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #333;
+        flex-shrink: 0;
+    }
+    
+    .mobile-search-icon svg {
+        width: 20px;
+        height: 20px;
+    }
+    
+    /* Hide Desktop Logo on Mobile */
+    .logo-section.desktop-only {
+        display: none !important;
+    }
+    
+    /* Adjust nav-wrapper for mobile */
+    .nav-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    /* Search bar full width below */
+    .search-section {
+        width: 100%;
+        order: 2;
+        display: none; /* Hidden by default, shown when search icon clicked */
+    }
+    
+    .search-section.active {
+        display: flex !important;
+    }
+    
+    /* Hide desktop navigation items on mobile */
+    .nav-items {
+        display: none !important;
+    }
+    
+    .secondary-nav {
+        display: none !important;
+    }
+    
+    /* Navbar padding adjustment */
+    .navbar {
+        padding: 0.8rem 0;
+    }
+}
+
+/* Desktop - Hide Mobile Elements */
+@media (min-width: 481px) {
+    .mobile-top-bar {
+        display: none !important;
+    }
+    
+    .mobile-search-icon {
+        display: none !important;
+    }
+    
+    .logo-section-mobile {
+        display: none !important;
+    }
+}
+
+/* Tablet and Desktop - Hide Hamburger */
+@media (min-width: 481px) {
+    .hamburger-menu {
+        display: none !important;
+    }
+    
+    .hamburger-dropdown {
+        display: none !important;
+    }
+}
+
+/* Prevent body scroll when menu is open */
+body.menu-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+}
+
+/* Touch-friendly sizing */
+@media (hover: none) and (pointer: coarse) {
+    .hamburger-item {
+        min-height: 60px;
+        padding: 1.2rem 2rem;
+    }
+    
+    .hamburger-menu {
+        min-width: 48px;
+        min-height: 48px;
+    }
+}
+
+/* Alternative Style: Slide from Right */
+.hamburger-dropdown.slide-right {
+    transform: translateX(100%);
+}
+
+.hamburger-dropdown.slide-right.active {
+    transform: translateX(0);
+}
+
+/* Alternative Style: Fade In */
+.hamburger-dropdown.fade {
+    transform: none;
+}
+
+.hamburger-dropdown.fade.active {
+    transform: none;
+}
+
+/* Dark Theme Variant */
+.hamburger-dropdown.dark {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+}
+
+/* Light Theme Variant */
+.hamburger-dropdown.light {
+    background: rgba(255, 255, 255, 0.98);
+}
+
+.hamburger-dropdown.light .hamburger-item {
+    color: #333;
+}
+
+.hamburger-dropdown.light .hamburger-close {
+    color: #333;
+}
+
+/* Green Theme (Brand Colors) */
+.hamburger-dropdown.green {
+    background: linear-gradient(135deg, #2e7d32 0%, #4a7c59 100%);
+}
+
+/* Accessibility */
+.hamburger-menu:focus {
+    outline: 2px solid #4a7c59;
+    outline-offset: 2px;
+}
+
+.hamburger-item:focus {
+    outline: 2px solid #4a7c59;
+    outline-offset: 4px;
+}
+
+/* Smooth scrolling when menu closes */
+html {
+    scroll-behavior: smooth;
+}

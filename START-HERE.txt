@@ -1,0 +1,61 @@
+========================================
+HOW TO OPEN THE WEBSITE CORRECTLY
+========================================
+
+IMPORTANT: You MUST use http://localhost:8000
+
+DO NOT open index.html by double-clicking it!
+DO NOT use file:/// URLs!
+
+CORRECT WAY:
+============
+
+1. Make sure Python server is running:
+   - Open terminal in ecommerce-main folder
+   - Run: python -m http.server 8000
+   - You should see: "Serving HTTP on :: port 8000"
+
+2. Open your browser
+
+3. Type in address bar: http://localhost:8000
+
+4. Press Enter
+
+5. You should see the Gousamhitha homepage
+
+6. Click the profile icon (top right)
+
+7. Login modal will appear
+
+8. Enter your credentials and click "Sign In"
+
+9. You will be redirected to profile page
+
+
+QUICK START:
+============
+
+Double-click: OPEN-WEBSITE.bat
+
+This will automatically open http://localhost:8000 in your browser.
+
+
+WHY THIS IS IMPORTANT:
+======================
+
+When you open HTML files directly (file:/// path), the browser cannot:
+- Navigate between pages correctly
+- Connect to the backend API
+- Use relative URLs
+
+You MUST use http://localhost:8000 for everything to work!
+
+
+CURRENT STATUS:
+===============
+
+✅ Backend server: Running on port 5000
+✅ Frontend server: Running on port 8000
+✅ profile.html: EXISTS and is accessible at http://localhost:8000/profile.html
+
+The website IS working! You just need to access it through the correct URL.

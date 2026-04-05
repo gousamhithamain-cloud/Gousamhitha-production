@@ -1,0 +1,119 @@
+/* Mobile Edit Panel Hide Fix - Ensure edit panel is hidden by default on mobile */
+
+/* CRITICAL: Hide edit panel by default on all screen sizes */
+.edit-panel {
+    position: fixed !important;
+    top: 0 !important;
+    right: -100% !important; /* Hidden off-screen by default */
+    width: 90% !important;
+    max-width: 500px !important;
+    height: 100vh !important;
+    background: white !important;
+    box-shadow: -2px 0 10px rgba(0,0,0,0.3) !important;
+    z-index: 1001 !important;
+    transition: right 0.3s ease !important;
+    overflow-y: auto !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+/* Hide edit overlay by default */
+.edit-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: rgba(0,0,0,0.5) !important;
+    z-index: 1000 !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transition: opacity 0.3s ease !important;
+}
+
+/* Show edit panel ONLY when active class is present */
+.edit-panel.active {
+    right: 0 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Show overlay ONLY when active class is present */
+.edit-overlay.active {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Mobile specific adjustments */
+@media (max-width: 768px) {
+    .edit-panel {
+        width: 95% !important;
+        right: -100% !important; /* Ensure it's hidden off-screen */
+    }
+    
+    .edit-panel.active {
+        right: 2.5% !important; /* Center on mobile when active */
+        left: 2.5% !important;
+        width: 95% !important;
+    }
+}
+
+/* Very small screens */
+@media (max-width: 480px) {
+    .edit-panel {
+        width: 100% !important;
+        right: -100% !important;
+    }
+    
+    .edit-panel.active {
+        right: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+    }
+}
+
+/* Ensure edit panel header and content are properly styled */
+.edit-panel-header {
+    padding: 1rem !important;
+    background: #4a7c59 !important;
+    color: white !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+
+.edit-panel-header h2 {
+    margin: 0 !important;
+    font-size: 1.2rem !important;
+}
+
+.edit-panel-header .close-panel {
+    background: none !important;
+    border: none !important;
+    color: white !important;
+    font-size: 1.5rem !important;
+    cursor: pointer !important;
+    padding: 0 !important;
+    width: 30px !important;
+    height: 30px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.edit-panel-content {
+    padding: 1.5rem !important;
+    background: white !important;
+}
+
+/* Force hide any accidentally visible edit panels */
+body:not(.edit-panel-open) .edit-panel:not(.active) {
+    right: -100% !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+body:not(.edit-panel-open) .edit-overlay:not(.active) {
+    opacity: 0 !important;
+    visibility: hidden !important;
+}

@@ -1,0 +1,7 @@
+/* mobile-checkout-force.css - cleaned up, no duplicate buttons */
+
+@media screen and (min-width: 769px) {
+    body {
+        padding-bottom: 0 !important;
+    }
+}

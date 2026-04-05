@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Debug - Gousamhitha</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: #f5f5f5;
+        }
+        .debug-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .status {
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-weight: bold;
+        }
+        .success { background: #e8f5e8; color: #2e7d32; }
+        .error { background: #ffebee; color: #c62828; }
+        .warning { background: #fff3e0; color: #f57c00; }
+        .info { background: #e3f2fd; color: #1976d2; }
+        button {
+            background: #4a7c59;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 0.5rem;
+        }
+        button:hover { background: #2e7d32; }
+        .console-output {
+            background: #1e1e1e;
+            color: #00ff00;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: monospace;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="debug-container">
+        <h1>🔧 Admin Debug Tool</h1>
+        <p>This tool helps diagnose issues with the admin panel edit functionality.</p>
+        
+        <div class="debug-container">
+            <h2>System Status</h2>
+            <div id="system-status">Checking...</div>
+        </div>
+        
+        <div class="debug-container">
+            <h2>Database Connection</h2>
+            <button onclick="testDatabaseConnection()">Test Database</button>
+            <div id="db-status"></div>
+        </div>
+        
+        <div class="debug-container">
+            <h2>Edit Modal Test</h2>
+            <button onclick="testEditModal()">Test Edit Modal</button>
+            <button onclick="testFormElements()">Test Form Elements</button>
+            <div id="modal-status"></div>
+        </div>
+        
+        <div class="debug-container">
+            <h2>Console Output</h2>
+            <button onclick="clearConsole()">Clear Console</button>
+            <div id="console-output" class="console-output"></div>
+        </div>
+    </div>
+
+    <!-- Load required scripts -->
+    <!-- ✅ SECURE: Removed unsafe admin-edit-modal-error-fix.js - use admin-db.js only -->
+    <script src="admin-db.js"></script>
+    
+    <script>
+        let consoleOutput = [];
+        
+        // Capture console logs
+        const originalLog = console.log;
+        const originalError = console.error;
+        const originalWarn = console.warn;
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            addToConsole('LOG', args.join(' '));
+        };
+        
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            addToConsole('ERROR', args.join(' '));
+        };
+        
+        console.warn = function(...args) {
+            originalWarn.apply(console, args);
+            addToConsole('WARN', args.join(' '));
+        };
+        
+        function addToConsole(type, message) {
+            const timestamp = new Date().toLocaleTimeString();
+            consoleOutput.push(`[${timestamp}] ${type}: ${message}`);
+            updateConsoleDisplay();
+        }
+        
+        function updateConsoleDisplay() {
+            const output = document.getElementById('console-output');
+            output.textContent = consoleOutput.slice(-50).join('\n');
+            output.scrollTop = output.scrollHeight;
+        }
+        
+        function clearConsole() {
+            consoleOutput = [];
+            updateConsoleDisplay();
+        }
+        
+        function showStatus(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `<div class="status ${type}">${message}</div>`;
+        }
+        
+        // System status check
+        function checkSystemStatus() {
+            const checks = {
+                'Supabase Client': !!window.supabase,
+                'Edit Modal Fix': !!window.editProductFixed,
+                'Save Function Fix': !!window.saveProductEditFixed,
+                'DOM Ready': document.readyState === 'complete'
+            };
+            
+            let html = '';
+            let allGood = true;
+            
+            Object.entries(checks).forEach(([check, status]) => {
+                const statusClass = status ? 'success' : 'error';
+                const statusText = status ? '✅ OK' : '❌ FAIL';
+                html += `<div class="status ${statusClass}">${check}: ${statusText}</div>`;
+                if (!status) allGood = false;
+            });
+            
+            document.getElementById('system-status').innerHTML = html;
+            
+            if (allGood) {
+                console.log('✅ All system checks passed');
+            } else {
+                console.error('❌ Some system checks failed');
+            }
+        }
+        
+        async function testDatabaseConnection() {
+            showStatus('db-status', 'Testing database connection...', 'info');
+            
+            try {
+                if (!window.supabase) {
+                    throw new Error('Supabase client not available');
+                }
+                
+                const { data, error } = await window.supabase
+                    .from('products')
+                    .select('id, name')
+                    .limit(1);
+                
+                if (error) {
+                    throw error;
+                }
+                
+                showStatus('db-status', `✅ Database connected successfully. Found ${data?.length || 0} products.`, 'success');
+                console.log('✅ Database test successful');
+                
+            } catch (error) {
+                showStatus('db-status', `❌ Database connection failed: ${error.message}`, 'error');
+                console.error('❌ Database test failed:', error);
+            }
+        }
+        
+        function testEditModal() {
+            showStatus('modal-status', 'Testing edit modal elements...', 'info');
+            
+            const elements = {
+                'Edit Overlay': 'edit-overlay',
+                'Edit Panel': 'edit-panel',
+                'Edit Form': 'edit-product-form',
+                'Product ID Field': 'edit-product-id',
+                'Name Field': 'edit-name',
+                'Category Field': 'edit-category',
+                'Price Field': 'edit-price',
+                'Stock Field': 'edit-stock',
+                'Image Field': 'edit-image',
+                'Current Image Div': 'edit-current-image'
+            };
+            
+            let html = '';
+            let allFound = true;
+            
+            Object.entries(elements).forEach(([name, id]) => {
+                const element = document.getElementById(id);
+                const found = !!element;
+                const statusClass = found ? 'success' : 'error';
+                const statusText = found ? '✅ Found' : '❌ Missing';
+                html += `<div class="status ${statusClass}">${name}: ${statusText}</div>`;
+                if (!found) allFound = false;
+            });
+            
+            if (allFound) {
+                html += `<div class="status success">✅ All modal elements found</div>`;
+                console.log('✅ Edit modal test passed');
+            } else {
+                html += `<div class="status error">❌ Some modal elements missing</div>`;
+                console.error('❌ Edit modal test failed');
+            }
+            
+            document.getElementById('modal-status').innerHTML = html;
+        }
+        
+        function testFormElements() {
+            showStatus('modal-status', 'Testing form functionality...', 'info');
+            
+            try {
+                // Test form population
+                const testData = {
+                    id: 'test-123',
+                    name: 'Test Product',
+                    category: 'Test Category',
+                    price: 100,
+                    stock: 50
+                };
+                
+                // Try to populate form
+                const fields = {
+                    'edit-product-id': testData.id,
+                    'edit-name': testData.name,
+                    'edit-category': testData.category,
+                    'edit-price': testData.price,
+                    'edit-stock': testData.stock
+                };
+                
+                let populated = 0;
+                Object.entries(fields).forEach(([fieldId, value]) => {
+                    const element = document.getElementById(fieldId);
+                    if (element) {
+                        element.value = value;
+                        populated++;
+                    }
+                });
+                
+                showStatus('modal-status', `✅ Form test completed. Populated ${populated}/${Object.keys(fields).length} fields.`, 'success');
+                console.log('✅ Form test completed');
+                
+            } catch (error) {
+                showStatus('modal-status', `❌ Form test failed: ${error.message}`, 'error');
+                console.error('❌ Form test failed:', error);
+            }
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🔧 Admin debug tool loaded');
+            checkSystemStatus();
+        });
+        
+        // Check system status periodically
+        setInterval(checkSystemStatus, 5000);
+        
+        // Auto-test database when Supabase is ready
+        window.addEventListener('supabaseReady', function() {
+            console.log('✅ Supabase ready, auto-testing database...');
+            setTimeout(testDatabaseConnection, 1000);
+        });
+    </script>
+</body>
+</html>

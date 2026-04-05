@@ -1,0 +1,80 @@
+╔══════════════════════════════════════════════════════════════╗
+║                    QUICK FIX FOR CORS ERRORS                 ║
+╚══════════════════════════════════════════════════════════════╝
+
+YOUR PROBLEM:
+You're opening HTML files directly from File Explorer.
+This causes CORS errors with Supabase.
+
+THE FIX (3 STEPS):
+═══════════════════════════════════════════════════════════════
+
+STEP 1: Open Command Prompt
+   - Press Windows Key + R
+   - Type: cmd
+   - Press Enter
+
+STEP 2: Navigate to Project
+   - Copy and paste this command:
+   
+   cd C:\Users\ksair\Downloads\ecommerce-main\ecommerce-main
+
+   - Press Enter
+
+STEP 3: Start Server
+   - Type this command:
+   
+   start-and-open.bat
+
+   - Press Enter
+   - Browser will open automatically!
+
+═══════════════════════════════════════════════════════════════
+
+ALTERNATIVE (Even Easier):
+═══════════════════════════════════════════════════════════════
+
+1. Open File Explorer
+2. Go to: C:\Users\ksair\Downloads\ecommerce-main\ecommerce-main
+3. Double-click: start-and-open.bat
+4. Browser opens automatically!
+
+═══════════════════════════════════════════════════════════════
+
+WHAT YOU'LL SEE:
+═══════════════════════════════════════════════════════════════
+
+✓ Command window opens
+✓ Shows "Generating config.js..."
+✓ Shows "Starting web server..."
+✓ Browser opens to http://localhost:8000
+✓ Website loads without errors!
+
+═══════════════════════════════════════════════════════════════
+
+IMPORTANT:
+═══════════════════════════════════════════════════════════════
+
+✓ Keep the command window OPEN while using the website
+✓ Always use http://localhost:8000 in browser
+✓ DON'T open HTML files directly anymore
+
+To STOP the server:
+- Go to command window
+- Press Ctrl+C
+- Type Y
+- Press Enter
+
+═══════════════════════════════════════════════════════════════
+
+VERIFY IT'S WORKING:
+═══════════════════════════════════════════════════════════════
+
+1. Browser URL should show: http://localhost:8000
+2. Press F12 to open console
+3. No red CORS errors!
+4. Website works perfectly!
+
+═══════════════════════════════════════════════════════════════
+
+Need help? Check FIX-CORS-ERRORS.md for detailed guide.

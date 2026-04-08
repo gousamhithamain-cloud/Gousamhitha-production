@@ -8,7 +8,7 @@ const getVendors = asyncHandler(async (req, res) => {
 
     let query = supabase
         .from('vendors')
-        .select('id, vendor_name, business_name, phone, address, email, status, created_at');
+        .select('*');
 
     // Apply filters
     if (status !== undefined && status !== '') {
@@ -19,7 +19,14 @@ const getVendors = asyncHandler(async (req, res) => {
     }
 
     // Get total count
-    const { count } = await query.select('id', { count: 'exact', head: true });
+    let countQuery = supabase.from('vendors').select('id', { count: 'exact', head: true });
+    if (status !== undefined && status !== '') {
+        countQuery = countQuery.eq('status', status);
+    }
+    if (search !== undefined && search !== '') {
+        countQuery = countQuery.or(`vendor_name.ilike.%${search}%,business_name.ilike.%${search}%`);
+    }
+    const { count } = await countQuery;
 
     // Apply pagination
     const offset = (page - 1) * limit;
@@ -31,7 +38,11 @@ const getVendors = asyncHandler(async (req, res) => {
         throw new AppError('Failed to fetch vendors', 500);
     }
 
-    console.log('Vendors data:', data);
+    console.log('Vendors fetched:', data ? data.length : 0);
+    if (data && data.length > 0) {
+        console.log('First vendor:', data[0]);
+    }
+    
     return batchResponse(res, 200, data || [], count || 0, 'Vendors fetched successfully');
 });
 

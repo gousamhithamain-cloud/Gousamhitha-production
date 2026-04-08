@@ -27,7 +27,6 @@ async function loadProducts() {
         const products = await AdminProductsAPI.getAll({ limit: 100 });
         
         console.log('✅ Products loaded:', products.length);
-        console.log('📊 PRODUCTS API RESPONSE:', products);
         
         // Debug: Log first product to see field names
         if (products && products.length > 0) {
@@ -51,10 +50,21 @@ async function loadProducts() {
 function displayProducts(products) {
     const tbody = document.getElementById('products-table-body');
     
+    // Safety check: ensure products is an array
+    if (!Array.isArray(products)) {
+        console.error('❌ Products is not an array:', products);
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 2rem; color: #d32f2f;">Error: Invalid data format</td></tr>';
+        return;
+    }
+    
     if (!products || products.length === 0) {
         tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 2rem; color: #666;">No products available</td></tr>';
         return;
     }
+    
+    // Debug first product
+    console.log('🔍 FIRST PRODUCT IN DISPLAY:', products[0]);
+    console.log('🔍 PRODUCT FIELDS:', Object.keys(products[0]));
     
     tbody.innerHTML = products.map(product => `
         <tr>

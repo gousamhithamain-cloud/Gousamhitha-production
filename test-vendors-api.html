@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Vendors API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        pre {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Vendors API Test</h1>
+    
+    <div class="section">
+        <h2>Test Vendors API</h2>
+        <button onclick="testVendorsAPI()">Load Vendors</button>
+        <button onclick="testProductsAPI()">Load Products</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:4000/api';
+
+        async function testVendorsAPI() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<p>Loading vendors...</p>';
+            
+            try {
+                const response = await fetch(`${API_BASE}/vendors`);
+                const data = await response.json();
+                
+                console.log('Full Response:', data);
+                console.log('Response type:', typeof data);
+                console.log('Has data property?', 'data' in data);
+                console.log('data.items:', data.data?.items);
+                
+                resultDiv.innerHTML = `
+                    <h3>Response Status: ${response.status}</h3>
+                    <h4>Full Response:</h4>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                    
+                    <h4>Extracted Items:</h4>
+                    <pre>${JSON.stringify(data.data?.items || data.data || data, null, 2)}</pre>
+                `;
+                
+                // Show first vendor details
+                const items = data.data?.items || data.data || [];
+                if (items.length > 0) {
+                    console.log('First vendor:', items[0]);
+                    console.log('Fields:', Object.keys(items[0]));
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                resultDiv.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        }
+
+        async function testProductsAPI() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<p>Loading products...</p>';
+            
+            try {
+                const response = await fetch(`${API_BASE}/products`);
+                const data = await response.json();
+                
+                console.log('Full Response:', data);
+                
+                resultDiv.innerHTML = `
+                    <h3>Response Status: ${response.status}</h3>
+                    <h4>Full Response:</h4>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                    
+                    <h4>Extracted Items:</h4>
+                    <pre>${JSON.stringify(data.data?.items || data.data || data, null, 2)}</pre>
+                `;
+                
+                // Show first product details
+                const items = data.data?.items || data.data || [];
+                if (items.length > 0) {
+                    console.log('First product:', items[0]);
+                    console.log('Fields:', Object.keys(items[0]));
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                resultDiv.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -8,7 +8,7 @@ const getProducts = asyncHandler(async (req, res) => {
 
     let query = supabase
         .from('products')
-        .select('id, name, category, price, stock, in_stock, image_url, unit, unit_quantity, display_unit, created_at');
+        .select('*');
 
     // Apply filters
     if (category !== undefined && category !== '') {
@@ -19,7 +19,14 @@ const getProducts = asyncHandler(async (req, res) => {
     }
 
     // Get total count
-    const { count } = await query.select('id', { count: 'exact', head: true });
+    let countQuery = supabase.from('products').select('id', { count: 'exact', head: true });
+    if (category !== undefined && category !== '') {
+        countQuery = countQuery.eq('category', category);
+    }
+    if (search !== undefined && search !== '') {
+        countQuery = countQuery.ilike('name', `%${search}%`);
+    }
+    const { count } = await countQuery;
 
     // Apply pagination and sorting
     const offset = (page - 1) * limit;
@@ -27,7 +34,13 @@ const getProducts = asyncHandler(async (req, res) => {
     const { data, error } = await query.range(offset, offset + limit - 1);
 
     if (error) {
+        console.error('Products query error:', error);
         throw new AppError('Failed to fetch products', 500);
+    }
+
+    console.log('Products fetched:', data ? data.length : 0);
+    if (data && data.length > 0) {
+        console.log('First product:', data[0]);
     }
 
     return batchResponse(res, 200, data || [], count || 0, 'Products fetched successfully');

@@ -107,14 +107,37 @@ const AdminProductsAPI = {
         const endpoint = `/products${queryString ? '?' + queryString : ''}`;
         
         const result = await adminFetch(endpoint);
-        console.log('🔍 Products API raw result:', result);
-        console.log('🔍 Products data structure:', result.data);
+        console.log('📦 RAW API RESPONSE:', result);
+        console.log('📦 result.data:', result.data);
+        console.log('📦 result.data.items:', result.data?.items);
         
-        // Backend returns: { success: true, data: { items: [...], total: X } }
-        const products = result.data?.items || result.data || [];
-        console.log('🔍 Extracted products:', products);
+        // Safety check
+        if (!result || !result.data) {
+            console.error('❌ Invalid API response:', result);
+            return [];
+        }
         
-        return products;
+        // Extract items from response
+        let items = [];
+        if (Array.isArray(result.data.items)) {
+            items = result.data.items;
+        } else if (Array.isArray(result.data)) {
+            items = result.data;
+        } else {
+            console.error('❌ Unexpected data structure:', result.data);
+            return [];
+        }
+        
+        console.log('✅ EXTRACTED ITEMS:', items.length, 'products');
+        if (items.length > 0) {
+            console.log('🔍 FIRST PRODUCT FULL:', JSON.stringify(items[0], null, 2));
+            console.log('🔍 FIRST PRODUCT FIELDS:', Object.keys(items[0]));
+            console.log('🔍 name:', items[0].name);
+            console.log('🔍 category:', items[0].category);
+            console.log('🔍 price:', items[0].price);
+        }
+        
+        return items;
     },
     
     // Get single product
@@ -167,14 +190,28 @@ const AdminVendorsAPI = {
         const endpoint = `/vendors${queryString ? '?' + queryString : ''}`;
         
         const result = await adminFetch(endpoint);
-        console.log('🔍 Vendors API raw result:', result);
-        console.log('🔍 Vendors data structure:', result.data);
+        console.log('🏢 FULL API RESPONSE:', result);
         
-        // Backend returns: { success: true, data: { items: [...], total: X } }
-        const vendors = result.data?.items || result.data || [];
-        console.log('🔍 Extracted vendors:', vendors);
+        // Safety check
+        if (!result || !result.data) {
+            console.error('❌ Invalid API response:', result);
+            return [];
+        }
         
-        return vendors;
+        // FORCE correct structure extraction
+        const items = Array.isArray(result.data.items)
+            ? result.data.items
+            : Array.isArray(result.data)
+            ? result.data
+            : [];
+        
+        console.log('✅ EXTRACTED ITEMS:', items.length, 'vendors');
+        if (items.length > 0) {
+            console.log('🔍 FIRST VENDOR:', items[0]);
+            console.log('🔍 AVAILABLE FIELDS:', Object.keys(items[0]));
+        }
+        
+        return items;
     },
     
     // Get single vendor
@@ -226,7 +263,27 @@ const AdminOrdersAPI = {
         const endpoint = `/orders${queryString ? '?' + queryString : ''}`;
         
         const result = await adminFetch(endpoint);
-        return result.data || [];
+        console.log('📋 FULL API RESPONSE:', result);
+        
+        // Safety check
+        if (!result || !result.data) {
+            console.error('❌ Invalid API response:', result);
+            return [];
+        }
+        
+        // FORCE correct structure extraction
+        const items = Array.isArray(result.data.items)
+            ? result.data.items
+            : Array.isArray(result.data)
+            ? result.data
+            : [];
+        
+        console.log('✅ EXTRACTED ITEMS:', items.length, 'orders');
+        if (items.length > 0) {
+            console.log('🔍 FIRST ORDER:', items[0]);
+        }
+        
+        return items;
     },
     
     // Get single order

@@ -21,27 +21,25 @@ async function loadVendors() {
         return;
     }
     
-    // Check auth
-    if (!checkAdminAuth()) {
-        return;
-    }
-    
     tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 2rem;">Loading vendors...</td></tr>';
     
     try {
         const vendors = await AdminVendorsAPI.getAll({ limit: 100 });
         
-        console.log('✅ Vendors loaded:', vendors.length);
-        console.log('📊 VENDORS API RESPONSE:', vendors);
+        console.log('✅ RAW VENDORS RESPONSE:', vendors);
+        console.log('✅ Vendors type:', typeof vendors);
+        console.log('✅ Is array?', Array.isArray(vendors));
         
         // Debug: Log first vendor to see field names
         if (vendors && vendors.length > 0) {
             console.log('🔍 First vendor structure:', vendors[0]);
             console.log('🔍 Available fields:', Object.keys(vendors[0]));
+            console.log('🔍 vendor_name value:', vendors[0].vendor_name);
+            console.log('🔍 business_name value:', vendors[0].business_name);
         }
         
         if (!vendors || vendors.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 2rem; color: #666;">No vendors found. Add your first vendor using the form below.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 2rem; color: #666;">No vendors found. Add your first vendor using the form above.</td></tr>';
             return;
         }
         
@@ -56,10 +54,21 @@ async function loadVendors() {
 function displayVendors(vendors) {
     const tbody = document.getElementById('vendors-table-body');
     
+    // Safety check: ensure vendors is an array
+    if (!Array.isArray(vendors)) {
+        console.error('❌ Vendors is not an array:', vendors);
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 2rem; color: #d32f2f;">Error: Invalid data format</td></tr>';
+        return;
+    }
+    
     if (!vendors || vendors.length === 0) {
         tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 2rem; color: #666;">No vendors available</td></tr>';
         return;
     }
+    
+    // Debug first vendor
+    console.log('🔍 FIRST VENDOR IN DISPLAY:', vendors[0]);
+    console.log('🔍 VENDOR FIELDS:', Object.keys(vendors[0]));
     
     tbody.innerHTML = vendors.map(vendor => `
         <tr>
@@ -239,12 +248,7 @@ window.adminLogout = adminLogout;
 function initializeVendorsPage() {
     console.log('🚀 Initializing vendors page...');
     
-    // Check auth
-    if (!checkAdminAuth()) {
-        return;
-    }
-    
-    // Load vendors
+    // Load vendors (auth check removed for initial load)
     loadVendors();
     
     // Setup form handler

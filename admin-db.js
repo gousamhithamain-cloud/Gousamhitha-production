@@ -14,17 +14,31 @@ async function loadDashboard() {
             fetch(`${API_BASE_URL}/orders`),
             fetch(`${API_BASE_URL}/vendors`)
         ]);
+        
         const productsData = await productsRes.json();
         const ordersData = await ordersRes.json();
         const vendorsData = await vendorsRes.json();
-        const products = productsData.products || [];
-        const orders = ordersData.orders || [];
-        const vendors = vendorsData.vendors || [];
-        const outOfStock = products.filter(p => p.stock === 0).length;
+        
+        console.log('Dashboard API responses:', { productsData, ordersData, vendorsData });
+        
+        // Extract data from API response format
+        const products = productsData.data?.items || productsData.data || productsData.products || [];
+        const orders = ordersData.data?.items || ordersData.data || ordersData.orders || [];
+        const vendors = vendorsData.data?.items || vendorsData.data || vendorsData.vendors || [];
+        
+        console.log('Extracted data:', { 
+            products: products.length, 
+            orders: orders.length, 
+            vendors: vendors.length 
+        });
+        
+        const outOfStock = products.filter(p => p.stock === 0 || !p.in_stock).length;
+        
         document.getElementById('total-products').textContent = products.length;
         document.getElementById('total-vendors').textContent = vendors.length;
         document.getElementById('total-orders').textContent = orders.length;
         document.getElementById('out-of-stock').textContent = outOfStock;
+        
         loadVendorsList(vendors, products);
         loadRecentOrders(orders);
     } catch (error) {
@@ -326,16 +340,20 @@ async function handleAddVendor(event) {
     const vendor_name = document.getElementById('new-vendor-name').value;
     const business_name = document.getElementById('new-business-name').value;
     const phone = document.getElementById('new-vendor-phone').value;
-    const email = document.getElementById('new-vendor-email')?.value;
+    const address = document.getElementById('new-vendor-address')?.value;
     const messageEl = document.getElementById('add-vendor-message');
+    
     try {
-        const response = await fetch(`${API_BASE_URL}/vendors`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ vendor_name, business_name, email, phone })
-        });
-        const data = await response.json();
-        if (data.success) {
+        // Use AdminVendorsAPI if available, otherwise use direct fetch
+        if (window.AdminVendorsAPI) {
+            const data = await window.AdminVendorsAPI.create({
+                vendor_name,
+                business_name,
+                phone: phone || null,
+                address: address || null,
+                status: 'active'
+            });
+            
             messageEl.textContent = 'Vendor created successfully!';
             messageEl.className = 'form-message success';
             setTimeout(() => {
@@ -343,7 +361,34 @@ async function handleAddVendor(event) {
                 loadDashboard();
             }, 1500);
         } else {
-            throw new Error(data.error);
+            // Fallback to direct API call
+            const response = await fetch(`${API_BASE_URL}/vendors`, {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token') || localStorage.getItem('auth_token')}`
+                },
+                body: JSON.stringify({ 
+                    vendor_name, 
+                    business_name, 
+                    phone: phone || null,
+                    address: address || null,
+                    status: 'active'
+                })
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                messageEl.textContent = 'Vendor created successfully!';
+                messageEl.className = 'form-message success';
+                setTimeout(() => {
+                    closeAddVendorModal();
+                    loadDashboard();
+                }, 1500);
+            } else {
+                throw new Error(data.message || data.error || 'Failed to create vendor');
+            }
         }
     } catch (error) {
         console.error('Add vendor error:', error);

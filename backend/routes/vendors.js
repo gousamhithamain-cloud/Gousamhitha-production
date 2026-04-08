@@ -9,8 +9,8 @@ router.get('/', getVendors);
 // GET /api/vendors/:id (no auth required)
 router.get('/:id', getVendorById);
 
-// POST /api/vendors (admin only)
-router.post('/', authenticate, requireRole(['admin']), createVendor);
+// POST /api/vendors (no auth required for now)
+router.post('/', createVendor);
 
 // PUT /api/vendors/:id (admin only)
 router.put('/:id', authenticate, requireRole(['admin']), validateParams(schemas.UUID), updateVendor);

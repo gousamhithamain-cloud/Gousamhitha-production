@@ -115,7 +115,7 @@ const createOrder = asyncHandler(async (req, res) => {
             notes,
             total: total || (subtotal + delivery_charge),
             payment_method,
-            order_status: 'Pending',
+            status: 'Pending',
             payment_status: 'Pending'
         })
         .select()

@@ -32,6 +32,13 @@ async function loadVendors() {
         const vendors = await AdminVendorsAPI.getAll({ limit: 100 });
         
         console.log('✅ Vendors loaded:', vendors.length);
+        console.log('📊 VENDORS API RESPONSE:', vendors);
+        
+        // Debug: Log first vendor to see field names
+        if (vendors && vendors.length > 0) {
+            console.log('🔍 First vendor structure:', vendors[0]);
+            console.log('🔍 Available fields:', Object.keys(vendors[0]));
+        }
         
         if (!vendors || vendors.length === 0) {
             tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 2rem; color: #666;">No vendors found. Add your first vendor using the form below.</td></tr>';

@@ -107,8 +107,14 @@ const AdminProductsAPI = {
         const endpoint = `/products${queryString ? '?' + queryString : ''}`;
         
         const result = await adminFetch(endpoint);
+        console.log('🔍 Products API raw result:', result);
+        console.log('🔍 Products data structure:', result.data);
+        
         // Backend returns: { success: true, data: { items: [...], total: X } }
-        return result.data?.items || result.data || [];
+        const products = result.data?.items || result.data || [];
+        console.log('🔍 Extracted products:', products);
+        
+        return products;
     },
     
     // Get single product
@@ -161,8 +167,14 @@ const AdminVendorsAPI = {
         const endpoint = `/vendors${queryString ? '?' + queryString : ''}`;
         
         const result = await adminFetch(endpoint);
+        console.log('🔍 Vendors API raw result:', result);
+        console.log('🔍 Vendors data structure:', result.data);
+        
         // Backend returns: { success: true, data: { items: [...], total: X } }
-        return result.data?.items || result.data || [];
+        const vendors = result.data?.items || result.data || [];
+        console.log('🔍 Extracted vendors:', vendors);
+        
+        return vendors;
     },
     
     // Get single vendor

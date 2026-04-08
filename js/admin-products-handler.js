@@ -27,6 +27,13 @@ async function loadProducts() {
         const products = await AdminProductsAPI.getAll({ limit: 100 });
         
         console.log('✅ Products loaded:', products.length);
+        console.log('📊 PRODUCTS API RESPONSE:', products);
+        
+        // Debug: Log first product to see field names
+        if (products && products.length > 0) {
+            console.log('🔍 First product structure:', products[0]);
+            console.log('🔍 Available fields:', Object.keys(products[0]));
+        }
         
         if (!products || products.length === 0) {
             tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 2rem; color: #666;">No products found. <a href="admin-add-product.html">Add your first product</a></td></tr>';

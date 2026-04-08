@@ -8,7 +8,7 @@ const getVendors = asyncHandler(async (req, res) => {
 
     let query = supabase
         .from('vendors')
-        .select('id, vendor_name, business_name, email, status, created_at');
+        .select('id, vendor_name, business_name, phone, address, email, status, created_at');
 
     // Apply filters
     if (status !== undefined && status !== '') {

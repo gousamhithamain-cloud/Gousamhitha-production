@@ -157,9 +157,11 @@ async function finishOrder(res, order, items, user_id) {
     }
 
     // Clear user's cart
-    await supabase.from('cart').delete().eq('user_id', user_id).catch(err => {
+    try {
+        await supabase.from('cart').delete().eq('user_id', user_id);
+    } catch (err) {
         console.error('Warning: Failed to clear cart:', err.message);
-    });
+    }
 
     console.log('✅ Order created successfully:', order.id);
     return createdResponse(res, order, 'Order created successfully');

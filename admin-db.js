@@ -9,10 +9,13 @@ const API_BASE_URL = window.API_BASE_URL || 'http://localhost:4000/api';
 
 async function loadDashboard() {
     try {
+        const token = localStorage.getItem('token') || localStorage.getItem('auth_token') || '';
+        const headers = { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' };
+
         const [productsRes, ordersRes, vendorsRes] = await Promise.all([
             fetch(`${API_BASE_URL}/products`),
-            fetch(`${API_BASE_URL}/orders`),
-            fetch(`${API_BASE_URL}/vendors`)
+            fetch(`${API_BASE_URL}/orders`, { headers }),
+            fetch(`${API_BASE_URL}/vendors`, { headers })
         ]);
         
         const productsData = await productsRes.json();
@@ -168,37 +171,44 @@ async function deleteProduct(id) {
 
 async function loadOrdersTable() {
     try {
-        const response = await fetch(`${API_BASE_URL}/orders`);
+        const token = localStorage.getItem('token') || localStorage.getItem('auth_token') || '';
+        const response = await fetch(`${API_BASE_URL}/orders`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
         const data = await response.json();
-        const orders = data.orders || [];
+        const orders = data.data?.items || data.data || data.orders || [];
         const tbody = document.getElementById('orders-table-body');
         if (!tbody) return;
-        tbody.innerHTML = orders.map(order => `
+        tbody.innerHTML = orders.length ? orders.map(order => {
+            const status = order.order_status || order.status || 'Pending';
+            const email = order.email || order.customer_email || order.user?.email || 'N/A';
+            const date = order.created_at ? new Date(order.created_at).toLocaleDateString() : 'N/A';
+            return `
             <tr>
-                <td>${order.id}</td>
-                <td>${order.customer_email}</td>
-                <td>-</td>
-                <td>₹${order.total}</td>
-                <td>${new Date(order.created_at).toLocaleDateString()}</td>
+                <td>${(order.id || '').substring(0, 8).toUpperCase()}</td>
+                <td>${email}</td>
+                <td>${order.customer_name || 'N/A'}</td>
+                <td>₹${order.total || 0}</td>
+                <td>${date}</td>
                 <td>
                     <select class="status-select" onchange="updateOrderStatus('${order.id}', this.value)">
-                        <option value="Pending" ${order.status === 'Pending' ? 'selected' : ''}>Pending</option>
-                        <option value="Packed" ${order.status === 'Packed' ? 'selected' : ''}>Packed</option>
-                        <option value="Shipped" ${order.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
-                        <option value="Delivered" ${order.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
+                        <option value="Pending" ${status === 'Pending' ? 'selected' : ''}>Pending</option>
+                        <option value="Packed" ${status === 'Packed' ? 'selected' : ''}>Packed</option>
+                        <option value="Shipped" ${status === 'Shipped' ? 'selected' : ''}>Shipped</option>
+                        <option value="Delivered" ${status === 'Delivered' ? 'selected' : ''}>Delivered</option>
+                        <option value="Cancelled" ${status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
                     </select>
                 </td>
                 <td>
-                    ${order.status === 'Delivered' ? 
-                        `<button class="btn-delete" onclick="deleteOrder('${order.id}')" style="background: #dc3545; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; font-size: 0.9rem;">Delete</button>` : 
-                        `<span style="color: #999; font-size: 0.85rem;">Available after delivery</span>`
+                    ${status === 'Delivered' || status === 'Cancelled' ? 
+                        `<button class="btn-delete" onclick="deleteOrder('${order.id}')" style="background:#dc3545;color:white;border:none;padding:0.5rem 1rem;border-radius:5px;cursor:pointer;">Delete</button>` : 
+                        `<span style="color:#999;font-size:0.85rem;">Available after delivery</span>`
                     }
                 </td>
-            </tr>
-        `).join('') || '<tr><td colspan="7">No orders yet</td></tr>';
+            </tr>`;
+        }).join('') : '<tr><td colspan="7" style="text-align:center;padding:2rem;color:#666;">No orders yet</td></tr>';
     } catch (error) {
         console.error('Load orders error:', error);
-        alert('Failed to load orders');
     }
 }
 async function updateOrderStatus(orderId, newStatus) {

@@ -128,6 +128,11 @@
     .profile-icon-btn {
         display: none !important;
     }
+
+    /* Hide top navbar cart button on mobile - use bottom nav Cart tab instead */
+    .cart-btn {
+        display: none !important;
+    }
     
     /* Add bottom padding to body to prevent content overlap */
     body {

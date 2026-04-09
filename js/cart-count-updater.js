@@ -4,6 +4,9 @@
     
     console.log('🛒 Cart Count Updater loading...');
     
+    // Clear legacy localStorage cart data - app uses backend API
+    try { localStorage.removeItem('cart'); } catch(e) {}
+    
     class CartCountUpdater {
         constructor() {
             this.cartCountElements = [];

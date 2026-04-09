@@ -94,21 +94,9 @@
     }
     
     function updateCartBadgeFromStorage(badge) {
-        try {
-            // Try localStorage first
-            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-            const count = cart.reduce((total, item) => total + (item.quantity || 1), 0);
-            updateCartBadge(badge, count);
-        } catch (error) {
-            // If localStorage fails, try to get from existing cart count elements
-            const existingCartCount = document.querySelector('.cart-count');
-            if (existingCartCount) {
-                const count = parseInt(existingCartCount.textContent) || 0;
-                updateCartBadge(badge, count);
-            } else {
-                badge.classList.add('hidden');
-            }
-        }
+        // Don't read from localStorage - it may be stale
+        // Just hide the badge; the API-based updater will set the correct count
+        badge.classList.add('hidden');
     }
     
     function addClickHandlers() {

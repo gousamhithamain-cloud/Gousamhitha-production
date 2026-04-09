@@ -459,15 +459,122 @@ function switchTab(tab) {
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// GOOGLE AUTH (Placeholder)
+// GOOGLE AUTH
 // ══════════════════════════════════════════════════════════════════════════════
 
+const GOOGLE_CLIENT_ID = '696073380462-7qdtlpemitelbthtbds8e64rhsq38ag2.apps.googleusercontent.com';
+
+function loadGoogleScript() {
+    if (document.getElementById('google-gsi-script')) return;
+    const script = document.createElement('script');
+    script.id = 'google-gsi-script';
+    script.src = 'https://accounts.google.com/gsi/client';
+    script.async = true;
+    script.defer = true;
+    document.head.appendChild(script);
+}
+
+async function handleGoogleCredential(response) {
+    const credential = response.credential;
+    const msgEl = document.getElementById('signin-message');
+
+    try {
+        if (msgEl) { msgEl.textContent = 'Signing in with Google...'; msgEl.style.color = '#4a7c59'; }
+
+        const apiBase = window.API_BASE_URL || 'http://localhost:4000/api';
+        const res = await fetch(`${apiBase}/auth/google`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ credential })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+            throw new Error(data.message || 'Google sign-in failed');
+        }
+
+        const { user, session } = data.data;
+        saveAuthData(session.access_token, {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            role: user.role
+        });
+
+        if (msgEl) { msgEl.textContent = 'Signed in successfully!'; msgEl.style.color = '#4a7c59'; }
+
+        closeAuthModal();
+        updateUIAfterLogin();
+
+        if (typeof showToast === 'function') showToast('Welcome! Signed in with Google.', 'success');
+
+        setTimeout(() => {
+            if (user.role === 'admin') {
+                window.location.href = 'admin-dashboard.html';
+            } else {
+                window.location.reload();
+            }
+        }, 500);
+
+    } catch (err) {
+        console.error('Google sign-in error:', err);
+        if (msgEl) { msgEl.textContent = err.message || 'Google sign-in failed'; msgEl.style.color = '#d32f2f'; }
+        if (typeof showToast === 'function') showToast('Google sign-in failed: ' + err.message, 'error');
+    }
+}
+
+function initGoogleSignIn() {
+    if (!window.google) {
+        setTimeout(initGoogleSignIn, 300);
+        return;
+    }
+    window.google.accounts.id.initialize({
+        client_id: GOOGLE_CLIENT_ID,
+        callback: handleGoogleCredential,
+        auto_select: false,
+        cancel_on_tap_outside: true,
+    });
+}
+
 function handleGoogleSignIn() {
-    alert('Google Sign-In not yet configured');
+    loadGoogleScript();
+    // Wait for Google script then prompt
+    const tryPrompt = () => {
+        if (window.google && window.google.accounts) {
+            initGoogleSignIn();
+            window.google.accounts.id.prompt((notification) => {
+                if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+                    // Fallback to renderButton popup
+                    triggerGooglePopup();
+                }
+            });
+        } else {
+            setTimeout(tryPrompt, 300);
+        }
+    };
+    tryPrompt();
+}
+
+function triggerGooglePopup() {
+    // Create a temporary div and render the Google button, then click it
+    const tempDiv = document.createElement('div');
+    tempDiv.style.cssText = 'position:fixed;top:-9999px;left:-9999px;';
+    document.body.appendChild(tempDiv);
+
+    window.google.accounts.id.renderButton(tempDiv, {
+        type: 'standard',
+        theme: 'outline',
+        size: 'large',
+    });
+
+    const btn = tempDiv.querySelector('div[role="button"]');
+    if (btn) btn.click();
+    setTimeout(() => document.body.removeChild(tempDiv), 1000);
 }
 
 function handleGoogleSignUp() {
-    alert('Google Sign-Up not yet configured');
+    handleGoogleSignIn(); // Same flow for sign up
 }
 
 // ══════════════════════════════════════════════════════════════════════════════

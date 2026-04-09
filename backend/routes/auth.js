@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { signup, signin, signout, getMe, refreshToken, forgotPassword, assignAdmin } = require('../controllers/authController');
+const { googleSignIn } = require('../controllers/googleAuthController');
 const { validate, schemas } = require('../middleware/validators');
 const { authLimiter } = require('../middleware/security');
 const { authenticate, requireRole } = require('../middleware/auth');
@@ -21,6 +22,9 @@ router.post('/refresh', validate(schemas.refreshToken), refreshToken);
 
 // POST /api/auth/forgot-password
 router.post('/forgot-password', validate(schemas.forgotPassword), forgotPassword);
+
+// POST /api/auth/google — Google Sign-In
+router.post('/google', googleSignIn);
 
 // POST /api/auth/assign-admin — assign admin role (admin only)
 router.post('/assign-admin', authenticate, requireRole(['admin']), validate(schemas.assignAdmin), assignAdmin);

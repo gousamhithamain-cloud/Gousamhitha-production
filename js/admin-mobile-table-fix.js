@@ -37,15 +37,17 @@ class AdminMobileTableFix {
     }
     
     createMissingTableBody(element) {
-        const tables = document.querySelectorAll(element.parent);
-        if (tables.length > 0) {
-            const tbody = document.createElement('tbody');
-            tbody.id = element.id;
-            tbody.innerHTML = `<tr><td colspan="${element.columns}" style="text-align: center; padding: 2rem; color: #666;">Loading...</td></tr>`;
-            
-            tables[0].appendChild(tbody);
-            console.log(`✅ Created missing table body: ${element.id}`);
+        // Create in a hidden off-screen container, never inside a visible table
+        let container = document.getElementById('_mobile-fix-hidden');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = '_mobile-fix-hidden';
+            container.style.cssText = 'display:none;position:absolute;left:-9999px;';
+            if (document.body) document.body.appendChild(container);
         }
+        const tbody = document.createElement('tbody');
+        tbody.id = element.id;
+        container.appendChild(tbody);
     }
     
     observeTableChanges() {

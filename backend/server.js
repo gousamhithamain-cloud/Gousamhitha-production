@@ -14,6 +14,7 @@ const userRoutes = require('./routes/users');
 const authRoutes = require('./routes/auth');
 const vendorRoutes = require('./routes/vendors');
 const deliveryRoutes = require('./routes/delivery');
+const payoutRoutes = require('./routes/payouts');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -45,6 +46,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/vendors', vendorRoutes);
 app.use('/api/delivery', deliveryRoutes);
+app.use('/api/payouts', payoutRoutes);
 
 // ── Health Check ──────────────────────────────────────────────────────────────
 app.get('/api/health', (req, res) => {

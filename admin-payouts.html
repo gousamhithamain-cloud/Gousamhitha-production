@@ -72,98 +72,67 @@
         async function loadPayoutsTable() {
             const tbody = document.getElementById('payouts-table-body');
             if (!tbody) return;
-            
-            tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 2rem;">Loading payouts...</td></tr>';
-            
+            tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:2rem;">Loading payouts...</td></tr>';
+
             try {
-                const { data: payouts, error } = await window.supabase
-                    .from('vendor_payouts')
-                    .select('*')
-                    .order('created_at', { ascending: false });
-                
-                if (error) {
-                    console.error('Error loading payouts:', error);
-                    tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 2rem; color: red;">Error: ${error.message}<br><small>Please run CREATE-VENDOR-PAYOUTS.sql first</small></td></tr>`;
+                const token = localStorage.getItem('token') || '';
+                const res = await fetch(`${window.API_BASE_URL || 'http://localhost:4000/api'}/payouts`, {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const json = await res.json();
+                if (!res.ok) throw new Error(json.message || json.error || 'Failed to load payouts');
+
+                const payouts = (json.data && json.data.items) || json.payouts || [];
+
+                if (!payouts.length) {
+                    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:2rem;">No payouts found. Payouts will appear here after orders are placed.</td></tr>';
                     return;
                 }
-                
-                if (!payouts || payouts.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 2rem;">No payouts found. Payouts will appear here after orders are placed.</td></tr>';
-                    return;
-                }
-                
-                const payoutsWithVendors = await Promise.all(payouts.map(async (payout) => {
-                    if (payout.vendor_id) {
-                        const { data: vendor } = await window.supabase
-                            .from('vendors')
-                            .select('business_name')
-                            .eq('id', payout.vendor_id)
-                            .single();
-                        return { ...payout, vendor };
-                    }
-                    return { ...payout, vendor: null };
-                }));
-                
-                tbody.innerHTML = payoutsWithVendors.map(payout => {
-                    const vendorName = payout.vendor ? payout.vendor.business_name : 'Unknown Vendor';
+
+                tbody.innerHTML = payouts.map(payout => {
+                    const vendorName = payout.vendors ? payout.vendors.business_name : 'Unknown Vendor';
                     const statusClass = payout.payout_status === 'paid' ? 'status-completed' : 'status-pending';
                     const statusText = payout.payout_status === 'paid' ? 'Paid' : 'Pending';
                     const payoutDate = payout.payout_date ? new Date(payout.payout_date).toLocaleDateString() : '-';
                     const shortOrderId = payout.order_id ? payout.order_id.substring(0, 8) : '-';
-                    
-                    const actionButton = payout.payout_status === 'pending' 
+                    const action = payout.payout_status === 'pending'
                         ? `<button class="btn btn-primary btn-sm" onclick="markAsPaid('${payout.id}')">Mark as Paid</button>`
-                        : '<span style="color: #4caf50;">Paid</span>';
-                    
-                    return `
-                        <tr>
-                            <td>${vendorName}</td>
-                            <td>${shortOrderId}</td>
-                            <td>?${parseFloat(payout.gross_amount).toFixed(2)}</td>
-                            <td>?${parseFloat(payout.commission_amount).toFixed(2)}</td>
-                            <td><strong>?${parseFloat(payout.net_amount).toFixed(2)}</strong></td>
-                            <td><span class="status-badge ${statusClass}">${statusText}</span></td>
-                            <td>${payoutDate}</td>
-                            <td>${actionButton}</td>
-                        </tr>
-                    `;
+                        : '<span style="color:#4caf50;">Paid</span>';
+                    return `<tr>
+                        <td>${vendorName}</td>
+                        <td>${shortOrderId}</td>
+                        <td>₹${parseFloat(payout.gross_amount).toFixed(2)}</td>
+                        <td>₹${parseFloat(payout.commission_amount).toFixed(2)}</td>
+                        <td><strong>₹${parseFloat(payout.net_amount).toFixed(2)}</strong></td>
+                        <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                        <td>${payoutDate}</td>
+                        <td>${action}</td>
+                    </tr>`;
                 }).join('');
-
             } catch (error) {
                 console.error('Error loading payouts:', error);
-                tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 2rem; color: red;">Error loading payouts</td></tr>';
+                tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:2rem;color:red;">Error: ${error.message}<br><small>Please ensure the vendor_payouts table exists</small></td></tr>`;
             }
         }
-        
+
         async function markAsPaid(payoutId) {
-            if (!confirm('Mark this payout as paid?')) {
-                return;
-            }
-            
+            if (!confirm('Mark this payout as paid?')) return;
             try {
-                const { error } = await window.supabase
-                    .from('vendor_payouts')
-                    .update({
-                        payout_status: 'paid',
-                        payout_date: new Date().toISOString()
-                    })
-                    .eq('id', payoutId);
-                
-                if (error) {
-                    console.error('Error updating payout:', error);
-                    showToast('Failed to update payout status', 'error');
-                    return;
-                }
-                
-                showToast('Payout marked as paid successfully!');
+                const token = localStorage.getItem('token') || '';
+                const res = await fetch(`${window.API_BASE_URL || 'http://localhost:4000/api'}/payouts/${payoutId}/pay`, {
+                    method: 'PUT',
+                    headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' }
+                });
+                const json = await res.json();
+                if (!res.ok) throw new Error(json.message || json.error || 'Failed to update payout');
+                if (typeof showToast === 'function') showToast('Payout marked as paid successfully!');
                 await loadPayoutsTable();
-                
             } catch (error) {
                 console.error('Error marking payout as paid:', error);
-                showToast('Failed to update payout status', 'error');
+                if (typeof showToast === 'function') showToast('Failed to update payout status', 'error');
             }
         }
-        
+
         document.addEventListener('DOMContentLoaded', async () => {
             await checkAdminAuth();
             await loadPayoutsTable();

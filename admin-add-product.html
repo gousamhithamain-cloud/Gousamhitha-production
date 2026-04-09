@@ -169,50 +169,32 @@
         let categories = [];
         window.imageBase64 = '';
 
-        // Wait for Supabase to be ready
-        window.addEventListener('supabaseReady', async () => {
-            console.log('? Supabase ready, loading vendors and categories...');
+        // Load vendors and categories on DOM ready
+        document.addEventListener('DOMContentLoaded', async () => {
             await loadVendors();
             await loadCategories();
         });
-        
-        // Also try after a delay
-        setTimeout(async () => {
-            if (window.supabase) {
-                await loadVendors();
-                await loadCategories();
-            }
-        }, 1000);
 
         async function loadVendors() {
             const vendorSelect = document.getElementById('product-vendor');
             if (!vendorSelect) return;
-            
             try {
-                const { data: vendors, error } = await window.supabase
-                    .from('vendors')
-                    .select('id, vendor_name, business_name')
-                    .eq('status', 'active')
-                    .order('vendor_name');
-                
-                if (error) {
-                    console.error('Error loading vendors:', error);
-                    return;
-                }
-                
+                const token = localStorage.getItem('token') || '';
+                const res = await fetch(`${window.API_BASE_URL || 'http://localhost:4000/api'}/vendors`, {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const json = await res.json();
+                const vendors = (json.data && json.data.items) || json.vendors || [];
                 vendorSelect.innerHTML = '<option value="">Select Vendor</option>' +
-                    (vendors || []).map(v => `<option value="${v.id}">${v.vendor_name} - ${v.business_name}</option>`).join('');
-                
-                console.log('? Loaded', vendors.length, 'vendors');
+                    vendors.map(v => `<option value="${v.id}">${v.vendor_name || v.name} - ${v.business_name || ''}</option>`).join('');
+                console.log('✅ Loaded', vendors.length, 'vendors');
             } catch (error) {
                 console.error('Error loading vendors:', error);
             }
         }
 
         async function loadCategories() {
-            // For now, categories are hardcoded in the HTML
-            // You can extend this to load from database if needed
-            console.log('? Categories loaded from dropdown');
+            console.log('✅ Categories loaded from dropdown');
         }
 
         function toggleCategoryManagement() {
@@ -223,40 +205,21 @@
         function previewImage(event) {
             const file = event.target.files[0];
             if (!file) return;
-            
-            // Show loading message
             const preview = document.getElementById('image-preview');
             preview.innerHTML = '<div style="padding: 1rem; color: #666;">Compressing image...</div>';
-            
-            // Compress image before preview
             if (window.ImageCompressor) {
-                window.ImageCompressor.compress(file, {
-                    maxWidth: 800,
-                    maxHeight: 800,
-                    quality: 0.8
-                }).then(compressedBase64 => {
-                    window.imageBase64 = compressedBase64;
-                    preview.innerHTML = `<img src="${compressedBase64}" alt="Preview" style="max-width: 300px; border-radius: 8px; margin-top: 10px;">`;
-                }).catch(error => {
-                    console.error('Image compression failed:', error);
-                    preview.innerHTML = '<div style="padding: 1rem; color: #d32f2f;">Failed to compress image</div>';
-                });
+                window.ImageCompressor.compress(file, { maxWidth: 800, maxHeight: 800, quality: 0.8 })
+                    .then(b64 => { window.imageBase64 = b64; preview.innerHTML = `<img src="${b64}" alt="Preview" style="max-width:300px;border-radius:8px;margin-top:10px;">`; })
+                    .catch(() => { preview.innerHTML = '<div style="padding:1rem;color:#d32f2f;">Failed to compress image</div>'; });
             } else {
-                // Fallback to uncompressed if compressor not loaded
                 const reader = new FileReader();
-                reader.onload = function(e) {
-                    window.imageBase64 = e.target.result;
-                    preview.innerHTML = `<img src="${e.target.result}" alt="Preview" style="max-width: 300px; border-radius: 8px; margin-top: 10px;">`;
-                };
+                reader.onload = e => { window.imageBase64 = e.target.result; preview.innerHTML = `<img src="${e.target.result}" alt="Preview" style="max-width:300px;border-radius:8px;margin-top:10px;">`; };
                 reader.readAsDataURL(file);
             }
         }
 
-        // Handle Add Product form submission
         window.handleAddProduct = async function(event) {
             event.preventDefault();
-            console.log('?? FORM SUBMITTED - handleAddProduct called');
-            
             const name = document.getElementById('product-name').value.trim();
             const category = document.getElementById('product-category').value;
             const subcategory = document.getElementById('product-subcategory').value.trim();
@@ -265,94 +228,63 @@
             const unit = document.getElementById('product-unit').value;
             const unitQuantity = parseFloat(document.getElementById('product-unit-quantity').value);
             const description = document.getElementById('product-description').value.trim();
-            const vendorSelect = document.getElementById('product-vendor');
-            const vendorId = vendorSelect ? vendorSelect.value : '';
+            const vendorId = document.getElementById('product-vendor')?.value || '';
             const messageEl = document.getElementById('form-message');
-            
-            console.log('Form values:', { name, category, price, stock, vendorId });
-            
+
             if (!name || !category || !price || !stock || !unit || !unitQuantity) {
                 messageEl.textContent = 'Please fill in all required fields';
                 messageEl.className = 'form-message error';
                 return;
             }
-            
-            if (!window.supabase) {
-                messageEl.textContent = 'Database not connected. Please refresh.';
-                messageEl.className = 'form-message error';
-                return;
-            }
-            
+
             messageEl.textContent = 'Adding product...';
             messageEl.className = 'form-message';
-            
+
             const newProduct = {
-                name,
-                category,
+                name, category,
                 subcategory: subcategory || null,
-                price,
-                stock,
-                unit,
+                price, stock, unit,
                 unit_quantity: unitQuantity,
                 display_unit: unitQuantity + unit,
-                image_url: window.imageBase64 || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100"%3E%3Crect fill="%23ddd" width="100" height="100"/%3E%3Ctext fill="%23999" x="50%25" y="50%25" text-anchor="middle" dy=".3em"%3ENo Image%3C/text%3E%3C/svg%3E',
-                description: description || null
-                // in_stock is auto-generated, don't include it
+                image_url: window.imageBase64 || null,
+                description: description || null,
+                ...(vendorId && vendorId.includes('-') ? { vendor_id: vendorId } : {})
             };
-            
-            if (vendorId && vendorId.includes('-')) {
-                newProduct.vendor_id = vendorId;
-            }
-            
-            console.log('Inserting product:', newProduct);
-            
+
             try {
-                const { data, error } = await window.supabase
-                    .from('products')
-                    .insert([newProduct])
-                    .select();
-                
-                console.log('Insert result:', { data, error });
-                
-                if (error) {
-                    console.error('Supabase error:', error);
-                    messageEl.textContent = 'Error: ' + error.message;
-                    messageEl.className = 'form-message error';
-                    return;
-                }
-                
-                console.log('? Product added:', data[0]);
+                const token = localStorage.getItem('token') || '';
+                const res = await fetch(`${window.API_BASE_URL || 'http://localhost:4000/api'}/products`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+                    body: JSON.stringify(newProduct)
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.message || data.error || 'Failed to add product');
+
                 messageEl.textContent = 'Product added successfully! Redirecting...';
                 messageEl.className = 'form-message success';
-                
                 document.getElementById('add-product-form').reset();
                 document.getElementById('image-preview').innerHTML = '';
                 window.imageBase64 = '';
-                
-                setTimeout(() => {
-                    window.location.href = 'admin-products.html';
-                }, 1500);
+                setTimeout(() => { window.location.href = 'admin-products.html'; }, 1500);
             } catch (e) {
-                console.error('Exception:', e);
-                messageEl.textContent = 'Error adding product';
+                console.error('Error adding product:', e);
+                messageEl.textContent = 'Error: ' + e.message;
                 messageEl.className = 'form-message error';
             }
         };
 
         async function adminLogout() {
-            const confirmLogout = confirm('Are you sure you want to logout?');
-            if (confirmLogout) {
-                try {
-                    const { error } = await window.supabase.auth.signOut();
-                    if (error) throw error;
-                    
-                    localStorage.clear();
-                    
-                    window.location.replace('./index.html');
-                } catch (error) {
-                    console.error('Logout error:', error);
-                    alert('Failed to logout. Please try again.');
-                }
+            if (!confirm('Are you sure you want to logout?')) return;
+            try {
+                const token = localStorage.getItem('token') || '';
+                await fetch(`${window.API_BASE_URL || 'http://localhost:4000/api'}/auth/signout`, {
+                    method: 'POST',
+                    headers: { 'Authorization': 'Bearer ' + token }
+                }).catch(() => {});
+            } finally {
+                localStorage.clear();
+                window.location.replace('./index.html');
             }
         }
     </script>

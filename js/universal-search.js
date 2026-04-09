@@ -111,20 +111,14 @@ class UniversalSearch {
         `;
         dropdown.style.display = 'block';
 
-        // Wait for Supabase
-        let attempts = 0;
-        while (!window.supabase && attempts < 20) {
-            await new Promise(r => setTimeout(r, 100));
-            attempts++;
-        }
-
         if (!query || query.length < 2) return;
         
         try {
             const res = await fetch(`${window.API_BASE_URL || 'http://localhost:4000/api'}/products?search=${encodeURIComponent(query)}`);
             const json = await res.json();
+            const products = (json.data && json.data.items) || json.products || [];
             const seen = new Set();
-            const unique = (json.products || []).filter(p => {
+            const unique = products.filter(p => {
                 if (seen.has(p.name)) return false;
                 seen.add(p.name);
                 return true;

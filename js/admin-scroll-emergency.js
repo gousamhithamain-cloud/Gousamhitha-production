@@ -8,6 +8,8 @@
     
     // Immediate scrolling fix
     function forceScrollingEnabled() {
+        if (!document.body) return; // Guard against running before body exists
+
         // Force body scrolling
         document.body.style.overflowY = 'auto';
         document.body.style.overflowX = 'hidden';

@@ -301,17 +301,14 @@ class AdminMobile {
         
         requiredElements.forEach(id => {
             if (!document.getElementById(id)) {
-                console.warn(`⚠️ Missing required element: ${id}`);
-                // Create placeholder element to prevent JavaScript errors
-                const placeholder = document.createElement('tbody');
-                placeholder.id = id;
-                placeholder.innerHTML = '<tr><td colspan="7" style="text-align: center;">Loading...</td></tr>';
-                
-                // Try to find parent table and append
+                // Only warn if there's actually a table on this page
                 const tables = document.querySelectorAll('.admin-table');
                 if (tables.length > 0) {
+                    // Create placeholder only if a table exists but is missing this tbody
+                    const placeholder = document.createElement('tbody');
+                    placeholder.id = id;
+                    placeholder.style.display = 'none'; // hidden placeholder
                     tables[0].appendChild(placeholder);
-                    console.log(`✅ Created placeholder for ${id}`);
                 }
             }
         });

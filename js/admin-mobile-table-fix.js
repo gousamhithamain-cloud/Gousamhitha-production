@@ -49,22 +49,24 @@ class AdminMobileTableFix {
     }
     
     observeTableChanges() {
-        if (typeof MutationObserver !== 'undefined') {
+        if (typeof MutationObserver === 'undefined') return;
+
+        const startObserving = () => {
+            if (!document.body) return;
             const observer = new MutationObserver((mutations) => {
                 mutations.forEach((mutation) => {
                     if (mutation.type === 'childList') {
-                        // Re-check required elements when DOM changes
-                        setTimeout(() => {
-                            this.ensureRequiredElements();
-                        }, 100);
+                        setTimeout(() => { this.ensureRequiredElements(); }, 100);
                     }
                 });
             });
-            
-            observer.observe(document.body, {
-                childList: true,
-                subtree: true
-            });
+            observer.observe(document.body, { childList: true, subtree: true });
+        };
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', startObserving);
+        } else {
+            startObserving();
         }
     }
 }

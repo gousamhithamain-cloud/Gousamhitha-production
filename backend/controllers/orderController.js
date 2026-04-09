@@ -83,6 +83,9 @@ const createOrder = asyncHandler(async (req, res) => {
         payment_method = 'COD', items
     } = req.body;
 
+    console.log('📦 Creating order for user:', user_id);
+    console.log('📦 Items count:', items ? items.length : 0);
+
     // Verify all products exist and stock is available
     for (const item of items) {
         const { data: product } = await supabase
@@ -100,55 +103,83 @@ const createOrder = asyncHandler(async (req, res) => {
         }
     }
 
-    // Create order - using actual database column names
+    const orderTotal = total || ((subtotal || 0) + (delivery_charge || 0));
+    const finalAddress = address || delivery_address || '';
+
+    // Build insert object - try both column name variants
+    const orderInsert = {
+        customer_name,
+        email,
+        phone,
+        delivery_address: finalAddress,
+        city,
+        pincode,
+        notes: notes || null,
+        total: orderTotal,
+        delivery_charges: delivery_charge || 0,
+        payment_method,
+        status: 'Pending',
+        payment_status: 'pending'
+    };
+
+    // Add user_id - try both column names
+    orderInsert.user_id = user_id;
+
+    console.log('📦 Order insert payload:', JSON.stringify(orderInsert, null, 2));
+
     const { data: order, error: orderErr } = await supabase
         .from('orders')
-        .insert({
-            user_id,
-            customer_name,
-            email,
-            phone,
-            address: address || delivery_address,
-            delivery_address: delivery_address || address,
-            city,
-            pincode,
-            notes,
-            total: total || (subtotal + delivery_charge),
-            payment_method,
-            status: 'Pending',
-            payment_status: 'Pending'
-        })
+        .insert(orderInsert)
         .select()
         .single();
 
     if (orderErr) {
-        throw new AppError('Failed to create order', 500);
+        console.error('❌ Order insert error:', JSON.stringify(orderErr, null, 2));
+        // If user_id column doesn't exist, try customer_id
+        if (orderErr.message && orderErr.message.includes('user_id')) {
+            delete orderInsert.user_id;
+            orderInsert.customer_id = user_id;
+            const { data: order2, error: orderErr2 } = await supabase
+                .from('orders')
+                .insert(orderInsert)
+                .select()
+                .single();
+            if (orderErr2) {
+                console.error('❌ Order insert error (retry):', JSON.stringify(orderErr2, null, 2));
+                throw new AppError('Failed to create order: ' + orderErr2.message, 500);
+            }
+            return await finishOrder(res, order2, items, user_id);
+        }
+        throw new AppError('Failed to create order: ' + orderErr.message, 500);
     }
 
-    // Create order items - using actual database column names
+    return await finishOrder(res, order, items, user_id);
+});
+
+async function finishOrder(res, order, items, user_id) {
     const orderItems = items.map(item => ({
         order_id: order.id,
         product_id: item.product_id,
         product_name: item.product_name,
         quantity: item.quantity,
-        price: item.price,
-        subtotal: item.quantity * item.price
+        price: item.price
     }));
 
     const { error: itemsErr } = await supabase.from('order_items').insert(orderItems);
     if (itemsErr) {
-        // Rollback: delete the order
+        console.error('❌ Order items insert error:', JSON.stringify(itemsErr, null, 2));
         await supabase.from('orders').delete().eq('id', order.id);
-        throw new AppError('Failed to create order items', 500);
+        throw new AppError('Failed to create order items: ' + itemsErr.message, 500);
     }
 
-    // Clear user's cart after successful order
+    // Clear user's cart
     await supabase.from('cart').delete().eq('user_id', user_id).catch(err => {
         console.error('Warning: Failed to clear cart:', err.message);
     });
 
+    console.log('✅ Order created successfully:', order.id);
     return createdResponse(res, order, 'Order created successfully');
-});
+}
 
 // PUT /api/orders/:id/status  (admin only)
 const updateOrderStatus = asyncHandler(async (req, res) => {

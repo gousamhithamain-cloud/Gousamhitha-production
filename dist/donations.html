@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>My Donations - Gousamhitha</title>    <link rel="manifest" href="/assets/manifest-B_Qy2N-V.json">    
+    
+      <link rel="stylesheet" crossorigin href="/assets/styles-O17alO4O.css">
+      <link rel="stylesheet" crossorigin href="/assets/responsive-D5bG5O3T.css">
+    </head>
+<body>
+    <div class="page-header">
+        <h1>My Donations</h1>
+        <p>Thank you for supporting the Gowshala</p>
+    </div>
+
+    <section class="content-section">
+        <div class="container">
+            <div id="donations-list" style="max-width: 800px; margin: 0 auto;">
+                
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function loadDonations() {
+            const donations = JSON.parse(localStorage.getItem('donations')) || [];
+            const container = document.getElementById('donations-list');
+            
+            if (donations.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 3rem;">
+                        <p style="color: #666; font-size: 1.1rem;">No donations yet</p>
+                        <a href="gowshala.html" class="btn btn-primary" style="margin-top: 1rem;">Make a Donation</a>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = donations.map(donation => `
+                <div style="background: white; padding: 1.5rem; margin-bottom: 1rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div style="font-weight: 600; font-size: 1.1rem; color: #2e7d32;">?${donation.amount}</div>
+                            <div style="color: #666; margin-top: 0.25rem;">${donation.name}</div>
+                            <div style="color: #999; font-size: 0.9rem; margin-top: 0.25rem;">${donation.date}</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="background: #4a7c59; color: white; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;">
+                                ${donation.paymentMethod}
+                            </div>
+                            <div style="color: #4a7c59; font-weight: 600; margin-top: 0.5rem;">Completed</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        document.addEventListener('DOMContentLoaded', loadDonations);
+    </script>
+
+    <!-- Scripts already loaded in head: js/config.js and Supabase CDN -->
+    <script src="js/auth-handler.js"></script>
+    <script src="js/add-mobile-menu.js"></script>
+    <script src="js/mobile-menu.js?v=2"></script>
+    <script src="js/lazy-load.js"></script>
+</body>
+</html>

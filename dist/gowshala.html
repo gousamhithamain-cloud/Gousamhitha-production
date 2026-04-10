@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gowshala - Gousamhitha</title>    <link rel="manifest" href="/assets/manifest-B_Qy2N-V.json">    
+    <style>
+        .gowshala-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        
+        .page-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #2e7d32;
+            margin-bottom: 3rem;
+        }
+        
+        .content-section {
+            background: white;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+        
+        .content-section h2 {
+            color: #2e7d32;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .content-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 2rem;
+        }
+        
+        .image-placeholder {
+            width: 100%;
+            height: 400px;
+            background: #f0f0f0;
+            border: 2px dashed #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 1.2rem;
+            border-radius: 8px;
+        }
+        
+        .donation-section {
+            background: linear-gradient(135deg, #4a7c59 0%, #2e7d32 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 3rem;
+        }
+        
+        .donation-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .donation-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .donate-button {
+            display: inline-block;
+            padding: 1rem 3rem;
+            background: white;
+            color: #2e7d32;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .donate-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+    </style>
+  <link rel="stylesheet" crossorigin href="/assets/styles-O17alO4O.css">
+  <link rel="stylesheet" crossorigin href="/assets/responsive-D5bG5O3T.css">
+</head>
+<body>
+    
+    <div class="top-strip">
+        <div class="container">
+            <p>Next day delivery available for select products | Minimum order applies</p>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                
+                <div class="logo-section">
+                    <a href="index.html" style="text-decoration: none; color: inherit;">
+                        <div class="logo">Gousamhitha</div>
+                        <div class="logo-subtitle">Organic Products Store</div>
+                    </a>
+                </div>
+
+                <div class="search-section">
+                    <input type="text" placeholder="Search for organic products..." class="main-search-bar">
+                    <button class="search-btn">Search</button>
+                </div>
+
+                <div class="nav-items">
+                    <a href="how-to-use.html" class="nav-item">
+                        <span class="nav-label">New To Gousamhitha</span>
+                    </a>
+                    <a href="orders.html" class="nav-item">
+                        <span class="nav-label">My Orders</span>
+                    </a>
+                    
+                    <a href="#" class="nav-item profile-icon-btn" id="profile-btn" onclick="openAuthModal()">
+                        <div class="profile-icon-placeholder">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2"/>
+                                <path d="M6.5 18.5C7.5 16.5 9.5 15 12 15C14.5 15 16.5 16.5 17.5 18.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                    </a>
+                    
+                    <!-- Cart Button -->
+                    <a href="cart.html" class="nav-item cart-btn" id="cart-btn" style="display: flex !important; align-items: center; gap: 8px; padding: 8px 12px; background: #4a7c59; color: white; border-radius: 8px; text-decoration: none; font-weight: 500; transition: all 0.3s ease;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        <span class="cart-text">Cart</span>
+                        <span class="cart-count-badge" id="nav-cart-count" style="background: #fff; color: #4a7c59; padding: 2px 6px; border-radius: 10px; font-size: 12px; font-weight: 600; min-width: 18px; text-align: center;">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="secondary-nav">
+        <div class="container">
+            <div class="secondary-nav-links">
+                <a href="index.html">Home</a>
+                <a href="shop.html">Shop</a>
+                <a href="about.html">About</a>
+                <a href="gowshala.html" class="active">Gowshala</a>
+                <a href="contact.html">Contact</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="gowshala-container">
+        <h1 class="page-title">Gowshala</h1>
+
+        <div class="content-section">
+            <h2>Importance of Gow Matha</h2>
+            <p>In Indian tradition, Gow Matha (the cow) is respected as a symbol of care, nourishment, and harmony with nature. For generations, cows have supported rural families by providing milk, natural manure for farming, and resources that help maintain ecological balance. Protecting cows is considered both a cultural value and a responsibility that connects people to sustainable living and agriculture.</p>
+            <img src="/assets/gowmatha-importance-CKdtyAMG.jpeg" alt="Importance of Gow Matha" style="width: 100%; border-radius: 8px; margin-top: 1rem;">
+        </div>
+
+        <div class="content-section">
+            <h2>Gowshala Production</h2>
+            <p>The Gowshala follows traditional and natural methods to care for cows and produce dairy products. Milk, ghee, and other resources are obtained in a way that ensures the well-being of the animals. Cow dung is used for organic farming, and natural practices are followed to maintain cleanliness and health within the Gowshala environment.</p>
+            <img src="/assets/gowshala-production-CEC3Kc9Y.jpeg" alt="Gowshala Production" style="width: 100%; border-radius: 8px; margin-top: 1rem;">
+        </div>
+
+        <div class="content-section">
+            <h2>Support and Donation</h2>
+            <p>Supporting the Gowshala helps provide food, shelter, and medical care for the cows. Contributions also help preserve indigenous breeds and promote natural farming practices. Every small contribution supports the mission of protecting animals and encouraging sustainable agriculture for future generations.</p>
+            <img src="/assets/donation-gowshala-Bweyf0Nd.jpeg" alt="Support and Donation" style="width: 100%; border-radius: 8px; margin-top: 1rem;">
+        </div>
+
+        <div class="donation-section">
+            <h2>Support the Gowshala</h2>
+            <p>Your generous contribution helps us provide food, shelter, and medical care for our cows. It also supports the preservation of indigenous breeds and promotes natural farming practices. Together, we can protect these sacred animals and encourage sustainable agriculture for future generations.</p>
+            <button class="donate-button" onclick="openDonationForm()">Donate Now</button>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About Our Store</h3>
+                    <p>We provide 100% organic products sourced from traditional farms, ensuring purity and quality in every product.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p>Phone: +91 9908003289</p>
+                    <p>Email: info@gousamhitha.com</p>
+                    <p>Address: Plot no 118, Kavuri Hills Phase 1, Madhapur, Hyderabad</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-links">
+                        <a href="#">Facebook</a>
+                        <a href="#">Instagram</a>
+                        <a href="#">Twitter</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Gousamhitha. All rights reserved. | <a href="privacy-policy.html" style="color:#a5d6a7;">Privacy Policy</a> | <a href="terms.html" style="color:#a5d6a7;">Terms &amp; Conditions</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="auth-modal" id="donation-form-modal" style="display: none;">
+        <div class="auth-modal-content" style="max-width: 400px;">
+            <span class="auth-close" onclick="closeDonationForm()">&times;</span>
+            
+            <div style="padding: 2rem;">
+                <h2 style="color: #2e7d32; margin-bottom: 1.5rem; text-align: center;">Make a Donation</h2>
+                
+                <form id="donation-form" onsubmit="handleDonation(event)">
+                    <div class="form-group">
+                        <label>Your Name *</label>
+                        <input type="text" id="donor-name" required placeholder="Enter your name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Donation Amount (?) *</label>
+                        <input type="number" id="donation-amount" required min="1" placeholder="Enter amount">
+                    </div>
+                    
+                    <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                        <button type="button" class="btn btn-secondary" style="flex: 1;" onclick="setDonationAmount(500)">&#8377;500</button>
+                        <button type="button" class="btn btn-secondary" style="flex: 1;" onclick="setDonationAmount(1000)">&#8377;1000</button>
+                        <button type="button" class="btn btn-secondary" style="flex: 1;" onclick="setDonationAmount(2000)">&#8377;2000</button>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Proceed to Payment</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="payment.js"></script>
+    <script src="js/upi-payment-system.js"></script>
+    <script src="js/scan-payment-fix.js"></script>
+    <script src="js/auth-handler.js"></script>
+    <!-- ✅ SECURE: Removed data-manager.js - use js/api-client.js instead -->
+    <script src="js/api-client.js"></script>
+    <script src="script.js"></script>
+    <script>
+        function openDonationForm() {
+            document.getElementById('donation-form-modal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeDonationForm() {
+            document.getElementById('donation-form-modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        function setDonationAmount(amount) {
+            document.getElementById('donation-amount').value = amount;
+        }
+        
+        function handleDonation(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('donor-name').value;
+            const amount = parseFloat(document.getElementById('donation-amount').value);
+            
+            if (!name || !amount || amount <= 0) {
+                if (typeof showToast === 'function') {
+                    showToast('Please enter valid details', 'error');
+                } else {
+                    alert('Please enter valid details');
+                }
+                return;
+            }
+            
+            closeDonationForm();
+            
+            // Store donor name for completion
+            sessionStorage.setItem('donorName', name);
+            
+            // Use new UPI payment system
+            if (window.upiPaymentSystem) {
+                window.upiPaymentSystem.processDonationPayment(amount);
+            } else {
+                // Fallback to old system
+                const donationData = {
+                    name: name,
+                    amount: amount
+                };
+                openDonationPayment(donationData);
+            }
+        }
+    </script>
+    <script src="js/toast.js"></script>
+    <script src="js/add-mobile-menu.js"></script>
+    <script src="js/mobile-menu.js?v=2"></script>
+    <script src="js/lazy-load.js"></script>
+</body>
+</html>

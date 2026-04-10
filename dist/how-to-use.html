@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>How to Use Gousamhitha - Customer Guide</title>    <link rel="manifest" href="/assets/manifest-B_Qy2N-V.json">    
+    <style>
+        .guide-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        
+        .guide-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, #4a7c59 0%, #2e7d32 100%);
+            color: white;
+            border-radius: 15px;
+        }
+        
+        .guide-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .guide-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .guide-section {
+            background: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+        
+        .guide-section h2 {
+            color: #2e7d32;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #4a7c59;
+        }
+        
+        .guide-section h3 {
+            color: #4a7c59;
+            font-size: 1.3rem;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .step-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .step-list li {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: #f9f9f9;
+            border-left: 4px solid #4a7c59;
+            border-radius: 5px;
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: #4a7c59;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 1rem;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .feature-card {
+            padding: 1.5rem;
+            background: #f0f7f0;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card h4 {
+            color: #2e7d32;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tip-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+        }
+        
+        .tip-box strong {
+            color: #856404;
+        }
+        
+        .cta-section {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: linear-gradient(135deg, #4a7c59 0%, #2e7d32 100%);
+            color: white;
+            border-radius: 15px;
+            margin-top: 3rem;
+        }
+        
+        .cta-section h2 {
+            margin-bottom: 1rem;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: white;
+            color: #2e7d32;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            margin-top: 1rem;
+            transition: transform 0.3s;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+        }
+    </style>
+  <link rel="stylesheet" crossorigin href="/assets/styles-O17alO4O.css">
+  <link rel="stylesheet" crossorigin href="/assets/responsive-D5bG5O3T.css">
+</head>
+<body>
+    
+    <div class="top-strip">
+        <div class="container">
+            <p>Next day delivery available for select products | Minimum order applies</p>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                
+                <div class="logo-section">
+                    <a href="index.html" style="text-decoration: none; color: inherit;">
+                        <div class="logo">Gousamhitha</div>
+                        <div class="logo-subtitle">Organic Products Store</div>
+                    </a>
+                </div>
+
+                <div class="search-section">
+                    <input type="text" placeholder="Search for organic products..." class="main-search-bar">
+                    <button class="search-btn">Search</button>
+                </div>
+
+                <div class="nav-items">
+                    <a href="how-to-use.html" class="nav-item">
+                        <span class="nav-label">New To Gousamhitha</span>
+                    </a>
+                    <a href="orders.html" class="nav-item">
+                        <span class="nav-label">My Orders</span>
+                    </a>
+                    
+                    <a href="#" class="nav-item profile-icon-btn" id="profile-btn" onclick="openAuthModal()">
+                        <div class="profile-icon-placeholder">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2"/>
+                                <path d="M6.5 18.5C7.5 16.5 9.5 15 12 15C14.5 15 16.5 16.5 17.5 18.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                    </a>
+                    
+                    <!-- Cart Button -->
+                    <a href="cart.html" class="nav-item cart-btn" id="cart-btn" style="display: flex !important; align-items: center; gap: 8px; padding: 8px 12px; background: #4a7c59; color: white; border-radius: 8px; text-decoration: none; font-weight: 500; transition: all 0.3s ease;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        <span class="cart-text">Cart</span>
+                        <span class="cart-count-badge" id="nav-cart-count" style="background: #fff; color: #4a7c59; padding: 2px 6px; border-radius: 10px; font-size: 12px; font-weight: 600; min-width: 18px; text-align: center;">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="secondary-nav">
+        <div class="container">
+            <div class="secondary-nav-links">
+                <a href="index.html">Home</a>
+                <a href="shop.html">Shop</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+                <a href="gowshala.html">Gowshala</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="guide-container">
+        <div class="guide-header">
+            <h1>Welcome to Gousamhitha!</h1>
+            <p>Your complete guide to shopping for 100% organic products</p>
+        </div>
+
+        <div class="guide-section">
+            <h2>Getting Started</h2>
+            <p>Welcome to Gousamhitha! We're excited to have you here. This guide will help you navigate our platform and make the most of your organic shopping experience.</p>
+            
+            <h3>What We Offer</h3>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"></div>
+                    <h4>Pure A2 Products</h4>
+                    <p>Ghee, milk, and dairy from desi cows</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"></div>
+                    <h4>100% Organic</h4>
+                    <p>Chemical-free, traditional methods</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"></div>
+                    <h4>Fast Delivery</h4>
+                    <p>Next-day delivery available</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"></div>
+                    <h4>Quality Assured</h4>
+                    <p>Sourced from trusted farms</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="guide-section">
+            <h2>How to Shop</h2>
+            
+            <h3>Step-by-Step Shopping Guide</h3>
+            <ul class="step-list">
+                <li>
+                    <span class="step-number">1</span>
+                    <strong>Create an Account</strong><br>
+                    Click "Login" in the top navigation, then select "Sign Up" to create your account. You'll need your email and mobile number.
+                </li>
+                <li>
+                    <span class="step-number">2</span>
+                    <strong>Browse Products</strong><br>
+                    Explore our categories from the menu or use the search bar to find specific products. Each product shows vendor information and availability.
+                </li>
+                <li>
+                    <span class="step-number">3</span>
+                    <strong>View Product Details</strong><br>
+                    Click on any product to see detailed information, including vendor name, business details, price, and stock availability.
+                </li>
+                <li>
+                    <span class="step-number">4</span>
+                    <strong>Add to Cart</strong><br>
+                    Click "Add to Cart" on products you want to purchase. You can buy from multiple vendors in one order!
+                </li>
+                <li>
+                    <span class="step-number">5</span>
+                    <strong>Review Your Cart</strong><br>
+                    Click the "Cart" icon to review your items, adjust quantities, or remove products.
+                </li>
+                <li>
+                    <span class="step-number">6</span>
+                    <strong>Checkout</strong><br>
+                    Proceed to checkout, enter your delivery address, and complete your payment.
+                </li>
+                <li>
+                    <span class="step-number">7</span>
+                    <strong>Track Your Order</strong><br>
+                    Go to "My Orders" to track your delivery status and view order history.
+                </li>
+            </ul>
+
+            <div class="tip-box">
+                <strong>Tip:</strong> Products from different vendors will be delivered separately. Each vendor manages their own delivery schedule.
+            </div>
+        </div>
+
+        <div class="guide-section">
+            <h2>Understanding Product Information</h2>
+            
+            <h3>What You'll See on Product Cards</h3>
+            <ul class="step-list">
+                <li>
+                    <strong>Vendor Name:</strong> The name of the vendor selling the product
+                </li>
+                <li>
+                    <strong>Business Name:</strong> The vendor's business or farm name
+                </li>
+                <li>
+                    <strong>Price:</strong> Product price in Indian Rupees (?)
+                </li>
+                <li>
+                    <strong>Availability:</strong> "In Stock" or "Out of Stock" status
+                </li>
+                <li>
+                    <strong>Product Image:</strong> High-quality photo of the product
+                </li>
+            </ul>
+
+            <div class="tip-box">
+                <strong>Tip:</strong> Green "In Stock" badge means the product is available for immediate purchase. Out of stock items cannot be added to cart.
+            </div>
+        </div>
+
+        <div class="guide-section">
+            <h2>Managing Your Account</h2>
+            
+            <h3>Your Profile</h3>
+            <p>After logging in, you can:</p>
+            <ul class="step-list">
+                <li>View and edit your profile information</li>
+                <li>Manage delivery addresses</li>
+                <li>View order history</li>
+                <li>Track current orders</li>
+                <li>Save favorite products</li>
+            </ul>
+
+            <h3>Order Tracking</h3>
+            <p>Track your orders through these statuses:</p>
+            <ul class="step-list">
+                <li><strong>Pending:</strong> Order received, awaiting vendor confirmation</li>
+                <li><strong>Confirmed:</strong> Vendor has confirmed your order</li>
+                <li><strong>Packed:</strong> Your order is being prepared</li>
+                <li><strong>Shipped:</strong> Order is on the way</li>
+                <li><strong>Delivered:</strong> Order successfully delivered</li>
+            </ul>
+        </div>
+
+        <div class="guide-section">
+            <h2>Product Categories</h2>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>Bakery & Dairy</h4>
+                    <p>Ghee, Butter, Paneer, Bread</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Conscious Living</h4>
+                    <p>Gomutra, Herbal Products</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Home Food</h4>
+                    <p>Traditional Foods, Pickles</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Special Categories</h4>
+                    <p>Combo Packs, Offers</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Snacks & More</h4>
+                    <p>Buttermilk, Traditional Snacks</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Daily Staples</h4>
+                    <p>Rice, Pulses, Oils, Spices</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="guide-section">
+            <h2>Payment & Delivery</h2>
+            
+            <h3>Payment Methods</h3>
+            <p>We accept various payment methods for your convenience:</p>
+            <ul class="step-list">
+                <li>Credit/Debit Cards</li>
+                <li>UPI Payments</li>
+                <li>Net Banking</li>
+                <li>Cash on Delivery (COD)</li>
+            </ul>
+
+            <h3>Delivery Information</h3>
+            <ul class="step-list">
+                <li><strong>Next-Day Delivery:</strong> Available for select products</li>
+                <li><strong>Standard Delivery:</strong> 2-5 business days</li>
+                <li><strong>Minimum Order:</strong> Check product pages for details</li>
+                <li><strong>Delivery Charges:</strong> Calculated at checkout</li>
+            </ul>
+
+            <div class="tip-box">
+                <strong>Tip:</strong> Orders from multiple vendors may arrive on different days as each vendor manages their own delivery schedule.
+            </div>
+        </div>
+
+        <div class="guide-section">
+            <h2>Frequently Asked Questions</h2>
+            
+            <h3>Can I order from multiple vendors at once?</h3>
+            <p>Yes! You can add products from different vendors to your cart and checkout together. Each vendor will process and deliver their items separately.</p>
+
+            <h3>How do I know which vendor is selling a product?</h3>
+            <p>Every product card displays the vendor name and business name clearly. You can see this information before adding items to your cart.</p>
+
+            <h3>What if a product is out of stock?</h3>
+            <p>Out of stock products will show an "Out of Stock" badge and cannot be added to cart. Check back later or contact the vendor for restock information.</p>
+
+            <h3>How do I track my order?</h3>
+            <p>Go to "My Orders" in the navigation menu. You'll see all your orders with current status and tracking information.</p>
+
+            <h3>Can I cancel my order?</h3>
+            <p>You can cancel orders before they are shipped. Go to "My Orders" and select the order you want to cancel.</p>
+
+            <h3>What is A2 Ghee?</h3>
+            <p>A2 Ghee is made from milk of desi cows that produce A2 beta-casein protein. It's considered healthier and easier to digest than regular ghee.</p>
+        </div>
+
+        <div class="guide-section">
+            <h2>Need Help?</h2>
+            
+            <p>Our customer support team is here to help you!</p>
+            
+            <ul class="step-list">
+                <li>
+                    <strong>Phone:</strong> +91 9908003289<br>
+                    <small>Monday to Saturday, 9 AM - 6 PM</small>
+                </li>
+                <li>
+                    <strong>Email:</strong> info@gousamhitha.com<br>
+                    <small>We respond within 24 hours</small>
+                </li>
+                <li>
+                    <strong>Address:</strong> Plot no 118, Kavuri Hills Phase 1, Madhapur, Hyderabad<br>
+                    <small>Visit us for farm tours!</small>
+                </li>
+            </ul>
+        </div>
+
+        <div class="cta-section">
+            <h2>Ready to Start Shopping?</h2>
+            <p>Explore our range of 100% organic products and experience the goodness of nature!</p>
+            <a href="shop.html" class="cta-button">Browse Products</a>
+            <a href="index.html" class="cta-button" style="margin-left: 1rem;">Go to Homepage</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About Our Store</h3>
+                    <p>We provide 100% organic products sourced from traditional farms, ensuring purity and quality in every product.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p>Phone: +91 9908003289</p>
+                    <p>Email: info@gousamhitha.com</p>
+                    <p>Address: Plot no 118, Kavuri Hills Phase 1, Madhapur, Hyderabad</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-links">
+                        <a href="#">Facebook</a>
+                        <a href="#">Instagram</a>
+                        <a href="#">Twitter</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Gousamhitha. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/auth-handler.js"></script>
+    <!-- ✅ SECURE: Removed data-manager.js - use js/api-client.js instead -->
+    <script src="js/api-client.js"></script>
+    <script src="script.js"></script>
+    <script src="js/add-mobile-menu.js"></script>
+    <script src="js/mobile-menu.js?v=2"></script>
+    <script src="js/lazy-load.js"></script>
+</body>
+</html>

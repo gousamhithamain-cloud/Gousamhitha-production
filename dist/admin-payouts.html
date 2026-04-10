@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Vendor Payouts - Gousamhitha Admin</title>
+    <script src="js/admin-mobile.js"></script>
+    <script src="js/admin-mobile-table-fix.js"></script>
+    <script src="js/admin-mobile-layout-fix.js"></script>
+    <script src="js/single-click-hamburger-fix.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/admin-styles-Cbq9RZug.css">
+  <link rel="stylesheet" crossorigin href="/assets/responsive-D5bG5O3T.css">
+  <link rel="stylesheet" crossorigin href="/assets/mobile-table-fullwidth-fix-iFFNJXVN.css">
+</head>
+<body class="admin-page">
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <div class="sidebar-header">
+                <h2>Gousamhitha Admin</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="admin-dashboard.html" class="nav-link">Dashboard</a>
+                <a href="admin-products.html" class="nav-link">Products</a>
+                <a href="admin-add-product.html" class="nav-link">Add Product</a>
+                <a href="admin-vendors.html" class="nav-link">Vendors</a>
+                <a href="admin-orders.html" class="nav-link">Orders</a>
+                <a href="admin-payouts.html" class="nav-link active">Vendor Payouts</a>
+                <a href="#" class="nav-link" onclick="adminLogout()">Logout</a>
+            </nav>
+        </aside>
+        
+        <main class="admin-content">
+            <div class="content-header">
+                <h1>Vendor Payouts</h1>
+            </div>
+            
+            <div class="table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Vendor</th>
+                            <th>Order ID</th>
+                            <th>Gross Amount</th>
+                            <th>Commission (10%)</th>
+                            <th>Net Amount</th>
+                            <th>Status</th>
+                            <th>Payout Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="payouts-table-body">
+                        
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Scripts already loaded in head: js/config.js and Supabase CDN -->
+    <script src="js/auth-handler.js"></script>
+    <script src="js/loading-fix-enhanced.js"></script>
+    <!-- ✅ SECURE: Removed unsafe admin-script.js - use admin-db.js only -->
+    <script src="admin-db.js"></script>
+    <script>
+        async function loadPayoutsTable() {
+            const tbody = document.getElementById('payouts-table-body');
+            if (!tbody) return;
+            
+            tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 2rem;">Loading payouts...</td></tr>';
+            
+            try {
+                const { data: payouts, error } = await window.supabase
+                    .from('vendor_payouts')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+                
+                if (error) {
+                    console.error('Error loading payouts:', error);
+                    tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 2rem; color: red;">Error: ${error.message}<br><small>Please run CREATE-VENDOR-PAYOUTS.sql first</small></td></tr>`;
+                    return;
+                }
+                
+                if (!payouts || payouts.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 2rem;">No payouts found. Payouts will appear here after orders are placed.</td></tr>';
+                    return;
+                }
+                
+                const payoutsWithVendors = await Promise.all(payouts.map(async (payout) => {
+                    if (payout.vendor_id) {
+                        const { data: vendor } = await window.supabase
+                            .from('vendors')
+                            .select('business_name')
+                            .eq('id', payout.vendor_id)
+                            .single();
+                        return { ...payout, vendor };
+                    }
+                    return { ...payout, vendor: null };
+                }));
+                
+                tbody.innerHTML = payoutsWithVendors.map(payout => {
+                    const vendorName = payout.vendor ? payout.vendor.business_name : 'Unknown Vendor';
+                    const statusClass = payout.payout_status === 'paid' ? 'status-completed' : 'status-pending';
+                    const statusText = payout.payout_status === 'paid' ? 'Paid' : 'Pending';
+                    const payoutDate = payout.payout_date ? new Date(payout.payout_date).toLocaleDateString() : '-';
+                    const shortOrderId = payout.order_id ? payout.order_id.substring(0, 8) : '-';
+                    
+                    const actionButton = payout.payout_status === 'pending' 
+                        ? `<button class="btn btn-primary btn-sm" onclick="markAsPaid('${payout.id}')">Mark as Paid</button>`
+                        : '<span style="color: #4caf50;">Paid</span>';
+                    
+                    return `
+                        <tr>
+                            <td>${vendorName}</td>
+                            <td>${shortOrderId}</td>
+                            <td>?${parseFloat(payout.gross_amount).toFixed(2)}</td>
+                            <td>?${parseFloat(payout.commission_amount).toFixed(2)}</td>
+                            <td><strong>?${parseFloat(payout.net_amount).toFixed(2)}</strong></td>
+                            <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                            <td>${payoutDate}</td>
+                            <td>${actionButton}</td>
+                        </tr>
+                    `;
+                }).join('');
+
+            } catch (error) {
+                console.error('Error loading payouts:', error);
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 2rem; color: red;">Error loading payouts</td></tr>';
+            }
+        }
+        
+        async function markAsPaid(payoutId) {
+            if (!confirm('Mark this payout as paid?')) {
+                return;
+            }
+            
+            try {
+                const { error } = await window.supabase
+                    .from('vendor_payouts')
+                    .update({
+                        payout_status: 'paid',
+                        payout_date: new Date().toISOString()
+                    })
+                    .eq('id', payoutId);
+                
+                if (error) {
+                    console.error('Error updating payout:', error);
+                    showToast('Failed to update payout status', 'error');
+                    return;
+                }
+                
+                showToast('Payout marked as paid successfully!');
+                await loadPayoutsTable();
+                
+            } catch (error) {
+                console.error('Error marking payout as paid:', error);
+                showToast('Failed to update payout status', 'error');
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', async () => {
+            await checkAdminAuth();
+            await loadPayoutsTable();
+        });
+    </script>
+    <script src="js/toast.js"></script>
+</body>
+</html>

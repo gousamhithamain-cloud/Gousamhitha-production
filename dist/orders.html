@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>My Orders - Gousamhitha</title>
+    <!-- Version: 3.3 - Fixed status column to use order_status -->
+    <link rel="manifest" href="/assets/manifest-B_Qy2N-V.json">
+    <script src="js/back-button.js"></script>
+    <script src="js/page-loader.js"></script>
+    <script src="js/universal-search.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/styles-O17alO4O.css">
+  <link rel="stylesheet" crossorigin href="/assets/responsive-D5bG5O3T.css">
+  <link rel="stylesheet" crossorigin href="/assets/back-button-DzrdBDdn.css">
+  <link rel="stylesheet" crossorigin href="/assets/universal-search-fix-DMmpr00H.css">
+  <link rel="stylesheet" crossorigin href="/assets/bottom-nav-B_c15lga.css">
+</head>
+<body>
+    <div class="top-strip">
+        <div class="container">
+            <p>Next day delivery available for select products | Minimum order applies</p>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                
+                <div class="logo-section">
+                    <div class="logo">Gousamhitha</div>
+                    <div class="logo-subtitle">Organic Products Store</div>
+                </div>
+
+                <div class="search-section">
+                    <input type="text" placeholder="Search for organic products..." class="main-search-bar">
+                    <button class="search-btn">Search</button>
+                </div>
+
+                <div class="nav-items">
+                    
+                    <a href="#" class="nav-item profile-icon-btn" id="profile-btn" onclick="openAuthModal()" style="display: flex !important; visibility: visible !important; pointer-events: auto !important;">
+                        <div class="profile-icon-placeholder">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2"/>
+                                <path d="M6.5 18.5C7.5 16.5 9.5 15 12 15C14.5 15 16.5 16.5 17.5 18.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                    </a>
+
+                    <button class="hamburger-menu" id="hamburger-btn" onclick="toggleHamburgerMenu(event)">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+
+                    <div class="hamburger-dropdown" id="hamburger-dropdown">
+                        <a href="#" class="hamburger-item">
+                            <img src="https://img.icons8.com/fluency/48/star--v1.png" alt="New" class="hamburger-icon-img">
+                            <span>New To Gousamhitha</span>
+                        </a>
+                        <a href="#" class="hamburger-item">
+                            <img src="https://img.icons8.com/fluency/48/crown.png" alt="Club" class="hamburger-icon-img">
+                            <span>Club</span>
+                        </a>
+                        <a href="orders.html" class="hamburger-item">
+                            <img src="https://img.icons8.com/fluency/48/package.png" alt="Orders" class="hamburger-icon-img">
+                            <span>My Orders</span>
+                        </a>
+                        <a href="cart.html" class="hamburger-item">
+                            <img src="https://img.icons8.com/fluency/48/shopping-cart.png" alt="Cart" class="hamburger-icon-img">
+                            <span>Cart (<span class="cart-count">0</span>)</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="profile-dropdown" id="profile-dropdown">
+        <a href="#" onclick="showProfile()">My Profile</a>
+        <a href="orders.html">Orders</a>
+        <a href="#" onclick="logout()">Logout</a>
+    </div>
+
+    <div class="secondary-nav">
+        <div class="container">
+            <div class="secondary-nav-links">
+                <a href="index.html">Home</a>
+                <a href="shop.html">Shop</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-header">
+        <h1>My Orders</h1>
+        <p>View your order history</p>
+    </div>
+
+    <section class="orders-container">
+        <div class="container">
+            <div class="orders-list" id="orders-list">
+                
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About Our Store</h3>
+                    <p>We provide 100% organic products sourced from traditional farms, ensuring purity and quality in every product.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p>Phone: +91 9908003289</p>
+                    <p>Email: info@gousamhitha.com</p>
+                    <p>Address: Plot no 118, Kavuri Hills Phase 1, Madhapur, Hyderabad</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-links">
+                        <a href="#">Facebook</a>
+                        <a href="#">Instagram</a>
+                        <a href="#">Twitter</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Gousamhitha. All rights reserved. | <a href="privacy-policy.html" style="color:#a5d6a7;">Privacy Policy</a> | <a href="terms.html" style="color:#a5d6a7;">Terms &amp; Conditions</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="bottom-nav" id="bottom-nav">
+        <div class="bottom-nav-items">
+            <a href="index.html" class="bottom-nav-item" data-page="home">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9,22 9,12 15,12 15,22"/>
+                </svg>
+                <span class="nav-text">Home</span>
+            </a>
+            
+            <a href="shop.html" class="bottom-nav-item" data-page="shop">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                    <line x1="3" y1="6" x2="21" y2="6"/>
+                    <path d="M16 10a4 4 0 0 1-8 0"/>
+                </svg>
+                <span class="nav-text">Shop</span>
+            </a>
+            
+            <a href="cart.html" class="bottom-nav-item" data-page="cart">
+                <div style="position: relative;">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1"/>
+                        <circle cx="20" cy="21" r="1"/>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                    </svg>
+                    <span class="nav-badge hidden" id="bottom-nav-cart-count">0</span>
+                </div>
+                <span class="nav-text">Cart</span>
+            </a>
+            
+            <a href="orders.html" class="bottom-nav-item active" data-page="orders">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+                </svg>
+                <span class="nav-text">Orders</span>
+            </a>
+            
+            <a href="#" class="bottom-nav-item" data-page="profile" id="bottom-nav-profile">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <circle cx="12" cy="10" r="3"/>
+                    <path d="M6.5 18.5C7.5 16.5 9.5 15 12 15C14.5 15 16.5 16.5 17.5 18.5" stroke-linecap="round"/>
+                </svg>
+                <span class="nav-text">Profile</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="auth-modal" id="auth-modal">
+        <div class="auth-modal-content">
+            <span class="auth-close" onclick="closeAuthModal()">&times;</span>
+            
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="switchTab('signin')">Sign In</button>
+                <button class="auth-tab" onclick="switchTab('signup')">Sign Up</button>
+            </div>
+
+            <div class="auth-form-container active" id="signin-form">
+                <h2>Welcome Back</h2>
+                <form onsubmit="handleSignIn(event)">
+                    <div class="form-group">
+                        <label>Email or Mobile</label>
+                        <input type="text" id="signin-email" required placeholder="Enter email or mobile">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="signin-password" required placeholder="Enter password">
+                    </div>
+                    <div class="auth-message" id="signin-message"></div>
+                    <button type="submit" class="btn btn-primary auth-submit">Sign In</button>
+                </form>
+            </div>
+
+            <div class="auth-form-container" id="signup-form">
+                <h2>Create Account</h2>
+                <form onsubmit="handleSignUp(event)">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="signup-name" required placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="signup-email" required placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label>Mobile Number</label>
+                        <input type="tel" id="signup-mobile" required placeholder="Enter mobile number">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="signup-password" required placeholder="Create password">
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input type="password" id="signup-confirm" required placeholder="Confirm password">
+                    </div>
+                    <div class="auth-message" id="signup-message"></div>
+                    <button type="submit" class="btn btn-primary auth-submit">Create Account</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="auth-modal" id="admin-modal">
+        <div class="auth-modal-content">
+            <span class="auth-close" onclick="closeAdminModal()">&times;</span>
+            
+            <div class="admin-modal-header">
+                <h2>Admin Login</h2>
+                <p>Access the admin dashboard</p>
+            </div>
+
+            <form onsubmit="handleAdminLoginModal(event)">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="admin-modal-email" required placeholder="admin@gousamhitha.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="admin-modal-password" required placeholder="Enter password">
+                </div>
+                <div class="auth-message" id="admin-modal-message"></div>
+                <button type="submit" class="btn btn-primary auth-submit">Login to Dashboard</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Performance Optimization System V2 -->
+    <script src="js/performance-master-v2.js"></script>
+    
+    <script src="js/auth-handler.js"></script>
+    <script src="js/profile-handler.js?v=8"></script>
+    <style>
+        .order-timeline {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin: 12px 0;
+        }
+        
+        .timeline-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            position: relative;
+        }
+        
+        .timeline-step::after {
+            content: '';
+            position: absolute;
+            top: 16px;
+            left: 50%;
+            width: 100%;
+            height: 2px;
+            background: #e0e0e0;
+            z-index: 0;
+        }
+        
+        .timeline-step:last-child::after {
+            display: none;
+        }
+        
+        .timeline-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            background: #e0e0e0;
+            color: #999;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s;
+        }
+        
+        .timeline-step.active .timeline-icon {
+            background: #4caf50;
+            color: white;
+            box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.2);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.2); }
+            50% { box-shadow: 0 0 0 8px rgba(76, 175, 80, 0.1); }
+        }
+        
+        .timeline-step.completed .timeline-icon {
+            background: #4caf50;
+            color: white;
+        }
+        
+        .timeline-step.completed::after {
+            background: #4caf50;
+        }
+        
+        .timeline-label {
+            font-size: 11px;
+            margin-top: 6px;
+            color: #666;
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        .timeline-step.active .timeline-label {
+            color: #4caf50;
+            font-weight: 600;
+        }
+        
+        .payment-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+        
+        .payment-cod {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+        
+        .payment-online {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .order-card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .order-id {
+            font-weight: 600;
+            font-size: 16px;
+            font-family: monospace;
+        }
+        
+        .order-date {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .status-badge-new {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 13px;
+        }
+        
+        @media (max-width: 768px) {
+            .order-timeline {
+                overflow-x: auto;
+                padding: 8px;
+            }
+            
+            .timeline-label {
+                font-size: 10px;
+            }
+            
+            .timeline-icon {
+                width: 28px;
+                height: 28px;
+                font-size: 12px;
+            }
+        }
+    </style>
+    <script>
+        // Wait for Supabase to be ready
+        window.addEventListener('supabaseReady', async () => {
+            console.log('? Supabase ready, checking authentication...');
+            await checkAndLoadOrders();
+        });
+        
+        // Also try after a delay
+        setTimeout(async () => {
+            if (window.supabase) {
+                await checkAndLoadOrders();
+            }
+        }, 1000);
+
+        async function checkAndLoadOrders() {
+            if (!window.supabase) {
+                console.log('? Waiting for Supabase...');
+                return;
+            }
+
+            console.log('?? Checking authentication...');
+            
+            try {
+                const { data: { user }, error } = await window.supabase.auth.getUser();
+                
+                if (error) {
+                    console.error('Auth error:', error);
+                    showLoginRequired();
+                    return;
+                }
+                
+                console.log('User authenticated:', !!user);
+                
+                if (user) {
+                    await loadCustomerOrders();
+                } else {
+                    showLoginRequired();
+                }
+            } catch (err) {
+                console.error('Error checking auth:', err);
+                showLoginRequired();
+            }
+        }
+        
+        function showLoginRequired() {
+            const ordersList = document.getElementById('orders-list');
+            if (ordersList) {
+                ordersList.innerHTML = `
+                    <div class="empty-state">
+                        <div style="font-size: 4rem; margin-bottom: 1rem;">🔒</div>
+                        <p style="font-size: 1.2rem; color: #666;">Please login to view your orders</p>
+                        <button onclick="if(typeof openAuthModal==='function'){openAuthModal();}else{window.location.href='login.html';}" style="margin-top: 1rem; padding: 0.7rem 1.5rem; background: #4a7c59; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 16px;">Login</button>
+                    </div>
+                `;
+            }
+        }
+
+        async function loadCustomerOrders() {
+            const ordersList = document.getElementById('orders-list');
+            if (!ordersList) return;
+
+            if (typeof showLoader === 'function') showLoader();
+
+            try {
+                ordersList.innerHTML = '';
+                
+                // Get current user from Supabase
+                const { data: { user } } = await window.supabase.auth.getUser();
+                
+                if (!user) {
+                    ordersList.innerHTML = '<div class="empty-state"><p>Please login to view your orders</p></div>';
+                    return;
+                }
+                
+                console.log('Fetching orders for user:', user.id);
+                
+                // Fetch orders from Supabase
+                const { data: orders, error } = await window.supabase
+                    .from('orders')
+                    .select('*')
+                    .eq('user_id', user.id)
+                    .order('created_at', { ascending: false });
+                
+                if (error) {
+                    console.error('Supabase error:', error);
+                    throw new Error('Failed to fetch orders');
+                }
+                
+                console.log('Orders fetched:', orders);
+                
+                // Fetch order items for each order
+                for (let order of orders) {
+                    const { data: items, error: itemsError } = await window.supabase
+                        .from('order_items')
+                        .select('id, quantity, price, product_id, product_name')
+                        .eq('order_id', order.id);
+                    
+                    console.log(`Order ${order.id} items:`, items);
+                    
+                    if (!itemsError && items) {
+                        // Fetch product details for each item
+                        for (let item of items) {
+                            if (item.product_id) {
+                                const { data: product, error: productError } = await window.supabase
+                                    .from('products')
+                                    .select('id, name, image_url')
+                                    .eq('id', item.product_id)
+                                    .single();
+                                
+                                console.log(`Product for item ${item.id}:`, product);
+                                
+                                if (product) {
+                                    item.products = product;
+                                } else {
+                                    // Fallback to product_name from order_items
+                                    item.products = {
+                                        name: item.product_name,
+                                        image_url: null
+                                    };
+                                }
+                            } else {
+                                // No product_id, use product_name from order_items
+                                item.products = {
+                                    name: item.product_name || 'Product',
+                                    image_url: null
+                                };
+                            }
+                        }
+                        order.order_items = items;
+                    } else {
+                        order.order_items = [];
+                    }
+                }
+                
+                console.log('Final orders with items:', orders);
+                
+                console.log('? Orders loaded from Supabase');
+                console.log(`Found ${orders.length} orders`);
+                
+                // Handle empty orders - this is NOT an error
+                if (orders.length === 0) {
+                    ordersList.innerHTML = `
+                        <div class="empty-state">
+                            <div style="font-size: 4rem; margin-bottom: 1rem;">🛒</div>
+                            <p style="font-size: 1.2rem; color: #666;">You haven't placed any orders yet.</p>
+                            <a href="shop.html" style="display: inline-block; margin-top: 1rem; padding: 0.7rem 1.5rem; background: #4a7c59; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">Start Shopping</a>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                ordersList.innerHTML = orders.map(order => {
+                    const orderDate = new Date(order.created_at).toLocaleString('en-IN', { 
+                        day: 'numeric', 
+                        month: 'short', 
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                    const shortId = order.id.substring(0, 8).toUpperCase();
+                    
+                    const statusColor = {
+                        'Pending': '#ff9800',
+                        'Packed': '#2196F3',
+                        'Shipped': '#9c27b0',
+                        'Delivered': '#4caf50'
+                    }[order.order_status] || '#666';
+                    
+                    // Build order items HTML
+                    let itemsHTML = '';
+                    if (order.order_items && order.order_items.length > 0) {
+                        itemsHTML = `
+                            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee;">
+                                <h4 style="margin: 0 0 10px 0; font-size: 14px; color: #666;">Order Items:</h4>
+                                ${order.order_items.map(item => {
+                                    const product = item.products;
+                                    return `
+                                        <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f5f5f5;">
+                                            <div style="flex: 1;">
+                                                <div style="font-weight: 500; font-size: 15px; color: #333;">${product?.name || item.product_name || 'Product'}</div>
+                                                <div style="font-size: 13px; color: #666; margin-top: 4px;">Qty: ${item.quantity} � ?${item.price}</div>
+                                            </div>
+                                            <div style="font-weight: 600; font-size: 16px; color: #4a7c59;">?${(item.quantity * item.price).toFixed(2)}</div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        `;
+                    }
+                    
+                    return `
+                        <div class="order-card">
+                            <div class="order-header">
+                                <div>
+                                    <div class="order-id">Order #${shortId}</div>
+                                    <div class="order-date">${orderDate}</div>
+                                </div>
+                                <div>
+                                    <div class="status-badge-new" style="background: ${statusColor}15; color: ${statusColor};">
+                                        ${order.order_status || 'Pending'}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            ${itemsHTML}
+                            
+                            <div style="border-top: 2px solid #eee; margin-top: 15px; padding-top: 15px; display: flex; justify-content: space-between; font-weight: 600; font-size: 16px;">
+                                <span>Total Amount</span>
+                                <span style="color: #4a7c59;">?${order.total}</span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error('Error loading orders:', error);
+                ordersList.innerHTML = '<div class="empty-state"><p>Error loading orders. Please try again.</p></div>';
+                if (typeof hideLoader === 'function') hideLoader();
+            }
+            if (typeof hideLoader === 'function') hideLoader();
+        }
+    </script>
+    <script src="js/page-detector.js"></script>
+    <script src="js/bottom-nav.js"></script>
+    <script src="js/mobile-menu.js?v=2"></script>
+</body>
+</html>

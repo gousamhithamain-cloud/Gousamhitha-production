@@ -1,0 +1,11 @@
+{
+  "name": "Gousamhitha - Organic Products Store",
+  "short_name": "Gousamhitha",
+  "description": "100% organic products sourced from traditional farms",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4a7c59",
+  "orientation": "portrait-primary",
+  "icons": []
+}

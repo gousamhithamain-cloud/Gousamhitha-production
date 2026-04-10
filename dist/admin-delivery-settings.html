@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery Settings - Gousamhitha Admin</title>
+    <style>
+        .settings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .zone-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-left: 4px solid #4caf50;
+        }
+        
+        .zone-card.inactive {
+            opacity: 0.6;
+            border-left-color: #999;
+        }
+        
+        .zone-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .zone-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .zone-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .zone-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .info-box {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+        }
+        
+        .info-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+        
+        .info-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .pincodes-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .pincode-tag {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        .form-group textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        
+        .form-hint {
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: #4caf50;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #45a049;
+        }
+        
+        .btn-secondary {
+            background: #f5f5f5;
+            color: #333;
+        }
+        
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+        
+        .btn-danger {
+            background: #f44336;
+            color: white;
+        }
+        
+        .btn-edit {
+            background: #2196F3;
+            color: white;
+            padding: 8px 16px;
+            font-size: 13px;
+        }
+        
+        .btn-toggle {
+            background: #ff9800;
+            color: white;
+            padding: 8px 16px;
+            font-size: 13px;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+    </style>
+    <script src="js/admin-mobile.js"></script>
+    <script src="js/admin-mobile-table-fix.js"></script>
+    <script src="js/admin-mobile-layout-fix.js"></script>
+    <script src="js/single-click-hamburger-fix.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/admin-styles-Cbq9RZug.css">
+  <link rel="stylesheet" crossorigin href="/assets/responsive-D5bG5O3T.css">
+  <link rel="stylesheet" crossorigin href="/assets/mobile-table-fullwidth-fix-iFFNJXVN.css">
+</head>
+<body class="admin-page">
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <div class="sidebar-header">
+                <h2>Gousamhitha Admin</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="admin-dashboard.html" class="nav-link">Dashboard</a>
+                <a href="admin-products.html" class="nav-link">Products</a>
+                <a href="admin-add-product.html" class="nav-link">Add Product</a>
+                <a href="admin-vendors.html" class="nav-link">Vendors</a>
+                <a href="admin-orders.html" class="nav-link">Orders</a>
+                <a href="admin-deliveries.html" class="nav-link">Deliveries</a>
+                <a href="admin-delivery-settings.html" class="nav-link active">Delivery Settings</a>
+                <a href="admin-payouts.html" class="nav-link">Vendor Payouts</a>
+                <a href="#" class="nav-link" onclick="adminLogout()">Logout</a>
+            </nav>
+        </aside>
+        
+        <main class="admin-content">
+            <div class="settings-header">
+                <div>
+                    <h1>Delivery Charge Settings</h1>
+                    <p style="color: #666; margin-top: 8px;">Manage delivery zones and charges by pincode</p>
+                </div>
+                <button class="btn btn-primary" onclick="openAddZoneModal()">+ Add New Zone</button>
+            </div>
+            
+            <div id="zones-container">
+                <div class="empty-state">
+                    <p>Loading delivery zones...</p>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Add/Edit Zone Modal -->
+    <div class="modal" id="zone-modal">
+        <div class="modal-content">
+            <div class="modal-header" id="modal-title">Add Delivery Zone</div>
+            <form id="zone-form" onsubmit="saveZone(event)">
+                <input type="hidden" id="zone-id">
+                
+                <div class="form-group">
+                    <label>Zone Name *</label>
+                    <input type="text" id="zone-name" required placeholder="e.g., Local Area, City Center">
+                </div>
+                
+                <div class="form-group">
+                    <label>Pincodes *</label>
+                    <textarea id="zone-pincodes" required placeholder="Enter pincodes separated by commas&#10;e.g., 500001, 500002, 500003"></textarea>
+                    <div class="form-hint">Enter pincodes separated by commas</div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Delivery Charge (₹) *</label>
+                    <input type="number" id="zone-charge" required min="0" step="0.01" placeholder="0">
+                    <div class="form-hint">Enter 0 for free delivery</div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Minimum Order for Free Delivery (₹)</label>
+                    <input type="number" id="zone-min-order" min="0" step="0.01" placeholder="Leave empty if not applicable">
+                    <div class="form-hint">Order above this amount gets free delivery</div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Estimated Delivery Time *</label>
+                    <input type="text" id="zone-days" required placeholder="e.g., 1-2 days, 3-5 days">
+                </div>
+                
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary">Save Zone</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeZoneModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="js/toast.js"></script>
+    <script>
+        let currentZoneId = null;
+
+        // Wait for Supabase to be ready
+        window.addEventListener('supabaseReady', async () => {
+            console.log('✅ Supabase ready, loading delivery zones...');
+            await loadDeliveryZones();
+        });
+        
+        // Also try after a delay
+        setTimeout(async () => {
+            if (window.supabase) {
+                await loadDeliveryZones();
+            }
+        }, 1000);
+        
+        async function loadDeliveryZones() {
+            const container = document.getElementById('zones-container');
+            
+            if (!window.supabase) {
+                container.innerHTML = '<div class="empty-state"><p>Database not connected</p></div>';
+                return;
+            }
+            
+            try {
+                const { data: zones, error } = await window.supabase
+                    .from('delivery_zones')
+                    .select('*')
+                    .order('delivery_charge', { ascending: true });
+                
+                if (error) throw error;
+                
+                if (!zones || zones.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <p style="font-size: 48px;"></p>
+                            <p>No delivery zones configured</p>
+                            <p style="font-size: 14px; margin-top: 10px;">Click "Add New Zone" to create your first delivery zone</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                container.innerHTML = zones.map(zone => `
+                    <div class="zone-card ${zone.is_active ? '' : 'inactive'}">
+                        <div class="zone-header">
+                            <div class="zone-name">${zone.zone_name}</div>
+                            <div class="zone-actions">
+                                <button class="btn btn-edit" onclick="editZone('${zone.id}')">Edit</button>
+                                <button class="btn btn-toggle" onclick="toggleZone('${zone.id}', ${zone.is_active})">
+                                    ${zone.is_active ? 'Disable' : 'Enable'}
+                                </button>
+                                <button class="btn btn-danger" onclick="deleteZone('${zone.id}')">Delete</button>
+                            </div>
+                        </div>
+                        
+                        <div class="zone-info">
+                            <div class="info-box">
+                                <div class="info-label">Delivery Charge</div>
+                                <div class="info-value" style="color: ${zone.delivery_charge === 0 ? '#4caf50' : '#333'};">
+                                    ${zone.delivery_charge === 0 ? 'FREE' : '₹' + zone.delivery_charge}
+                                </div>
+                            </div>
+                            
+                            <div class="info-box">
+                                <div class="info-label">Free Delivery Above</div>
+                                <div class="info-value">
+                                    ${zone.min_order_for_free_delivery ? '₹' + zone.min_order_for_free_delivery : 'N/A'}
+                                </div>
+                            </div>
+                            
+                            <div class="info-box">
+                                <div class="info-label">Estimated Time</div>
+                                <div class="info-value">${zone.estimated_days}</div>
+                            </div>
+                            
+                            <div class="info-box">
+                                <div class="info-label">Status</div>
+                                <div class="info-value" style="color: ${zone.is_active ? '#4caf50' : '#999'};">
+                                    ${zone.is_active ? 'Active' : 'Inactive'}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="info-label">Pincodes (${zone.pincodes.length})</div>
+                            <div class="pincodes-list">
+                                ${zone.pincodes.map(pin => `<span class="pincode-tag">${pin}</span>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+                
+            } catch (error) {
+                console.error('Error loading zones:', error);
+                container.innerHTML = '<div class="empty-state"><p>Error loading delivery zones</p></div>';
+            }
+        }
+        
+        function openAddZoneModal() {
+            currentZoneId = null;
+            document.getElementById('modal-title').textContent = 'Add Delivery Zone';
+            document.getElementById('zone-form').reset();
+            document.getElementById('zone-id').value = '';
+            document.getElementById('zone-modal').classList.add('active');
+        }
+        
+        async function editZone(zoneId) {
+            try {
+                const { data: zone, error } = await window.supabase
+                    .from('delivery_zones')
+                    .select('*')
+                    .eq('id', zoneId)
+                    .single();
+                
+                if (error) throw error;
+                
+                currentZoneId = zoneId;
+                document.getElementById('modal-title').textContent = 'Edit Delivery Zone';
+                document.getElementById('zone-id').value = zone.id;
+                document.getElementById('zone-name').value = zone.zone_name;
+                document.getElementById('zone-pincodes').value = zone.pincodes.join(', ');
+                document.getElementById('zone-charge').value = zone.delivery_charge;
+                document.getElementById('zone-min-order').value = zone.min_order_for_free_delivery || '';
+                document.getElementById('zone-days').value = zone.estimated_days;
+                document.getElementById('zone-modal').classList.add('active');
+                
+            } catch (error) {
+                console.error('Error loading zone:', error);
+                alert('Error loading zone details');
+            }
+        }
+        
+        function closeZoneModal() {
+            document.getElementById('zone-modal').classList.remove('active');
+            document.getElementById('zone-form').reset();
+            currentZoneId = null;
+        }
+        
+        async function saveZone(event) {
+            event.preventDefault();
+            
+            const zoneName = document.getElementById('zone-name').value.trim();
+            const pincodesText = document.getElementById('zone-pincodes').value.trim();
+            const charge = parseFloat(document.getElementById('zone-charge').value);
+            const minOrder = document.getElementById('zone-min-order').value;
+            const days = document.getElementById('zone-days').value.trim();
+            
+            // Parse pincodes
+            const pincodes = pincodesText.split(',').map(p => p.trim()).filter(p => p);
+            
+            if (pincodes.length === 0) {
+                alert('Please enter at least one pincode');
+                return;
+            }
+            
+            const zoneData = {
+                zone_name: zoneName,
+                pincodes: pincodes,
+                delivery_charge: charge,
+                min_order_for_free_delivery: minOrder ? parseFloat(minOrder) : null,
+                estimated_days: days,
+                is_active: true
+            };
+            
+            try {
+                if (currentZoneId) {
+                    // Update existing zone
+                    const { error } = await window.supabase
+                        .from('delivery_zones')
+                        .update(zoneData)
+                        .eq('id', currentZoneId);
+                    
+                    if (error) throw error;
+                    
+                    if (typeof showToast === 'function') {
+                        showToast('✓ Delivery zone updated successfully', 'success');
+                    }
+                } else {
+                    // Create new zone
+                    const { error } = await window.supabase
+                        .from('delivery_zones')
+                        .insert([zoneData]);
+                    
+                    if (error) throw error;
+                    
+                    if (typeof showToast === 'function') {
+                        showToast('✓ Delivery zone created successfully', 'success');
+                    }
+                }
+                
+                closeZoneModal();
+                await loadDeliveryZones();
+                
+            } catch (error) {
+                console.error('Error saving zone:', error);
+                alert('Error saving delivery zone: ' + error.message);
+            }
+        }
+        
+        async function toggleZone(zoneId, currentStatus) {
+            try {
+                const { error } = await window.supabase
+                    .from('delivery_zones')
+                    .update({ is_active: !currentStatus })
+                    .eq('id', zoneId);
+                
+                if (error) throw error;
+                
+                if (typeof showToast === 'function') {
+                    showToast(`✓ Zone ${!currentStatus ? 'enabled' : 'disabled'}`, 'success');
+                }
+                
+                await loadDeliveryZones();
+                
+            } catch (error) {
+                console.error('Error toggling zone:', error);
+                alert('Error updating zone status');
+            }
+        }
+        
+        async function deleteZone(zoneId) {
+            if (!confirm('Are you sure you want to delete this delivery zone? This action cannot be undone.')) {
+                return;
+            }
+            
+            try {
+                const { error } = await window.supabase
+                    .from('delivery_zones')
+                    .delete()
+                    .eq('id', zoneId);
+                
+                if (error) throw error;
+                
+                if (typeof showToast === 'function') {
+                    showToast('✓ Delivery zone deleted', 'success');
+                }
+                
+                await loadDeliveryZones();
+                
+            } catch (error) {
+                console.error('Error deleting zone:', error);
+                alert('Error deleting delivery zone');
+            }
+        }
+        
+        async function adminLogout() {
+            const confirmLogout = confirm('Are you sure you want to logout?');
+            if (confirmLogout) {
+                try {
+                    const { error } = await window.supabase.auth.signOut();
+                    if (error) throw error;
+                    
+                    localStorage.clear();
+                    
+                    window.location.replace('./index.html');
+                } catch (error) {
+                    console.error('Logout error:', error);
+                    alert('Failed to logout. Please try again.');
+                }
+            }
+        }
+    </script>
+</body>
+</html>

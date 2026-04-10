@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Privacy Policy - Gousamhitha</title>
+    <meta name="description" content="Privacy Policy for Gousamhitha Organic Products Store. Learn how we collect, use, and protect your personal information.">
+    <link rel="manifest" href="/assets/manifest-B_Qy2N-V.json">
+    <script src="js/back-button.js"></script>
+    <script src="js/universal-search.js"></script>
+    <style>
+        .policy-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem 4rem;
+        }
+        .policy-container h1 {
+            color: #2e7d32;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        .policy-meta {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #e8f5e9;
+        }
+        .policy-section {
+            margin-bottom: 2.5rem;
+        }
+        .policy-section h2 {
+            color: #2e7d32;
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            padding-left: 0.75rem;
+            border-left: 3px solid #4a7c59;
+        }
+        .policy-section p {
+            color: #444;
+            line-height: 1.8;
+            margin-bottom: 0.75rem;
+        }
+        .policy-section ul {
+            color: #444;
+            line-height: 1.8;
+            padding-left: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .policy-section ul li {
+            margin-bottom: 0.4rem;
+        }
+        .policy-section a {
+            color: #4a7c59;
+            text-decoration: none;
+        }
+        .policy-section a:hover {
+            text-decoration: underline;
+        }
+    </style>
+  <link rel="stylesheet" crossorigin href="/assets/styles-O17alO4O.css">
+  <link rel="stylesheet" crossorigin href="/assets/responsive-D5bG5O3T.css">
+  <link rel="stylesheet" crossorigin href="/assets/back-button-DzrdBDdn.css">
+  <link rel="stylesheet" crossorigin href="/assets/universal-search-fix-DMmpr00H.css">
+  <link rel="stylesheet" crossorigin href="/assets/bottom-nav-B_c15lga.css">
+</head>
+<body>
+
+    <div class="top-strip">
+        <div class="container">
+            <p>Next day delivery available for select products | Minimum order applies</p>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo-section">
+                    <div class="logo">Gousamhitha</div>
+                    <div class="logo-subtitle">Organic Products Store</div>
+                </div>
+                <div class="search-section">
+                    <input type="text" placeholder="Search for organic products..." class="main-search-bar">
+                    <button class="search-btn">Search</button>
+                </div>
+                <div class="nav-items">
+                    <a href="#" class="nav-item profile-icon-btn" id="profile-btn" onclick="openAuthModal()" style="display:flex !important; visibility:visible !important; pointer-events:auto !important;">
+                        <div class="profile-icon-placeholder">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2"/>
+                                <path d="M6.5 18.5C7.5 16.5 9.5 15 12 15C14.5 15 16.5 16.5 17.5 18.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                    </a>
+                    <button class="hamburger-menu" id="hamburger-btn" onclick="toggleHamburgerMenu(event)">
+                        <span></span><span></span><span></span>
+                    </button>
+                    <div class="hamburger-dropdown" id="hamburger-dropdown">
+                        <a href="orders.html" class="hamburger-item">
+                            <img src="https://img.icons8.com/fluency/48/package.png" alt="Orders" class="hamburger-icon-img">
+                            <span>My Orders</span>
+                        </a>
+                        <a href="cart.html" class="hamburger-item">
+                            <img src="https://img.icons8.com/fluency/48/shopping-cart.png" alt="Cart" class="hamburger-icon-img">
+                            <span>Cart (<span class="cart-count">0</span>)</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="profile-dropdown" id="profile-dropdown">
+        <a href="#" onclick="showProfile()">My Profile</a>
+        <a href="orders.html">Orders</a>
+        <a href="#" onclick="logout()">Logout</a>
+    </div>
+
+    <div class="auth-modal" id="auth-modal">
+        <div class="auth-modal-content">
+            <span class="auth-close" onclick="closeAuthModal()">&times;</span>
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="switchTab('signin')">Sign In</button>
+                <button class="auth-tab" onclick="switchTab('signup')">Sign Up</button>
+            </div>
+            <div class="auth-form-container active" id="signin-form">
+                <h2>Welcome Back</h2>
+                <form onsubmit="handleSignIn(event)">
+                    <div class="form-group">
+                        <label>Email or Mobile</label>
+                        <input type="text" id="signin-email" required placeholder="Enter email or mobile">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="signin-password" required placeholder="Enter password">
+                    </div>
+                    <div class="auth-message" id="signin-message"></div>
+                    <button type="submit" class="btn btn-primary auth-submit">Sign In</button>
+                </form>
+            </div>
+            <div class="auth-form-container" id="signup-form">
+                <h2>Create Account</h2>
+                <form onsubmit="handleSignUp(event)">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="signup-name" required placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="signup-email" required placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label>Mobile Number</label>
+                        <input type="tel" id="signup-mobile" required placeholder="Enter mobile number">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="signup-password" required placeholder="Create password">
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input type="password" id="signup-confirm" required placeholder="Confirm password">
+                    </div>
+                    <div class="auth-message" id="signup-message"></div>
+                    <button type="submit" class="btn btn-primary auth-submit">Create Account</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="secondary-nav">
+        <div class="container">
+            <div class="secondary-nav-links">
+                <a href="index.html">Home</a>
+                <a href="shop.html">Shop</a>
+                <a href="about.html">About</a>
+                <a href="gowshala.html">Gowshala</a>
+                <a href="contact.html">Contact</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-header">
+        <h1>Privacy Policy</h1>
+        <p>How we collect, use, and protect your information</p>
+    </div>
+
+    <section class="content-section">
+        <div class="policy-container">
+
+            <p class="policy-meta">Last updated: March 2026</p>
+
+            <div class="policy-section">
+                <h2>Introduction</h2>
+                <p>Welcome to Gousamhitha. Your privacy is important to us. This Privacy Policy explains how we collect, use, and safeguard your personal information when you visit our website or make a purchase.</p>
+            </div>
+
+            <div class="policy-section">
+                <h2>Information We Collect</h2>
+                <p>We may collect personal information such as your name, email address, and login details when you use our website. This includes:</p>
+                <ul>
+                    <li>Name and email address when you create an account or sign in with Google</li>
+                    <li>Phone number if provided during registration</li>
+                    <li>Delivery address when placing an order</li>
+                    <li>Order history and transaction details</li>
+                </ul>
+            </div>
+
+            <div class="policy-section">
+                <h2>How We Use Your Information</h2>
+                <ul>
+                    <li>To provide and improve our services</li>
+                    <li>To enable secure login (including Google authentication)</li>
+                    <li>To process and fulfill your orders</li>
+                    <li>To communicate with you about your orders and account</li>
+                    <li>To send updates about new products or offers (only if you opt in)</li>
+                </ul>
+            </div>
+
+            <div class="policy-section">
+                <h2>Third-Party Services</h2>
+                <p>We use trusted third-party services to operate our platform. These services may process your data as part of their functionality:</p>
+                <ul>
+                    <li><strong>Google Authentication</strong> — used for secure sign-in via your Google account</li>
+                    <li><strong>Supabase</strong> — our database and authentication provider, which stores your account and order data securely</li>
+                </ul>
+                <p>These services have their own privacy policies and we encourage you to review them.</p>
+            </div>
+
+            <div class="policy-section">
+                <h2>Data Security</h2>
+                <p>We take reasonable steps to protect your data using industry-standard security practices, including encrypted connections (HTTPS) and secure database storage via Supabase. However, no method of transmission over the internet is 100% secure, and we cannot guarantee absolute security.</p>
+            </div>
+
+            <div class="policy-section">
+                <h2>Your Rights</h2>
+                <p>You have the right to:</p>
+                <ul>
+                    <li>Access the personal data we hold about you</li>
+                    <li>Request correction of inaccurate data</li>
+                    <li>Request deletion of your account and associated data</li>
+                </ul>
+                <p>To exercise any of these rights, please contact us at the email below.</p>
+            </div>
+
+            <div class="policy-section">
+                <h2>Contact Us</h2>
+                <p>If you have any questions about this Privacy Policy or how your data is handled, please reach out to us:</p>
+                <p>Email: <a href="mailto:support@gousamhitha.com">support@gousamhitha.com</a></p>
+                <p>Phone: +91 9908003289</p>
+                <p>Address: Plot no 118, Kavuri Hills Phase 1, Madhapur, Hyderabad</p>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About Our Store</h3>
+                    <p>We provide 100% organic products sourced from traditional farms, ensuring purity and quality in every product.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p>Phone: +91 9908003289</p>
+                    <p>Email: info@gousamhitha.com</p>
+                    <p>Address: Plot no 118, Kavuri Hills Phase 1, Madhapur, Hyderabad</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-links">
+                        <a href="#">Facebook</a>
+                        <a href="#">Instagram</a>
+                        <a href="#">Twitter</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Gousamhitha. All rights reserved. | <a href="privacy-policy.html" style="color:#a5d6a7;">Privacy Policy</a> | <a href="terms.html" style="color:#a5d6a7;">Terms &amp; Conditions</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <nav class="bottom-nav" id="bottom-nav">
+        <div class="bottom-nav-items">
+            <a href="index.html" class="bottom-nav-item" data-page="home">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9,22 9,12 15,12 15,22"/>
+                </svg>
+                <span class="nav-text">Home</span>
+            </a>
+            <a href="shop.html" class="bottom-nav-item" data-page="shop">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                    <line x1="3" y1="6" x2="21" y2="6"/>
+                    <path d="M16 10a4 4 0 0 1-8 0"/>
+                </svg>
+                <span class="nav-text">Shop</span>
+            </a>
+            <a href="cart.html" class="bottom-nav-item" data-page="cart">
+                <div style="position:relative;">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                    </svg>
+                    <span class="nav-badge hidden" id="bottom-nav-cart-count">0</span>
+                </div>
+                <span class="nav-text">Cart</span>
+            </a>
+            <a href="orders.html" class="bottom-nav-item" data-page="orders">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+                </svg>
+                <span class="nav-text">Orders</span>
+            </a>
+            <a href="#" class="bottom-nav-item" data-page="profile" id="bottom-nav-profile">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <circle cx="12" cy="10" r="3"/>
+                    <path d="M6.5 18.5C7.5 16.5 9.5 15 12 15C14.5 15 16.5 16.5 17.5 18.5" stroke-linecap="round"/>
+                </svg>
+                <span class="nav-text">Profile</span>
+            </a>
+        </div>
+    </nav>
+
+    <script src="js/auth-handler.js"></script>
+    <!-- ✅ SECURE: Removed data-manager.js - use js/api-client.js instead -->
+    <script src="js/api-client.js"></script>
+    <script src="script.js"></script>
+    <script src="js/toast.js"></script>
+    <script src="js/page-detector.js"></script>
+    <script src="js/bottom-nav.js"></script>
+    <script src="js/add-mobile-menu.js"></script>
+    <script src="js/mobile-menu.js?v=2"></script>
+    <script src="js/lazy-load.js"></script>
+    <script src="js/auth-handler.js"></script>
+    <script src="js/profile-handler.js?v=7"></script>
+</body>
+</html>

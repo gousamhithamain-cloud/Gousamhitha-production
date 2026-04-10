@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Orders - Gousamhitha Admin</title>
+    <script src="js/admin-mobile.js"></script>
+    <script src="js/admin-mobile-table-fix.js"></script>
+    <script src="js/admin-mobile-layout-fix.js"></script>
+    <script src="js/single-click-hamburger-fix.js"></script>
+    <style>
+        .order-timeline {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin: 8px 0;
+        }
+        
+        .timeline-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            position: relative;
+        }
+        
+        .timeline-step::after {
+            content: '';
+            position: absolute;
+            top: 16px;
+            left: 50%;
+            width: 100%;
+            height: 2px;
+            background: #e0e0e0;
+            z-index: 0;
+        }
+        
+        .timeline-step:last-child::after {
+            display: none;
+        }
+        
+        .timeline-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            background: #e0e0e0;
+            color: #999;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s;
+        }
+        
+        .timeline-step.active .timeline-icon {
+            background: #4caf50;
+            color: white;
+            box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.2);
+        }
+        
+        .timeline-step.completed .timeline-icon {
+            background: #4caf50;
+            color: white;
+        }
+        
+        .timeline-step.completed::after {
+            background: #4caf50;
+        }
+        
+        .timeline-label {
+            font-size: 11px;
+            margin-top: 6px;
+            color: #666;
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        .timeline-step.active .timeline-label {
+            color: #4caf50;
+            font-weight: 600;
+        }
+        
+        .payment-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .payment-cod {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+        
+        .payment-online {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .quick-actions {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        
+        .quick-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        
+        .quick-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        
+        .quick-btn-pack {
+            background: #2196F3;
+            color: white;
+        }
+        
+        .quick-btn-ship {
+            background: #9c27b0;
+            color: white;
+        }
+        
+        .quick-btn-deliver {
+            background: #4caf50;
+            color: white;
+        }
+        
+        .quick-btn-view {
+            background: #607d8b;
+            color: white;
+        }
+        
+        .quick-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .order-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .order-id {
+            font-family: monospace;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .order-date {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .customer-info {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 12px;
+            font-size: 13px;
+        }
+        
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .info-label {
+            color: #999;
+            font-size: 11px;
+            margin-bottom: 2px;
+        }
+        
+        .info-value {
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .order-items {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .items-list {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        .order-total {
+            font-size: 18px;
+            font-weight: 700;
+            color: #4a7c59;
+            text-align: right;
+        }
+        
+        @media (max-width: 768px) {
+            .order-timeline {
+                overflow-x: auto;
+                padding: 8px;
+            }
+            
+            .timeline-label {
+                font-size: 10px;
+            }
+            
+            .timeline-icon {
+                width: 28px;
+                height: 28px;
+                font-size: 12px;
+            }
+        }
+    </style>
+      <link rel="stylesheet" crossorigin href="/assets/admin-orders-p8x9dg2t.css">
+      <link rel="stylesheet" crossorigin href="/assets/responsive-D5bG5O3T.css">
+      <link rel="stylesheet" crossorigin href="/assets/mobile-table-fullwidth-fix-iFFNJXVN.css">
+    </head>
+<body class="admin-page">
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <div class="sidebar-header">
+                <h2>Gousamhitha Admin</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="admin-dashboard.html" class="nav-link">Dashboard</a>
+                <a href="admin-products.html" class="nav-link">Products</a>
+                <a href="admin-add-product.html" class="nav-link">Add Product</a>
+                <a href="admin-vendors.html" class="nav-link">Vendors</a>
+                <a href="admin-orders.html" class="nav-link active">Orders</a>
+                <a href="admin-deliveries.html" class="nav-link">Deliveries</a>
+                <a href="admin-delivery-settings.html" class="nav-link">Delivery Settings</a>
+                <a href="admin-payouts.html" class="nav-link">Vendor Payouts</a>
+                <a href="#" class="nav-link" onclick="adminLogout()">Logout</a>
+            </nav>
+        </aside>
+        
+        <main class="admin-content">
+            <div class="content-header">
+                <h1>Orders Management</h1>
+                <p style="color: #666; font-size: 14px; margin-top: 8px;">Smart delivery tracking like Amazon & Flipkart</p>
+            </div>
+            
+            <div id="orders-container" style="max-width: 1400px;">
+                
+            </div>
+            <div style="text-align: center; padding: 1.5rem;">
+                <button id="load-more-orders-btn" onclick="loadSmartOrders(false)" style="display:none; background:#4a7c59; color:#fff; border:none; padding:0.75rem 2rem; border-radius:8px; font-size:1rem; cursor:pointer; font-weight:600;">Load More</button>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="js/loading-fix-enhanced.js"></script>
+    <script src="js/page-loader.js"></script>
+    <!-- ✅ SECURE: Removed unsafe admin-script.js - use admin-db.js only -->
+    <script src="admin-db.js"></script>
+    <script src="js/toast.js"></script>
+    <script>
+        // Wait for Supabase to be ready
+        window.addEventListener('supabaseReady', async () => {
+            console.log('? Supabase ready, loading orders...');
+            if (typeof loadOrdersTable === 'function') {
+                await loadOrdersTable();
+            }
+        });
+        
+        // Also try after a delay
+        setTimeout(async () => {
+            if (window.supabase && typeof loadOrdersTable === 'function') {
+                await loadOrdersTable();
+            }
+        }, 1000);
+        
+        window.viewLocation = function(lat, lng) {
+            window.open(`https://www.google.com/maps?q=${lat},${lng}`, '_blank');
+        };
+        
+        let orderOffset = 0;
+        const ORDER_LIMIT = 10;
+
+        async function loadSmartOrders(initial = true) {
+            const container = document.getElementById('orders-container');
+            const loadMoreBtn = document.getElementById('load-more-orders-btn');
+            if (!container) return;
+
+            if (initial) {
+                orderOffset = 0;
+                container.innerHTML = '';
+                if (typeof showLoader === 'function') showLoader();
+            } else {
+                if (loadMoreBtn) loadMoreBtn.textContent = 'Loading...';
+            }
+
+            if (!window.supabase) {
+                container.innerHTML = '<div style="text-align: center; padding: 3rem; color: #d32f2f;">Database not connected. Please refresh.</div>';
+                if (typeof hideLoader === 'function') hideLoader();
+                return;
+            }
+
+            try {
+                const { data: orders, error } = await window.supabase
+                    .from('orders')
+                    .select('*, order_items(*)')
+                    .order('created_at', { ascending: false })
+                    .range(orderOffset, orderOffset + ORDER_LIMIT - 1);
+
+                if (error) {
+                    console.error('Error fetching orders:', error);
+                    if (initial) container.innerHTML = `<div style="text-align: center; padding: 3rem; color: #d32f2f;">Error: ${error.message}</div>`;
+                    if (typeof hideLoader === 'function') hideLoader();
+                    return;
+                }
+
+                if (initial && (!orders || orders.length === 0)) {
+                    container.innerHTML = '<div style="text-align: center; padding: 3rem; color: #666;">No orders yet</div>';
+                    if (loadMoreBtn) loadMoreBtn.style.display = 'none';
+                    if (typeof hideLoader === 'function') hideLoader();
+                    return;
+                }
+
+                orders.forEach(order => {
+                    container.insertAdjacentHTML('beforeend', renderOrderCard(order));
+                });
+
+                orderOffset += orders.length;
+
+                if (loadMoreBtn) {
+                    loadMoreBtn.textContent = 'Load More';
+                    loadMoreBtn.style.display = orders.length < ORDER_LIMIT ? 'none' : 'block';
+                }
+
+                if (typeof hideLoader === 'function') hideLoader();
+
+            } catch (error) {
+                console.error('Exception loading orders:', error);
+                if (initial) container.innerHTML = `<div style="text-align: center; padding: 3rem; color: #d32f2f;">Error: ${error.message}</div>`;
+                if (loadMoreBtn) loadMoreBtn.textContent = 'Load More';
+                if (typeof hideLoader === 'function') hideLoader();
+            }
+        }
+        
+        function renderOrderCard(order) {
+            const items = order.order_items || [];
+            const itemsText = items.map(item => `${item.product_name} � ${item.quantity}`).join(', ');
+            const orderDate = new Date(order.created_at).toLocaleString('en-IN', { 
+                day: 'numeric', 
+                month: 'short', 
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            const shortId = order.id.substring(0, 8).toUpperCase();
+            
+            const isCOD = order.payment_method === 'Cash on Delivery';
+            const isPaid = order.payment_status === 'paid';
+            
+            const statusSteps = ['Pending', 'Packed', 'Shipped', 'Delivered'];
+            const currentIndex = statusSteps.indexOf(order.order_status);
+            
+            const timeline = statusSteps.map((step, index) => {
+                const isCompleted = index < currentIndex;
+                const isActive = index === currentIndex;
+                
+                return `
+                    <div class="timeline-step ${isCompleted ? 'completed' : ''} ${isActive ? 'active' : ''}">
+                        <div class="timeline-icon"></div>
+                        <div class="timeline-label">${step}</div>
+                    </div>
+                `;
+            }).join('');
+            
+            const locationBtn = (order.latitude && order.longitude) 
+                ? `<button class="quick-btn quick-btn-view" onclick="viewLocation(${order.latitude}, ${order.longitude})">View Map</button>`
+                : '';
+            
+            const nextStatus = statusSteps[currentIndex + 1];
+            const canProgress = currentIndex < statusSteps.length - 1;
+            
+            const quickActions = order.order_status === 'Delivered' 
+                ? locationBtn
+                : `
+                    <div class="quick-actions">
+                        ${order.order_status === 'Pending' ? `<button class="quick-btn quick-btn-pack" onclick="updateOrderStatus('${order.id}', 'Packed')">Mark Packed</button>` : ''}
+                        ${order.order_status === 'Packed' ? `<button class="quick-btn quick-btn-ship" onclick="updateOrderStatus('${order.id}', 'Shipped')">Mark Shipped</button>` : ''}
+                        ${order.order_status === 'Shipped' ? `<button class="quick-btn quick-btn-deliver" onclick="updateOrderStatus('${order.id}', 'Delivered')">Mark Delivered</button>` : ''}
+                        ${locationBtn}
+                    </div>
+                `;
+            
+            return `
+                <div class="order-card">
+                    <div class="order-header">
+                        <div>
+                            <div class="order-id">Order #${shortId}</div>
+                            <div class="order-date">${orderDate}</div>
+                        </div>
+                        <div>
+                            <span class="payment-badge ${isCOD ? 'payment-cod' : 'payment-online'}">
+                                ${isCOD ? 'COD' : 'Online'}
+                                ${isPaid ? ' � Paid' : ' � Pending'}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="customer-info">
+                        <div class="info-item">
+                            <div class="info-label">Customer</div>
+                            <div class="info-value">${order.customer_name}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Phone</div>
+                            <div class="info-value">${order.phone}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Email</div>
+                            <div class="info-value">${order.email || 'N/A'}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="order-items">
+                        <div class="info-label" style="margin-bottom: 6px;">Items (${items.length})</div>
+                        <div class="items-list">${itemsText}</div>
+                    </div>
+                    
+                    <div class="order-timeline">
+                        ${timeline}
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px;">
+                        ${quickActions}
+                        <div class="order-total">?${order.total}</div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        async function updateOrderStatus(orderId, newStatus) {
+            if (!window.supabase) {
+                alert('Database connection error');
+                return;
+            }
+            
+            try {
+                const { data: { session } } = await window.supabase.auth.getSession();
+                
+                if (!session) {
+                    alert('Please login first');
+                    return;
+                }
+                
+                const { data, error } = await window.supabase
+                    .from('orders')
+                    .update({ order_status: newStatus })
+                    .eq('id', orderId)
+                    .select();
+                
+                if (error) {
+                    console.error('Update error:', error);
+                    
+                    if (error.code === '42501' || error.message.includes('policy')) {
+                        alert('Permission denied. Please run FIX-ORDER-UPDATE-POLICY.sql in Supabase.');
+                    } else {
+                        alert('Failed to update: ' + error.message);
+                    }
+                    return;
+                }
+                
+                if (typeof showToast === 'function') {
+                    showToast(`? Order status updated to ${newStatus}`, 'success');
+                }
+                
+                await loadSmartOrders(true);
+                
+            } catch (error) {
+                console.error('Exception:', error);
+                alert('Error: ' + error.message);
+            }
+        }
+        
+        window.updateOrderStatus = updateOrderStatus;
+        
+        document.addEventListener('DOMContentLoaded', async function() {
+            let retries = 0;
+            while (typeof window.supabase === 'undefined' && retries < 20) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+                retries++;
+            }
+            
+            if (typeof window.supabase === 'undefined') {
+                console.error('Supabase failed to initialize');
+                return;
+            }
+            
+            await loadSmartOrders(true);
+            
+            const ordersChannel = window.supabase
+                .channel('admin-orders-realtime')
+                .on('postgres_changes', 
+                    { event: 'UPDATE', schema: 'public', table: 'orders' },
+                    (payload) => {
+                        console.log('Order updated:', payload);
+                        loadSmartOrders(true);
+                    }
+                )
+                .subscribe();
+        });
+    </script>
+</body>
+</html>

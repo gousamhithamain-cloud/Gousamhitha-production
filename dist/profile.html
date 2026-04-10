@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Gousamhitha</title>
+
+
+
+
+
+    <script src="js/back-button.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: url('/assets/profile-bg-BEOeZeDh.png') center/cover no-repeat fixed;
+            min-height: 100vh;
+        }
+        
+        .profile-container {
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        
+        .profile-hero {
+            background: rgba(74, 124, 89, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 60px 20px 40px;
+            color: white;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .container-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #000;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 30px;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 8px;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+        .back-button:hover {
+            background: rgba(255,255,255,1);
+            transform: translateX(-5px);
+        }
+        
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: white;
+            color: #4a7c59;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 56px;
+            font-weight: bold;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+            border: 5px solid rgba(255,255,255,0.3);
+        }
+        
+        .profile-info {
+            flex: 1;
+        }
+        
+        .profile-name {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .profile-email {
+            font-size: 18px;
+            opacity: 0.9;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .profile-content-wrapper {
+            background: #f8f9fa;
+            padding: 40px 20px;
+        }
+        
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .profile-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .profile-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+        
+        .profile-card h2 {
+            color: #2d3748;
+            margin-bottom: 25px;
+            font-size: 22px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #4a7c59;
+        }
+        
+        .profile-card h2::before {
+            content: '';
+            width: 6px;
+            height: 24px;
+            background: #4a7c59;
+            border-radius: 3px;
+        }
+        
+        .profile-field {
+            display: flex;
+            padding: 18px 0;
+            border-bottom: 1px solid #f0f0f0;
+            align-items: center;
+        }
+        
+        .profile-field:last-child {
+            border-bottom: none;
+        }
+        
+        .profile-field-label {
+            font-weight: 600;
+            color: #718096;
+            width: 140px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .profile-field-value {
+            color: #2d3748;
+            flex: 1;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .stat-value {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .profile-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .btn {
+            padding: 16px 32px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #4a7c59 0%, #2d5a3d 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(74, 124, 89, 0.4);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: #4a7c59;
+            border: 2px solid #4a7c59;
+        }
+        
+        .btn-secondary:hover {
+            background: #4a7c59;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #f56565 0%, #c53030 100%);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(245, 101, 101, 0.4);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 100px 20px;
+            color: white;
+            font-size: 20px;
+        }
+        
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+        
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+        
+        @media (max-width: 768px) {
+            /* Basic mobile adjustments - detailed styles in mobile-profile.css */
+            .profile-hero {
+                padding: 40px 15px 30px;
+            }
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            .profile-name {
+                font-size: 28px;
+            }
+            .profile-avatar {
+                width: 100px;
+                height: 100px;
+                font-size: 48px;
+            }
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+            .profile-field {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            .profile-field-label {
+                width: 100%;
+            }
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+  <link rel="stylesheet" crossorigin href="/assets/profile-Bfn4NsvU.css">
+  <link rel="stylesheet" crossorigin href="/assets/styles-O17alO4O.css">
+  <link rel="stylesheet" crossorigin href="/assets/responsive-D5bG5O3T.css">
+  <link rel="stylesheet" crossorigin href="/assets/back-button-DzrdBDdn.css">
+  <link rel="stylesheet" crossorigin href="/assets/bottom-nav-B_c15lga.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo-section">
+                    <div class="logo">Gousamhitha</div>
+                    <div class="logo-subtitle">Organic Products Store</div>
+                </div>
+                <div class="nav-items">
+                    <a href="index.html" class="nav-item">Home</a>
+                    <a href="shop.html" class="nav-item">Shop</a>
+                    <a href="orders.html" class="nav-item">My Orders</a>
+                    <a href="cart.html" class="nav-item">Cart</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Profile Content -->
+    <div class="profile-container">
+        <div class="container-inner">
+            <a href="index.html" class="back-button">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                Back to Home
+            </a>
+
+            <div id="loading" class="loading">
+                <p>Loading profile...</p>
+            </div>
+
+            <div id="profile-content" style="display: none;">
+                <div class="profile-header">
+                    <div class="profile-avatar" id="profile-avatar">S</div>
+                    <div class="profile-info">
+                        <div class="profile-name" id="profile-name">Loading...</div>
+                        <div class="profile-email" id="profile-email">Loading...</div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <h2>Personal Information</h2>
+                    <div class="profile-field">
+                        <div class="profile-field-label">Full Name:</div>
+                        <div class="profile-field-value" id="field-name">-</div>
+                    </div>
+                    <div class="profile-field">
+                        <div class="profile-field-label">Email:</div>
+                        <div class="profile-field-value" id="field-email">-</div>
+                    </div>
+                    <div class="profile-field">
+                        <div class="profile-field-label">Phone:</div>
+                        <div class="profile-field-value" id="field-phone">-</div>
+                    </div>
+                    <div class="profile-field">
+                        <div class="profile-field-label">Address:</div>
+                        <div class="profile-field-value" id="field-address">-</div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <h2>Account Statistics</h2>
+                    <div class="profile-field">
+                        <div class="profile-field-label">Total Orders:</div>
+                        <div class="profile-field-value" id="field-orders">0</div>
+                    </div>
+                    <div class="profile-field">
+                        <div class="profile-field-label">Cart Items:</div>
+                        <div class="profile-field-value" id="field-cart">0</div>
+                    </div>
+                    <div class="profile-field">
+                        <div class="profile-field-label">Member Since:</div>
+                        <div class="profile-field-value" id="field-joined">-</div>
+                    </div>
+                </div>
+
+                <div class="profile-actions">
+                    <button class="btn btn-secondary" onclick="window.location.href='orders.html'">View Orders</button>
+                    <button class="btn btn-danger" onclick="logoutUser()">Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation (Mobile Only) -->
+    <nav class="bottom-nav">
+        <div class="bottom-nav-items">
+            <a href="index.html" class="bottom-nav-item" data-page="home">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9,22 9,12 15,12 15,22"/>
+                </svg>
+                <span class="nav-text">Home</span>
+            </a>
+            
+            <a href="shop.html" class="bottom-nav-item" data-page="shop">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                    <line x1="3" y1="6" x2="21" y2="6"/>
+                    <path d="M16 10a4 4 0 0 1-8 0"/>
+                </svg>
+                <span class="nav-text">Shop</span>
+            </a>
+            
+            <a href="cart.html" class="bottom-nav-item" data-page="cart">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="9" cy="21" r="1"/>
+                    <circle cx="20" cy="21" r="1"/>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                </svg>
+                <span class="nav-text">Cart</span>
+                <span class="nav-badge hidden" id="bottom-nav-cart-count">0</span>
+            </a>
+            
+            <a href="orders.html" class="bottom-nav-item" data-page="orders">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+                </svg>
+                <span class="nav-text">Orders</span>
+            </a>
+            
+            <a href="#" class="bottom-nav-item" data-page="profile">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+                <span class="nav-text">Profile</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Scripts -->
+    <script src="js/api-client.js"></script>
+    <script src="js/auth-handler.js"></script>
+    <script src="js/bottom-nav.js"></script>
+    <script src="js/profile-page-handler.js"></script>
+</body>
+</html>

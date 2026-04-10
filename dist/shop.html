@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Shop - Gousamhitha</title>
+    <!-- Deployment: 2026-03-01-v3 -->
+    <link rel="manifest" href="/assets/manifest-B_Qy2N-V.json">
+  <script type="module" crossorigin src="/assets/shop-DBqQo9-j.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/cart-count-updater-BY6XdPxO.js">
+  <link rel="stylesheet" crossorigin href="/assets/cart-count-updater-B2Bv7fTD.css">
+  <link rel="stylesheet" crossorigin href="/assets/shop-apd_1_l6.css">
+  <link rel="stylesheet" crossorigin href="/assets/styles-O17alO4O.css">
+  <link rel="stylesheet" crossorigin href="/assets/responsive-D5bG5O3T.css">
+  <link rel="stylesheet" crossorigin href="/assets/back-button-DzrdBDdn.css">
+  <link rel="stylesheet" crossorigin href="/assets/bottom-nav-B_c15lga.css">
+  <link rel="stylesheet" crossorigin href="/assets/real-search-styles-CJX4FCTt.css">
+  <link rel="stylesheet" crossorigin href="/assets/universal-search-fix-DMmpr00H.css">
+  <link rel="stylesheet" crossorigin href="/assets/cart-button-isjWT_yr.css">
+</head>
+<body>
+    
+    <div class="top-strip">
+        <div class="container">
+            <p>Next day delivery available for select products | Minimum order applies</p>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                
+                <div class="logo-section">
+                    <div class="logo">Gousamhitha</div>
+                    <div class="logo-subtitle">Organic Products Store</div>
+                </div>
+
+                <div class="search-section">
+                    <input type="text" placeholder="Search for organic products..." class="main-search-bar">
+                    <button class="search-btn">Search</button>
+                </div>
+
+                <div class="nav-items">
+                    
+                    <a href="#" class="nav-item profile-icon-btn" id="profile-btn" onclick="openAuthModal()" style="display: flex !important; visibility: visible !important; pointer-events: auto !important;">
+                        <div class="profile-icon-placeholder">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2"/>
+                                <path d="M6.5 18.5C7.5 16.5 9.5 15 12 15C14.5 15 16.5 16.5 17.5 18.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                    </a>
+                    
+                    <!-- Cart Button -->
+                    <a href="cart.html" class="nav-item cart-btn" id="cart-btn" style="display: flex !important; align-items: center; gap: 8px; padding: 8px 12px; background: #4a7c59; color: white; border-radius: 8px; text-decoration: none; font-weight: 500; transition: all 0.3s ease;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        <span class="cart-text">Cart</span>
+                        <span class="cart-count-badge" id="nav-cart-count" style="background: #fff; color: #4a7c59; padding: 2px 6px; border-radius: 10px; font-size: 12px; font-weight: 600; min-width: 18px; text-align: center;">0</span>
+                    </a>
+
+                    <button class="hamburger-menu" id="hamburger-btn" onclick="toggleHamburgerMenu(event)">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+
+                    <div class="hamburger-dropdown" id="hamburger-dropdown">
+                        <a href="orders.html" class="hamburger-item">
+                            <img src="https://img.icons8.com/fluency/48/package.png" alt="Orders" class="hamburger-icon-img">
+                            <span>My Orders</span>
+                        </a>
+                        <a href="cart.html" class="hamburger-item">
+                            <img src="https://img.icons8.com/fluency/48/shopping-cart.png" alt="Cart" class="hamburger-icon-img">
+                            <span>Cart (<span class="cart-count">0</span>)</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="profile-dropdown" id="profile-dropdown">
+        <a href="#" onclick="showProfile()">My Profile</a>
+        <a href="orders.html">Orders</a>
+        <a href="#" onclick="logout()">Logout</a>
+    </div>
+
+    <div class="auth-modal" id="auth-modal">
+        <div class="auth-modal-content">
+            <span class="auth-close" onclick="closeAuthModal()">&times;</span>
+            
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="switchTab('signin')">Sign In</button>
+                <button class="auth-tab" onclick="switchTab('signup')">Sign Up</button>
+            </div>
+
+            <div class="auth-form-container active" id="signin-form">
+                <h2>Welcome Back</h2>
+                <form onsubmit="handleSignIn(event)" id="main-signin-form">
+                    <div class="form-group">
+                        <label>Email or Mobile</label>
+                        <input type="text" id="signin-email" required placeholder="Enter email or mobile">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="signin-password" required placeholder="Enter password">
+                    </div>
+                    <div class="auth-message" id="signin-message"></div>
+
+                    <div id="role-buttons" style="display: none; margin-top: 1rem;">
+                        <button type="button" id="admin-enter-btn" class="btn btn-primary auth-submit" onclick="enterAsAdmin()" style="display: none; margin-bottom: 0.5rem;">
+                            Enter as Admin
+                        </button>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary auth-submit" id="default-signin-btn">Sign In</button>
+                </form>
+            </div>
+
+            <div class="auth-form-container" id="signup-form">
+                <h2>Create Account</h2>
+                <form onsubmit="handleSignUp(event)">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="signup-name" required placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="signup-email" required placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label>Mobile Number</label>
+                        <input type="tel" id="signup-mobile" required placeholder="Enter mobile number">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="signup-password" required placeholder="Create password">
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input type="password" id="signup-confirm" required placeholder="Confirm password">
+                    </div>
+                    <div class="auth-message" id="signup-message"></div>
+                    <button type="submit" class="btn btn-primary auth-submit">Create Account</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="secondary-nav">
+        <div class="container">
+            <div class="secondary-nav-links">
+                <a href="index.html">Home</a>
+                <a href="shop.html" class="active">Shop</a>
+                <a href="about.html">About</a>
+                <a href="gowshala.html">Gowshala</a>
+                <a href="contact.html">Contact</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="shop-category-nav">
+        <div class="container">
+            <div class="category-nav-items">
+                <div class="category-item">
+                    <a href="shop.html?category=Fruits & Vegetables" class="category-link">Fruits & Vegetables</a>
+                </div>
+                
+                <div class="category-item">
+                    <a href="shop.html?category=Daily Staples" class="category-link">Daily Staples</a>
+                </div>
+                
+                <div class="category-item">
+                    <a href="shop.html?category=Snacks & More" class="category-link">Snacks & More</a>
+                </div>
+                
+                <div class="category-item">
+                    <a href="shop.html?category=Bakery & Dairy" class="category-link">Bakery & Dairy</a>
+                </div>
+                
+                <div class="category-item">
+                    <a href="shop.html?category=Home Food" class="category-link">Home Food</a>
+                </div>
+                
+                <div class="category-item">
+                    <a href="shop.html?category=Special Categories" class="category-link">Special Categories</a>
+                </div>
+                
+                <div class="category-item">
+                    <a href="shop.html?category=Conscious Living" class="category-link">Conscious Living</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-header">
+        <h1>Our Products</h1>
+        <p>Explore our range of pure organic products</p>
+    </div>
+
+    <section class="featured-products">
+        <div class="container">
+            <div class="product-grid">
+                
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About Our Store</h3>
+                    <p>We provide 100% organic products sourced from traditional farms, ensuring purity and quality in every product.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p>Phone: +91 9908003289</p>
+                    <p>Email: info@gousamhitha.com</p>
+                    <p>Address: Plot no 118, Kavuri Hills Phase 1, Madhapur, Hyderabad</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-links">
+                        <a href="#">Facebook</a>
+                        <a href="#">Instagram</a>
+                        <a href="#">Twitter</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Gousamhitha. All rights reserved. | <a href="privacy-policy.html" style="color:#a5d6a7;">Privacy Policy</a> | <a href="terms.html" style="color:#a5d6a7;">Terms &amp; Conditions</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="bottom-nav" id="bottom-nav">
+        <div class="bottom-nav-items">
+            <a href="index.html" class="bottom-nav-item" data-page="home">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9,22 9,12 15,12 15,22"/>
+                </svg>
+                <span class="nav-text">Home</span>
+            </a>
+            
+            <a href="shop.html" class="bottom-nav-item active" data-page="shop">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                    <line x1="3" y1="6" x2="21" y2="6"/>
+                    <path d="M16 10a4 4 0 0 1-8 0"/>
+                </svg>
+                <span class="nav-text">Shop</span>
+            </a>
+            
+            <a href="cart.html" class="bottom-nav-item" data-page="cart">
+                <div style="position: relative;">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1"/>
+                        <circle cx="20" cy="21" r="1"/>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                    </svg>
+                    <span class="nav-badge hidden" id="bottom-nav-cart-count">0</span>
+                </div>
+                <span class="nav-text">Cart</span>
+            </a>
+            
+            <a href="orders.html" class="bottom-nav-item" data-page="orders">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+                </svg>
+                <span class="nav-text">Orders</span>
+            </a>
+            
+            <a href="#" class="bottom-nav-item" data-page="profile" id="bottom-nav-profile">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <circle cx="12" cy="10" r="3"/>
+                    <path d="M6.5 18.5C7.5 16.5 9.5 15 12 15C14.5 15 16.5 16.5 17.5 18.5" stroke-linecap="round"/>
+                </svg>
+                <span class="nav-text">Profile</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="auth-modal" id="admin-modal">
+        <div class="auth-modal-content">
+            <span class="auth-close" onclick="closeAdminModal()">&times;</span>
+            
+            <div class="admin-modal-header">
+                <h2>Admin Login</h2>
+                <p>Access the admin dashboard</p>
+            </div>
+
+            <form onsubmit="handleAdminLoginModal(event)">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="admin-modal-email" required placeholder="admin@gousamhitha.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="admin-modal-password" required placeholder="Enter password">
+                </div>
+                <div class="auth-message" id="admin-modal-message"></div>
+                <button type="submit" class="btn btn-primary auth-submit">Login to Dashboard</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Single Vite Entry Point -->
+    
+    <script>
+        // Initialize search results display on shop page
+        document.addEventListener('DOMContentLoaded', function() {
+            const params = new URLSearchParams(window.location.search);
+            if (!params.get('productId') && !params.get('search')) return; // nothing to do, let loadProducts handle it
+
+            // Wait for Supabase then run
+            if (window.supabase && typeof window.supabase.from === 'function') {
+                handleSearchNavigation();
+            } else {
+                window.addEventListener('supabaseReady', handleSearchNavigation);
+            }
+        });
+
+        // Main handler: called on load and from universal search
+        async function handleSearchNavigation() {
+            const params = new URLSearchParams(window.location.search);
+            const searchQuery = params.get('search');
+            const productId = params.get('productId');
+
+            if (productId) {
+                await fetchAndShowSingleProduct(productId);
+                return;
+            }
+
+            if (searchQuery) {
+                await fetchAndRenderSearch(decodeURIComponent(searchQuery));
+                const section = document.querySelector('.product-grid');
+                if (section) section.scrollIntoView({ behavior: 'smooth' });
+                return;
+            }
+            // No params � normal load, product-display.js handles it
+        }
+
+        // Fetch single product by ID and show only that
+        async function fetchAndShowSingleProduct(productId) {
+            let attempts = 0;
+            while (!window.supabase && attempts < 40) {
+                await new Promise(r => setTimeout(r, 100));
+                attempts++;
+            }
+            if (!window.supabase) return;
+
+            const productGrid = document.querySelector('.product-grid');
+            if (productGrid) {
+                productGrid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:#666;">
+                    <div style="font-size:32px;margin-bottom:12px;">🔍</div>
+                    <p>Loading product...</p>
+                </div>`;
+            }
+
+            const { data: product, error } = await window.supabase
+                .from('products')
+                .select('id, name, price, image_url, category, in_stock, stock, unit, unit_quantity, display_unit')
+                .eq('id', productId)
+                .single();
+
+            if (error || !product) { console.error('Product fetch error:', error); return; }
+
+            // Update page title
+            const pageTitle = document.querySelector('.page-header h1');
+            if (pageTitle) pageTitle.textContent = product.name;
+
+            renderSearchResults([product], product.name);
+            document.querySelector('.product-grid')?.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Fetch from Supabase and render filtered results
+        async function fetchAndRenderSearch(searchTerm) {
+            // Wait for supabase
+            let attempts = 0;
+            while (!window.supabase && attempts < 40) {
+                await new Promise(r => setTimeout(r, 100));
+                attempts++;
+            }
+            if (!window.supabase) return;
+
+            // Show loading state
+            const productGrid = document.querySelector('.product-grid');
+            if (productGrid) {
+                productGrid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:#666;">
+                    <div style="font-size:32px;margin-bottom:12px;">🔍</div>
+                    <p>Searching for "<strong>${searchTerm}</strong>"...</p>
+                </div>`;
+            }
+
+            const { data: products, error } = await window.supabase
+                .from('products')
+                .select('id, name, price, image_url, category, in_stock, stock, unit, unit_quantity, display_unit')
+                .ilike('name', `%${searchTerm}%`);
+
+            if (error) { console.error('Search error:', error); return; }
+            renderSearchResults(products || [], searchTerm);
+        }
+
+        // Alias for backward compat
+        function displaySearchResults() { handleSearchNavigation(); }
+        
+        // Function to render search results
+        function renderSearchResults(products, searchTerm) {
+            const productGrid = document.querySelector('.product-grid');
+            const pageTitle = document.querySelector('.page-header h1');
+
+            // Clean URL so refresh goes back to full shop
+            history.replaceState(null, '', 'shop.html');
+
+            if (pageTitle) {
+                pageTitle.innerHTML = `Search Results for "<span style="color: #4a7c59;">${searchTerm}</span>"`;
+            }
+
+            if (!productGrid) return;
+
+            // Results count banner
+            const container = productGrid.parentNode;
+            const existingInfo = container.querySelector('.search-results-info');
+            if (existingInfo) existingInfo.remove();
+
+            const resultsCount = document.createElement('div');
+            resultsCount.className = 'search-results-info';
+            resultsCount.style.cssText = 'margin:20px 0;padding:15px;background:#f8f9fa;border-radius:8px;border-left:4px solid #4a7c59;font-size:16px;color:#333;';
+            resultsCount.innerHTML = `<strong>Found ${products.length} product${products.length !== 1 ? 's' : ''}</strong> for "${searchTerm}"`;
+            container.insertBefore(resultsCount, productGrid);
+
+            if (products.length === 0) {
+                productGrid.innerHTML = `
+                    <div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:#666;">
+                        <div style="font-size:48px;margin-bottom:20px;">🔍</div>
+                        <h3>No products found for "${searchTerm}"</h3>
+                        <button onclick="window.location.href='shop.html'" style="margin-top:20px;padding:12px 24px;background:#4a7c59;color:white;border:none;border-radius:8px;cursor:pointer;font-size:16px;">Browse All Products</button>
+                    </div>`;
+                return;
+            }
+
+            // Render cards matching the main product card layout (with quantity selector)
+            productGrid.innerHTML = products.map(product => {
+                const isAvailable = product.stock > 0 && product.in_stock !== false;
+                const unitDisplay = product.display_unit ||
+                    (product.unit_quantity ? product.unit_quantity + product.unit : product.unit || '');
+                const stockStatus = isAvailable ? `In Stock (${product.stock} left)` : 'Out of Stock';
+                const stockClass = isAvailable ? 'in-stock' : 'out-of-stock';
+
+                return `
+                    <div class="product-card" data-product-id="${product.id}">
+                        <img src="${product.image_url || 'images/placeholder.png'}" alt="${product.name}" loading="lazy" onerror="this.src='images/placeholder.png'">
+                        <h3 style="margin:0.8rem 0 0.3rem;font-size:1.1rem;color:#333;">${product.name}</h3>
+                        ${unitDisplay ? `<p style="color:#666;font-size:0.85rem;margin:0.2rem 0;font-weight:500;">${unitDisplay}</p>` : ''}
+                        <p class="price" style="font-size:1.3rem;font-weight:700;color:#4a7c59;margin:0.5rem 0;">&#8377;${product.price}</p>
+                        ${!isAvailable
+                            ? `<div style="margin:0.5rem 0;padding:0.5rem;background:#ffebee;border-radius:8px;border:1px solid #ef5350;">
+                                <p style="color:#d32f2f;font-weight:700;font-size:0.95rem;margin:0;text-align:center;">OUT OF STOCK</p>
+                               </div>`
+                            : `<div class="stock-status" style="margin:0.5rem 0;">
+                                <span class="status-badge ${stockClass}" style="padding:0.3rem 0.8rem;border-radius:15px;font-size:0.75rem;font-weight:600;display:inline-block;background:#e8f5e9;color:#2e7d32;">${stockStatus}</span>
+                               </div>`
+                        }
+                        ${isAvailable
+                            ? `<div class="quantity-selector" style="display:flex;align-items:center;justify-content:center;gap:0.5rem;margin:1rem 0;">
+                                <button class="qty-btn qty-dec" data-id="${product.id}" style="width:35px;height:35px;border:1px solid #4a7c59;background:white;color:#4a7c59;border-radius:5px;font-size:1.2rem;cursor:pointer;font-weight:bold;">-</button>
+                                <input type="number" id="qty-${product.id}" value="1" min="1" max="${product.stock}" style="width:60px;height:35px;text-align:center;border:1px solid #ddd;border-radius:5px;font-size:1rem;" readonly>
+                                <button class="qty-btn qty-inc" data-id="${product.id}" data-max="${product.stock}" style="width:35px;height:35px;border:1px solid #4a7c59;background:white;color:#4a7c59;border-radius:5px;font-size:1.2rem;cursor:pointer;font-weight:bold;">+</button>
+                               </div>
+                               <button class="add-to-cart-btn btn btn-primary"
+                                   data-id="${product.id}"
+                                   data-name="${product.name}"
+                                   data-price="${product.price}"
+                                   data-stock="${product.stock}"
+                                   style="display:block;width:100%;text-align:center;margin:0.5rem 0;padding:0.7rem;background:#4a7c59;color:white;border:none;border-radius:8px;cursor:pointer;font-weight:600;">
+                                   Add to Cart
+                               </button>`
+                            : `<button disabled style="display:block;width:100%;text-align:center;margin:1rem 0;padding:0.7rem;opacity:0.5;cursor:not-allowed;background:#ccc;color:#666;border:none;border-radius:8px;">Out of Stock</button>`
+                        }
+                    </div>`;
+            }).join('');
+
+            // Quantity controls
+            productGrid.querySelectorAll('.qty-dec').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const input = document.getElementById(`qty-${btn.dataset.id}`);
+                    if (input && parseInt(input.value) > 1) input.value = parseInt(input.value) - 1;
+                });
+            });
+
+            productGrid.querySelectorAll('.qty-inc').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const input = document.getElementById(`qty-${btn.dataset.id}`);
+                    const max = parseInt(btn.dataset.max);
+                    if (input && parseInt(input.value) < max) input.value = parseInt(input.value) + 1;
+                    else if (typeof showToast === 'function') showToast(`Maximum stock is ${max}`, 'error');
+                });
+            });
+
+            // Add to cart
+            productGrid.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const { id, name, price, stock } = btn.dataset;
+                    const qty = document.getElementById(`qty-${id}`);
+                    const quantity = qty ? parseInt(qty.value) : 1;
+                    if (typeof addToCart === 'function') addToCart(id, name, Number(price), Number(stock));
+                });
+            });
+        }
+        
+        // Make function globally available
+        window.displaySearchResults = displaySearchResults;
+        window.handleSearchNavigation = handleSearchNavigation;
+    </script>
+</body>
+</html>

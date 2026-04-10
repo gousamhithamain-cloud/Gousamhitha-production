@@ -1,17 +1,78 @@
 # Dependencies
-node_modules
+node_modules/
+backend/node_modules/
 
 # Environment files
 .env
+.env.local
+.env.*.local
 backend/.env
+backend/.env.local
 *.log
 
-# Dev/test files
+# Development files
+*.map
+.vscode/
+.kiro/
+
+# Test/Debug files
 test-*.html
-START-HERE.html
+test-*.js
+test-*.bat
+START-HERE.txt
 admin-debug.html
+admin-debug.js
 generate-config.js
 config.example.js
 
 # Git
-.git
+.git/
+.gitignore
+
+# Documentation
+*.md
+DEPLOYMENT-*.md
+ADMIN-*.md
+AUTH-*.md
+BACKEND-*.md
+CHANGES-*.txt
+CHANGELOG.md
+README*.md
+SETUP-*.md
+VERIFICATION-*.md
+FINAL-*.md
+PHASE-*.md
+NHOST-*.md
+FIX-*.md
+ERROR-*.md
+QUICK-*.md
+VITE-*.md
+MIGRATION-*.md
+etc/
+
+# Build/Output
+dist/
+.vercel/
+
+# Database/SQL
+*.sql
+*.db
+*.sqlite
+
+# Misc
+*.bat
+*.ps1
+OPEN-WEBSITE.bat
+PREVIEW-WEBSITE.bat
+START-SERVER.bat
+push-to-github.bat
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

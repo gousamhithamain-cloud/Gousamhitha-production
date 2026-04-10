@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Add Product - Gousamhitha Admin</title>
+    
+    <script src="js/admin-mobile.js"></script>
+    <script src="js/admin-mobile-table-fix.js"></script>
+    <script src="js/admin-mobile-layout-fix.js"></script>
+    <script src="js/single-click-hamburger-fix.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/admin-styles-Cbq9RZug.css">
+  <link rel="stylesheet" crossorigin href="/assets/responsive-D5bG5O3T.css">
+  <link rel="stylesheet" crossorigin href="/assets/mobile-table-fullwidth-fix-iFFNJXVN.css">
+</head>
+<body class="admin-page">
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <div class="sidebar-header">
+                <h2>Gousamhitha Admin</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="admin-dashboard.html" class="nav-link">Dashboard</a>
+                <a href="admin-products.html" class="nav-link">Products</a>
+                <a href="admin-add-product.html" class="nav-link active">Add Product</a>
+                <a href="admin-vendors.html" class="nav-link">Vendors</a>
+                <a href="admin-orders.html" class="nav-link">Orders</a>
+                <a href="admin-payouts.html" class="nav-link">Vendor Payouts</a>
+                <a href="#" class="nav-link" onclick="adminLogout()">Logout</a>
+            </nav>
+        </aside>
+        
+        <main class="admin-content">
+            <div class="content-header">
+                <h1>Add New Product</h1>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <button type="button" onclick="toggleCategoryManagement()" class="btn-primary" style="padding: 10px 20px;">
+                    Manage Categories
+                </button>
+            </div>
+
+            <div id="category-management-panel" class="category-management-section" style="display: none; background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <h3 style="margin-bottom: 15px; color: #2e7d32;">Manage Categories</h3>
+                
+                <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                    <input type="text" id="new-category-input" placeholder="Enter new category name" 
+                           style="flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+                    <button onclick="addCategory()" class="btn-primary" style="padding: 8px 20px;">Add</button>
+                </div>
+                
+                <div id="categories-list" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                    
+                </div>
+            </div>
+            
+            <div class="form-container">
+                <form id="add-product-form" onsubmit="handleAddProduct(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Product Name *</label>
+                            <input type="text" id="product-name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Select Vendor *</label>
+                            <select id="product-vendor" required>
+                                <option value="">Select Vendor</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Category *</label>
+                            <select id="product-category" required>
+                                <option value="">Select Category</option>
+                                <option value="Fruits & Vegetables">Fruits & Vegetables</option>
+                                <option value="Daily Staples">Daily Staples</option>
+                                <option value="Snacks & More">Snacks & More</option>
+                                <option value="Bakery & Dairy">Bakery & Dairy</option>
+                                <option value="Home Food">Home Food</option>
+                                <option value="Special Categories">Special Categories</option>
+                                <option value="Conscious Living">Conscious Living</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Subcategory *</label>
+                            <input type="text" id="product-subcategory" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Price (?) *</label>
+                            <input type="number" id="product-price" required min="0" step="0.01">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Stock Quantity *</label>
+                            <input type="number" id="product-stock" required min="0">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Unit *</label>
+                            <select id="product-unit" required>
+                                <option value="">Select Unit</option>
+                                <option value="kg">Kilogram (kg)</option>
+                                <option value="gram">Gram (g)</option>
+                                <option value="liter">Liter (L)</option>
+                                <option value="ml">Milliliter (ml)</option>
+                                <option value="piece">Piece</option>
+                                <option value="packet">Packet</option>
+                                <option value="box">Box</option>
+                                <option value="bottle">Bottle</option>
+                                <option value="jar">Jar</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Unit Quantity (e.g., 500 for 500ml) *</label>
+                            <input type="number" id="product-unit-quantity" required min="0" step="0.01" placeholder="e.g., 500, 1, 2.5">
+                            <small>Enter the quantity per unit (e.g., 500 for 500ml bottle, 1 for 1kg pack)</small>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Product Image</label>
+                            <input type="file" id="product-image" accept="image/*" onchange="previewImage(event)">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea id="product-description" rows="4" placeholder="Enter product description, benefits, ingredients, etc."></textarea>
+                    </div>
+                    
+                    <div class="image-preview" id="image-preview"></div>
+                    
+                    <div class="form-message" id="form-message"></div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">Add Product</button>
+                        <a href="admin-dashboard.html" class="btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Scripts -->
+    <script>
+        let categories = [];
+        window.imageBase64 = '';
+
+        // Wait for Supabase to be ready
+        window.addEventListener('supabaseReady', async () => {
+            console.log('? Supabase ready, loading vendors and categories...');
+            await loadVendors();
+            await loadCategories();
+        });
+        
+        // Also try after a delay
+        setTimeout(async () => {
+            if (window.supabase) {
+                await loadVendors();
+                await loadCategories();
+            }
+        }, 1000);
+
+        async function loadVendors() {
+            const vendorSelect = document.getElementById('product-vendor');
+            if (!vendorSelect) return;
+            
+            try {
+                const { data: vendors, error } = await window.supabase
+                    .from('vendors')
+                    .select('id, vendor_name, business_name')
+                    .eq('status', 'active')
+                    .order('vendor_name');
+                
+                if (error) {
+                    console.error('Error loading vendors:', error);
+                    return;
+                }
+                
+                vendorSelect.innerHTML = '<option value="">Select Vendor</option>' +
+                    (vendors || []).map(v => `<option value="${v.id}">${v.vendor_name} - ${v.business_name}</option>`).join('');
+                
+                console.log('? Loaded', vendors.length, 'vendors');
+            } catch (error) {
+                console.error('Error loading vendors:', error);
+            }
+        }
+
+        async function loadCategories() {
+            // For now, categories are hardcoded in the HTML
+            // You can extend this to load from database if needed
+            console.log('? Categories loaded from dropdown');
+        }
+
+        function toggleCategoryManagement() {
+            const panel = document.getElementById('category-management-panel');
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function previewImage(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                window.imageBase64 = e.target.result;
+                const preview = document.getElementById('image-preview');
+                preview.innerHTML = `<img src="${e.target.result}" alt="Preview" style="max-width: 300px; border-radius: 8px; margin-top: 10px;">`;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Handle Add Product form submission
+        window.handleAddProduct = async function(event) {
+            event.preventDefault();
+            console.log('?? FORM SUBMITTED - handleAddProduct called');
+            
+            const name = document.getElementById('product-name').value.trim();
+            const category = document.getElementById('product-category').value;
+            const subcategory = document.getElementById('product-subcategory').value.trim();
+            const price = parseFloat(document.getElementById('product-price').value);
+            const stock = parseInt(document.getElementById('product-stock').value);
+            const unit = document.getElementById('product-unit').value;
+            const unitQuantity = parseFloat(document.getElementById('product-unit-quantity').value);
+            const description = document.getElementById('product-description').value.trim();
+            const vendorSelect = document.getElementById('product-vendor');
+            const vendorId = vendorSelect ? vendorSelect.value : '';
+            const messageEl = document.getElementById('form-message');
+            
+            console.log('Form values:', { name, category, price, stock, vendorId });
+            
+            if (!name || !category || !price || !stock || !unit || !unitQuantity) {
+                messageEl.textContent = 'Please fill in all required fields';
+                messageEl.className = 'form-message error';
+                return;
+            }
+            
+            if (!window.supabase) {
+                messageEl.textContent = 'Database not connected. Please refresh.';
+                messageEl.className = 'form-message error';
+                return;
+            }
+            
+            messageEl.textContent = 'Adding product...';
+            messageEl.className = 'form-message';
+            
+            const newProduct = {
+                name,
+                category,
+                subcategory: subcategory || null,
+                price,
+                stock,
+                unit,
+                unit_quantity: unitQuantity,
+                display_unit: unitQuantity + unit,
+                image_url: window.imageBase64 || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100"%3E%3Crect fill="%23ddd" width="100" height="100"/%3E%3Ctext fill="%23999" x="50%25" y="50%25" text-anchor="middle" dy=".3em"%3ENo Image%3C/text%3E%3C/svg%3E',
+                description: description || null,
+                in_stock: stock > 0
+            };
+            
+            if (vendorId && vendorId.includes('-')) {
+                newProduct.vendor_id = vendorId;
+            }
+            
+            console.log('Inserting product:', newProduct);
+            
+            try {
+                const { data, error } = await window.supabase
+                    .from('products')
+                    .insert([newProduct])
+                    .select();
+                
+                console.log('Insert result:', { data, error });
+                
+                if (error) {
+                    console.error('Supabase error:', error);
+                    messageEl.textContent = 'Error: ' + error.message;
+                    messageEl.className = 'form-message error';
+                    return;
+                }
+                
+                console.log('? Product added:', data[0]);
+                messageEl.textContent = 'Product added successfully! Redirecting...';
+                messageEl.className = 'form-message success';
+                
+                document.getElementById('add-product-form').reset();
+                document.getElementById('image-preview').innerHTML = '';
+                window.imageBase64 = '';
+                
+                setTimeout(() => {
+                    window.location.href = 'admin-products.html';
+                }, 1500);
+            } catch (e) {
+                console.error('Exception:', e);
+                messageEl.textContent = 'Error adding product';
+                messageEl.className = 'form-message error';
+            }
+        };
+
+        async function adminLogout() {
+            const confirmLogout = confirm('Are you sure you want to logout?');
+            if (confirmLogout) {
+                try {
+                    const { error } = await window.supabase.auth.signOut();
+                    if (error) throw error;
+                    
+                    localStorage.clear();
+                    
+                    window.location.replace('./index.html');
+                } catch (error) {
+                    console.error('Logout error:', error);
+                    alert('Failed to logout. Please try again.');
+                }
+            }
+        }
+    </script>
+    <script src="js/toast.js"></script>
+</body>
+</html>

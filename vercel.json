@@ -1,49 +1,15 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist",
   "cleanUrls": true,
   "trailingSlash": false,
+  "buildCommand": null,
+  "outputDirectory": ".",
+  "installCommand": "echo skip",
+  "framework": null,
   "routes": [
-    {
-      "src": "/(.*)\\.html$",
-      "dest": "/$1.html"
-    },
-    {
-      "src": "/assets/(.*)",
-      "dest": "/assets/$1"
-    },
-    {
-      "src": "/(css|js|images)/(.*)",
-      "dest": "/$1/$2"
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
-    {
-      "src": "(.*)",
-      "dest": "/index.html",
-      "status": 200
-    }
-  ],
-  "headers": [
-    {
-      "source": "/(.*)\\.(?:js|css|woff|woff2|ttf|otf|eot|svg|png|jpg|jpeg|gif|ico|webp|map)$",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/$",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=0, must-revalidate"
-        }
-      ]
-    }
+    { "src": "/", "dest": "/index.html" },
+    { "src": "/(css|js|images|assets|fonts)/(.*)", "dest": "/$1/$2" },
+    { "src": "/([a-zA-Z0-9_-]+)\\.html", "dest": "/$1.html" },
+    { "src": "/(.*)\\.(?:css|js|png|jpg|jpeg|gif|svg|ico|webp|woff|woff2|ttf)", "dest": "/$1.$2" },
+    { "src": "/(.*)", "dest": "/$1.html" }
   ]
 }

@@ -7,7 +7,6 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     emptyOutDir: true,
-    minify: 'terser',
     rollupOptions: {
       output: {
         // Keep files in root of dist for static serving

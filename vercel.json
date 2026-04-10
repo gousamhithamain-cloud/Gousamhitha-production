@@ -1,3 +1,10 @@
 {
-  "cleanUrls": true
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "routes": [
+    { "src": "/", "dest": "/index.html" },
+    { "src": "/(.*)\\.html", "dest": "/$1.html" },
+    { "src": "/(css|js|images|assets)/(.*)", "dest": "/$1/$2" },
+    { "src": "/(.*)", "dest": "/$1.html" }
+  ]
 }

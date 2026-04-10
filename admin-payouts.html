@@ -76,7 +76,7 @@
 
             try {
                 const token = localStorage.getItem('token') || '';
-                const res = await fetch(`${window.API_BASE_URL || 'http://localhost:4000/api'}/payouts`, {
+                const res = await fetch(`${window.API_BASE_URL}/payouts`, {
                     headers: { 'Authorization': 'Bearer ' + token }
                 });
                 const json = await res.json();
@@ -119,7 +119,7 @@
             if (!confirm('Mark this payout as paid?')) return;
             try {
                 const token = localStorage.getItem('token') || '';
-                const res = await fetch(`${window.API_BASE_URL || 'http://localhost:4000/api'}/payouts/${payoutId}/pay`, {
+                const res = await fetch(`${window.API_BASE_URL}/payouts/${payoutId}/pay`, {
                     method: 'PUT',
                     headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' }
                 });

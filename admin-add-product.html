@@ -15,7 +15,9 @@
     <link rel="stylesheet" href="css/admin-mobile-layout-fix.css">
     <link rel="stylesheet" href="css/mobile-table-fullwidth-fix.css">
     
-    <!-- Load Supabase FIRST -->
+    <!-- Load Config FIRST for API base URLs -->
+    <script src="js/config.js"></script>
+    <!-- Load Supabase -->
     <script src="js/supabase-init.js"></script>
     <script src="js/image-compressor.js"></script>
     
@@ -180,7 +182,7 @@
             if (!vendorSelect) return;
             try {
                 const token = localStorage.getItem('token') || '';
-                const res = await fetch(`${window.API_BASE_URL || 'http://localhost:4000/api'}/vendors`, {
+                const res = await fetch(`${window.API_BASE_URL}/vendors`, {
                     headers: { 'Authorization': 'Bearer ' + token }
                 });
                 const json = await res.json();
@@ -253,7 +255,7 @@
 
             try {
                 const token = localStorage.getItem('token') || '';
-                const res = await fetch(`${window.API_BASE_URL || 'http://localhost:4000/api'}/products`, {
+                const res = await fetch(`${window.API_BASE_URL}/products`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
                     body: JSON.stringify(newProduct)
@@ -278,7 +280,7 @@
             if (!confirm('Are you sure you want to logout?')) return;
             try {
                 const token = localStorage.getItem('token') || '';
-                await fetch(`${window.API_BASE_URL || 'http://localhost:4000/api'}/auth/signout`, {
+                await fetch(`${window.API_BASE_URL}/auth/signout`, {
                     method: 'POST',
                     headers: { 'Authorization': 'Bearer ' + token }
                 }).catch(() => {});

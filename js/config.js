@@ -4,8 +4,11 @@
 (function() {
     'use strict';
     
-    // Set global API base URL
-    window.API_BASE_URL = window.API_BASE_URL || 'http://localhost:4000/api';
+    // Set global API base URL - Auto-detect environment
+    window.API_BASE_URL = 
+        window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+            ? "http://localhost:4000/api"
+            : "https://gousamhitha-production.onrender.com/api";
     
     console.log('⚙️ API Config loaded:', window.API_BASE_URL);
     

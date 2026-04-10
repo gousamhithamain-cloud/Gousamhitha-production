@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="css/edit-modal-fix.css">
     <link rel="stylesheet" href="css/admin-mobile-layout-fix.css">
     <link rel="stylesheet" href="css/mobile-table-fullwidth-fix.css">
+    <script src="js/config.js"></script>
     <script src="js/admin-scroll-emergency.js"></script>
     <script src="js/admin-mobile.js"></script>
     <script src="js/admin-mobile-table-fix.js"></script>
@@ -312,7 +313,7 @@
     <!-- Scripts -->
     <script src="js/toast.js"></script>
     <script>
-        const API_BASE = window.API_BASE_URL || 'http://localhost:4000/api';
+        const API_BASE = window.API_BASE_URL;
         let currentZoneId = null;
 
         function getAdminToken() {
